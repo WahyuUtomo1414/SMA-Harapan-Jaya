@@ -3,17 +3,23 @@
 namespace App\Filament\Resources\Sekolahs\Pages;
 
 use App\Filament\Resources\Sekolahs\SekolahResource;
-use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListSekolahs extends ListRecords
 {
     protected static string $resource = SekolahResource::class;
 
-    protected function getHeaderActions(): array
+    public function mount(): void
     {
-        return [
-            CreateAction::make(),
-        ];
+        parent::mount();
+
+        $record = static::getResource()::getEloquentQuery()->first();
+
+        abort_unless($record, 404, 'Data sekolah belum tersedia.');
+
+        $this->redirect(
+            static::getResource()::getUrl('view', ['record' => $record]),
+            navigate: true,
+        );
     }
 }
