@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             SekolahSeeder::class,
             GuruSeeder::class,
             StrukturOrganisasiSeeder::class,
+            KategoriSeeder::class,
+            BlogSeeder::class,
         ]);
     }
 }

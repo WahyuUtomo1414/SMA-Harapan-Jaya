@@ -24,15 +24,18 @@
     <div class="max-w-7xl mx-auto px-8">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div class="flex items-center gap-4 overflow-x-auto pb-4 md:pb-0 scrollbar-hide">
-                <a href="#" class="whitespace-nowrap px-6 py-2 bg-primary text-white font-subhead font-bold text-[10px] tracking-widest uppercase shadow-lg shadow-primary/20">Semua</a>
+                <a href="{{ route('blog.index') }}" class="whitespace-nowrap px-6 py-2 {{ !request('category') ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-gray-50 text-gray-400 border border-gray-100' }} font-subhead font-bold text-[10px] tracking-widest uppercase transition-all">Semua</a>
                 @foreach($categories as $category)
-                    <a href="#" class="whitespace-nowrap px-6 py-2 bg-gray-50 text-gray-400 hover:bg-gray-100 hover:text-on-surface transition-colors font-subhead font-bold text-[10px] tracking-widest uppercase border border-gray-100">{{ $category->nama }}</a>
+                    <a href="{{ route('blog.index', ['category' => $category->nama]) }}" class="whitespace-nowrap px-6 py-2 {{ request('category') == $category->nama ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-gray-50 text-gray-400 border border-gray-100' }} hover:bg-gray-100 hover:text-on-surface transition-all font-subhead font-bold text-[10px] tracking-widest uppercase">{{ $category->nama }}</a>
                 @endforeach
             </div>
-            <div class="relative group max-w-xs w-full">
-                <input type="text" placeholder="Cari artikel..." class="w-full bg-gray-50 border border-gray-100 px-6 py-3 font-body text-sm focus:outline-none focus:border-primary/30 transition-colors" />
-                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">search</span>
-            </div>
+            <form action="{{ route('blog.index') }}" method="GET" class="relative group max-w-xs w-full">
+                @if(request('category'))
+                    <input type="hidden" name="category" value="{{ request('category') }}">
+                @endif
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari artikel..." class="w-full bg-gray-50 border border-gray-100 px-6 py-3 font-body text-sm focus:outline-none focus:border-primary/30 transition-colors" />
+                <button type="submit" class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">search</button>
+            </form>
         </div>
     </div>
 </section>
@@ -40,44 +43,42 @@
 <!-- Blog Grid -->
 <section class="py-32 bg-white">
     <div class="max-w-7xl mx-auto px-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
-            @foreach($blogs as $blog)
-                <article class="group flex flex-col h-full">
-                    <div class="relative aspect-[4/3] overflow-hidden mb-10">
-                        <img src="{{ $blog->image }}" alt="{{ $blog->title }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
-                        <div class="absolute top-0 left-0 bg-white px-4 py-2 border-b border-r border-gray-100">
-                            <span class="text-primary font-subhead font-bold text-[9px] tracking-[0.2em] uppercase">{{ $blog->category }}</span>
+        @if($blogs->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
+                @foreach($blogs as $blog)
+                    <article class="group flex flex-col h-full">
+                        <div class="relative aspect-[4/3] overflow-hidden mb-10">
+                            <img src="{{ $blog->thumbnail }}" alt="{{ $blog->title }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                            <div class="absolute top-0 left-0 bg-white px-4 py-2 border-b border-r border-gray-100">
+                                <span class="text-primary font-subhead font-bold text-[9px] tracking-[0.2em] uppercase">{{ $blog->kategori->nama }}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex flex-col flex-grow">
-                        <span class="text-gray-400 font-subhead font-bold text-[10px] tracking-widest uppercase mb-4 block">{{ $blog->date }}</span>
-                        <h3 class="text-2xl font-headline font-bold text-on-surface mb-6 leading-tight group-hover:text-primary transition-colors italic">
-                            <a href="{{ route('blog.show', $blog->slug) }}">{{ $blog->title }}</a>
-                        </h3>
-                        <p class="text-gray-500 font-body text-sm leading-relaxed font-light line-clamp-3 mb-8 flex-grow">
-                            {{ $blog->excerpt }}
-                        </p>
-                        <a href="{{ route('blog.show', $blog->slug) }}" class="inline-flex items-center gap-3 text-on-surface font-subhead text-[10px] font-bold uppercase tracking-[0.25em] group-hover:text-primary transition-colors border-b border-gray-100 pb-2 w-fit">
-                            Baca Selengkapnya
-                            <span class="material-symbols-outlined text-sm">east</span>
-                        </a>
-                    </div>
-                </article>
-            @endforeach
-        </div>
+                        <div class="flex flex-col flex-grow">
+                            <span class="text-gray-400 font-subhead font-bold text-[10px] tracking-widest uppercase mb-4 block">{{ $blog->created_at->translatedFormat('d F Y') }}</span>
+                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-6 leading-tight group-hover:text-primary transition-colors italic">
+                                <a href="{{ route('blog.show', $blog->slug) }}">{{ $blog->title }}</a>
+                            </h3>
+                            <div class="text-gray-500 font-body text-sm leading-relaxed font-light line-clamp-3 mb-8 flex-grow">
+                                {!! strip_tags($blog->konten) !!}
+                            </div>
+                            <a href="{{ route('blog.show', $blog->slug) }}" class="inline-flex items-center gap-3 text-on-surface font-subhead text-[10px] font-bold uppercase tracking-[0.25em] group-hover:text-primary transition-colors border-b border-gray-100 pb-2 w-fit">
+                                Baca Selengkapnya
+                                <span class="material-symbols-outlined text-sm">east</span>
+                            </a>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
 
-        <!-- Pagination -->
-        <div class="mt-32 pt-12 border-t border-gray-100 flex justify-center">
-            <nav class="flex items-center gap-2">
-                <a href="#" class="w-12 h-12 flex items-center justify-center border border-primary bg-primary text-white text-xs font-bold">1</a>
-                <a href="#" class="w-12 h-12 flex items-center justify-center border border-gray-100 text-gray-400 hover:border-primary hover:text-primary transition-colors text-xs font-bold">2</a>
-                <a href="#" class="w-12 h-12 flex items-center justify-center border border-gray-100 text-gray-400 hover:border-primary hover:text-primary transition-colors text-xs font-bold">3</a>
-                <span class="px-4 text-gray-300">...</span>
-                <a href="#" class="w-12 h-12 flex items-center justify-center border border-gray-100 text-gray-400 hover:border-primary hover:text-primary transition-colors">
-                    <span class="material-symbols-outlined text-sm">east</span>
-                </a>
-            </nav>
-        </div>
+            <!-- Pagination -->
+            <div class="mt-32 pt-12 border-t border-gray-100">
+                {{ $blogs->appends(request()->query())->links() }}
+            </div>
+        @else
+            <div class="py-20 text-center">
+                <p class="text-gray-400 font-headline italic text-2xl">Belum ada artikel yang ditemukan.</p>
+            </div>
+        @endif
     </div>
 </section>
 @endsection
