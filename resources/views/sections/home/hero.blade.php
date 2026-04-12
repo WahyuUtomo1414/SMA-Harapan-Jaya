@@ -29,7 +29,7 @@
         </div>
     </div>
     <div
-        class="w-full lg:w-1/2 relative min-h-[50vh] lg:min-h-full bg-white flex items-center justify-center overflow-hidden">
+        class="w-full lg:w-1/2 relative min-h-[50vh] lg:min-h-full bg-white hidden lg:flex items-center justify-center overflow-hidden">
         <img alt="Hero Image SMA Harapan Jaya"
             class="w-full h-full object-contain p-4 lg:p-16 object-center transition-transform hover:scale-[1.02] duration-700"
             src="{{ asset('images/hero.png') }}" />
