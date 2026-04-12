@@ -81,7 +81,12 @@ class BlogSeeder extends Seeder
                         'slug' => Str::slug($blog['title']),
                         'kategori_id' => $category->id,
                         'thumbnail' => $blog['image'],
-                        'foto' => $blog['image'],
+                        'foto' => [
+                            $blog['image'],
+                            'https://images.unsplash.com/photo-1541339907198-e08756cdfb3f?q=80&w=2070&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1523050335392-93851179ae22?q=80&w=2067&auto=format&fit=crop',
+                            'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto=format&fit=crop',
+                        ],
                         'konten' => '<p>' . $blog['title'] . ' adalah salah satu momen penting bagi SMA Harapan Jaya. Artikel ini membahas detail mengenai kegiatan tersebut, dampaknya bagi siswa, serta harapan sekolah ke depannya.</p><p>Setiap program yang kami jalankan dirancang untuk memberikan pengalaman belajar yang bermakna dan relevan dengan tantangan zaman.</p>',
                         'status' => true,
                     ]);
