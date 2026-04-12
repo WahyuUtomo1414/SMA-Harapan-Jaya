@@ -1,17 +1,12 @@
 <?php
 
-<<<<<<< HEAD
-=======
+use Illuminate\Support\Facades\Route;
+
+// Import Public Controllers
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\TentangKamiController;
 use App\Http\Controllers\Pages\PpdbController;
->>>>>>> main
-use Illuminate\Support\Facades\Route;
-
-// Import Public Controllers
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BlogController;
 
 // Import Guru Controllers
 use App\Http\Controllers\Guru\DashboardController as GuruDashboard;
@@ -24,7 +19,7 @@ use App\Http\Controllers\Guru\JadwalController as GuruJadwal;
 use App\Http\Controllers\Murid\DashboardController as MuridDashboard;
 use App\Http\Controllers\Murid\NilaiController as MuridNilai;
 use App\Http\Controllers\Murid\AbsensiController as MuridAbsensi;
-use App\Http\Controllers\Murid\PembayaranController as MuridPembayaran; // Tambahkan ini
+use App\Http\Controllers\Murid\PembayaranController as MuridPembayaran;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,20 +40,13 @@ Route::prefix('blog')->name('blog.')->group(function () {
 
 // --- 2. DASHBOARD GURU ---
 Route::prefix('guru')->name('guru.')->group(function () {
-    // Beranda & Ringkasan
     Route::get('/dashboard', [GuruDashboard::class, 'index'])->name('dashboard');
-
-    // Manajemen Data Siswa (View Only)
     Route::get('/data-siswa', [GuruMurid::class, 'index'])->name('data-siswa');
-
-    // Fitur Akademik & Jadwal
     Route::get('/jadwal', [GuruJadwal::class, 'index'])->name('jadwal');
     
-    // Fitur Nilai (Sisi Guru: Input & Rekap)
     Route::get('/nilai', [GuruNilai::class, 'index'])->name('nilai');
     Route::post('/nilai', [GuruNilai::class, 'store'])->name('nilai.store');
 
-    // Fitur Absensi (Sisi Guru: Input & Rekap)
     Route::get('/absensi', [GuruAbsensi::class, 'index'])->name('absensi');
     Route::post('/absensi', [GuruAbsensi::class, 'store'])->name('absensi.store');
 });
@@ -66,16 +54,9 @@ Route::prefix('guru')->name('guru.')->group(function () {
 
 // --- 3. DASHBOARD MURID ---
 Route::prefix('murid')->name('murid.')->group(function () {
-    // Beranda Murid
     Route::get('/dashboard', [MuridDashboard::class, 'index'])->name('dashboard');
-
-    // Laporan Capaian Belajar (Nilai)
     Route::get('/nilai', [MuridNilai::class, 'index'])->name('nilai');
-
-    // Rekap Kehadiran (Absensi)
     Route::get('/absensi', [MuridAbsensi::class, 'index'])->name('absensi');
-
-    // Status Pembayaran SPP (Read-Only) - TERBARU
     Route::get('/pembayaran', [MuridPembayaran::class, 'index'])->name('pembayaran');
 });
 
