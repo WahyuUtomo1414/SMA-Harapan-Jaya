@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\DashboardGuru;
+namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
 use App\Models\Guru;
@@ -16,9 +16,8 @@ class DashboardController extends Controller
             'nilai.mataPelajaran'
         ])->first();
 
-        // kalau kosong
         if (!$guru) {
-            return view('dashboardguru.index', [
+            return view('guru.dashboard', [
                 'guru' => null,
                 'jadwal' => collect(),
                 'totalJadwal' => 0,
@@ -44,7 +43,7 @@ class DashboardController extends Controller
         $maxNilai = $totalNilai > 0 ? $nilai->max('total_nilai') : 0;
         $minNilai = $totalNilai > 0 ? $nilai->min('total_nilai') : 0;
 
-        return view('dashboardguru.index', compact(
+        return view('guru.dashboard', compact(
             'guru',
             'jadwal',
             'totalJadwal',

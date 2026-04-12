@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\DashboardMurid;
+namespace App\Http\Controllers\Murid;
 
 use App\Http\Controllers\Controller;
 use App\Models\Murid;
@@ -10,13 +10,13 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // ambil murid + relasi
+        // 1. Ambil data murid pertama (atau berdasarkan Auth jika sudah ada login)
         $murid = Murid::with(['kelas', 'nilai.mataPelajaran'])->first();
 
-        // 🔥 kalau tidak ada data murid → bikin dummy biar UI tetap tampil
+        // 2. Logic Dummy jika database kosong
         if (!$murid) {
             $murid = (object) [
-                'nama' => 'Siswa Demo',
+                'nama' => 'Siswa Demo (Dummy)',
                 'kelas' => (object) ['kode' => 'X-IPA-1'],
                 'nilai' => collect(),
             ];
@@ -24,19 +24,19 @@ class DashboardController extends Controller
 
         $nilai = $murid->nilai ?? collect();
 
-        // rata-rata nilai
+        // 3. Hitung Rata-rata
         $rataRata = $nilai->count() > 0 ? $nilai->avg('total_nilai') : 0;
 
-        // 🔥 ambil absensi detail (READ ONLY)
+        // 4. Ambil data absensi
         $absensi = AbsensiDetail::with([
             'absensi.jadwalPelajaran.mataPelajaran'
-        ])->get();
+        ])->latest()->take(5)->get();
 
-        // 🔥 hitung hadir & alpha
         $hadir = $absensi->where('status', 'hadir')->count();
         $alpha = $absensi->where('status', 'alpha')->count();
 
-        return view('dashboardmurid.index', compact(
+        // PASTIKAN: File blade ada di resources/views/murid/dashboard.blade.php
+        return view('murid.dashboard', compact(
             'murid',
             'nilai',
             'rataRata',
