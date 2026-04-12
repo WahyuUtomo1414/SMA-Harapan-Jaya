@@ -11,6 +11,7 @@ use App\Models\Sekolah;
 use BackedEnum;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -57,6 +58,8 @@ class SekolahResource extends Resource
                         ImageEntry::make('logo')
                             ->disk('public')
                             ->circular(),
+                        ImageEntry::make('thumbnail')
+                            ->disk('public'),
                         TextEntry::make('nama'),
                         TextEntry::make('status')
                             ->badge()
@@ -72,7 +75,21 @@ class SekolahResource extends Resource
                         TextEntry::make('deskripsi')
                             ->columnSpanFull(),
                         TextEntry::make('visi')->columnSpanFull(),
-                        TextEntry::make('misi')->columnSpanFull(),
+                        RepeatableEntry::make('misi')
+                            ->schema([
+                                TextEntry::make('teks')->label('Deskripsi Misi')->columnSpanFull(),
+                            ])
+                            ->columnSpanFull(),
+                        TextEntry::make('maps')
+                            ->label('Google Maps Embed URL')
+                            ->columnSpanFull(),
+                        RepeatableEntry::make('sosial_media')
+                            ->schema([
+                                TextEntry::make('nama'),
+                                TextEntry::make('link')->url(fn (?string $state): ?string => $state),
+                            ])
+                            ->columns(2)
+                            ->columnSpanFull(),
                     ]),
                 Section::make('Kontak & Legalitas')
                     ->columns(2)

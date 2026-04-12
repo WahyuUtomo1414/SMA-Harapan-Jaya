@@ -21,9 +21,9 @@ class StrukturOrganisasisTable
     {
         return $table
             ->columns([
-                ImageColumn::make('foto')
-                    ->disk('public')
-                    ->circular(),
+                // ImageColumn::make('foto')
+                //     ->disk('public')
+                //     ->circular(),
                 TextColumn::make('nama')
                     ->searchable()
                     ->sortable(),

@@ -1,33 +1,37 @@
 <!-- Hero Section -->
-<section class="relative h-[800px] flex items-center overflow-hidden">
-    <div class="absolute inset-0 z-0">
-        <img alt="SMA Harapan Jaya Campus" class="w-full h-full object-cover"
-            src="https://lh3.googleusercontent.com/aida/ADBb0uinw1bVXBq6JOU7WpVX-KHf-9Vq0AQybu1F0ryKQogzYuqToPPjmi8J_mNX8Fdsxh4u69763yiMzifpgM6_nyZPuWYeHJE6rc9HriZyfGi4pP-in2CgcdpJRmxttF7Rx7qRpHOVbcoyiorh4pc8lGaU602S27P__snlaOKxqyMUjFzofO3zuSPNAnGvUSlCuV-nL1ODmRKq390AGHTLBbSoZUSYUYfkLIjm5aH8BbTHcHATxf9AFjp1XJEtvZ4LFbTkz9xIPbS8QA" />
-        <div class="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/60 to-transparent"></div>
-    </div>
-    <div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
-        <div class="max-w-2xl">
+<section class="relative min-h-[85vh] flex flex-col lg:flex-row items-stretch border-b border-gray-200">
+    <div class="w-full lg:w-1/2 flex flex-col justify-center px-12 py-20 lg:py-0 bg-white z-10 relative">
+        <div class="absolute top-0 left-0 w-full h-[6px] bg-primary"></div>
+        <div class="max-w-xl mx-auto xl:ml-auto xl:mr-12">
             <span
-                class="inline-block px-4 py-1.5 rounded-full bg-tertiary-container text-on-tertiary-container text-xs font-bold tracking-widest uppercase mb-6">Membangun
-                Masa Depan</span>
+                class="inline-block border border-gray-300 text-gray-500 px-4 py-1.5 text-[10px] font-subhead font-bold tracking-[0.25em] uppercase mb-10">
+                SMA Harapan Jaya
+            </span>
             <h1
-                class="text-white text-5xl md:text-7xl font-headline font-extrabold tracking-tight leading-[1.1] mb-8">
-                Membangun Generasi Unggul dan Berkarakter
+                class="text-on-surface text-5xl md:text-7xl font-headline font-normal leading-[1.05] mb-8 tracking-tight">
+                Generasi <br /> <span class="italic text-primary">Unggul</span> <br /> Berkarakter.
             </h1>
-            <p class="text-primary-container text-lg md:text-xl font-body leading-relaxed mb-10 opacity-95">
-                Menyediakan pendidikan berkualitas dunia yang berakar pada nilai-nilai luhur untuk mencetak
-                pemimpin masa depan yang inovatif dan berintegritas di SMA Harapan Jaya.
+            <p
+                class="text-gray-600 text-lg font-body leading-relaxed mb-12 font-light border-l border-gray-300 pl-6 ml-1">
+                Pendidikan duniawi berakar pada nilai luhur untuk mencetak pemimpin masa depan yang inovatif dan
+                berintegritas tinggi.
             </p>
-            <div class="flex flex-wrap gap-4">
-                <button
-                    class="bg-surface text-primary px-8 py-4 rounded-xl font-headline font-bold text-base hover:scale-105 transition-transform duration-300 shadow-xl">
-                    Pelajari Lebih Lanjut
-                </button>
+            <div class="flex flex-wrap items-center gap-8">
                 <a href="{{ route('ppdb') }}"
-                    class="bg-transparent text-white border-2 border-white/50 px-8 py-4 rounded-xl font-headline font-bold text-base hover:bg-white/10 transition-colors duration-300 inline-block">
+                    class="group relative inline-flex items-center justify-center bg-[#111] text-white px-8 py-4 font-subhead uppercase tracking-[0.2em] text-xs transition-colors hover:bg-primary">
                     Daftar Sekarang
+                </a>
+                <a href="#"
+                    class="text-primary font-subhead uppercase tracking-widest text-[11px] font-bold hover:text-[#111] transition-colors border-b border-primary/30 hover:border-[#111] pb-1">
+                    Tentang Kami
                 </a>
             </div>
         </div>
+    </div>
+    <div
+        class="w-full lg:w-1/2 relative min-h-[50vh] lg:min-h-full bg-white hidden lg:flex items-center justify-center overflow-hidden">
+        <img alt="Hero Image SMA Harapan Jaya"
+            class="w-full h-full object-contain p-4 lg:p-16 object-center transition-transform hover:scale-[1.02] duration-700"
+            src="{{ asset('images/hero.png') }}" />
     </div>
 </section>

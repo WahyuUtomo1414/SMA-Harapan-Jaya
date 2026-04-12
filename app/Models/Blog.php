@@ -20,6 +20,7 @@ class Blog extends Model
     {
         return [
             'status' => 'boolean',
+            'foto' => 'array',
         ];
     }
 

@@ -6,7 +6,8 @@
 @source '../**/*.js';
 
 @theme {
-    --font-headline: 'Manrope', sans-serif;
+    --font-headline: 'Playfair Display', serif;
+    --font-subhead: 'Manrope', sans-serif;
     --font-body: 'Inter', sans-serif;
 
     --color-primary: #008542;
@@ -29,11 +30,11 @@
     --color-error-container: #ffdad6;
     --color-on-error-container: #410002;
     
-    --color-background: #fdf9e9;
-    --color-on-background: #1c1c13;
+    --color-background: #ffffff;
+    --color-on-background: #111111;
     
-    --color-surface: #fdf9e9;
-    --color-on-surface: #1c1c13;
+    --color-surface: #ffffff;
+    --color-on-surface: #111111;
     --color-surface-variant: #e6e3d3;
     --color-on-surface-variant: #404944;
     
@@ -44,12 +45,12 @@
     --color-inverse-on-surface: #f5f1e1;
     --color-inverse-primary: #95d3ba;
     
-    --color-surface-dim: #dedacb;
-    --color-surface-bright: #fdf9e9;
+    --color-surface-dim: #f3f3f3;
+    --color-surface-bright: #ffffff;
     --color-surface-container-lowest: #ffffff;
-    --color-surface-container-low: #f8f4e4;
-    --color-surface-container: #f2eede;
-    --color-surface-container-high: #ece8d9;
+    --color-surface-container-low: #fdfdfd;
+    --color-surface-container: #f9f9f9;
+    --color-surface-container-high: #f4f4f4;
     --color-surface-container-highest: #e6e3d3;
 
     --radius-xl: 1.5rem;

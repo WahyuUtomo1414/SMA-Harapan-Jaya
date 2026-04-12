@@ -35,6 +35,8 @@ class BlogForm
                 FileUpload::make('foto')
                     ->label('Foto')
                     ->image()
+                    ->multiple()
+                    ->reorderable()
                     ->disk('public')
                     ->directory('blog'),
                 RichEditor::make('konten')

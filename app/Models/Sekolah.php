@@ -20,6 +20,8 @@ class Sekolah extends Model
         return [
             'status' => 'boolean',
             'tahun_berdiri' => 'date',
+            'misi' => 'array',
+            'sosial_media' => 'array',
         ];
     }
 }

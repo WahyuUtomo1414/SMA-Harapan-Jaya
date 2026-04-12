@@ -1,42 +1,22 @@
 <!-- Statistics Section -->
-<section class="py-20 bg-surface-container-low">
+<section class="py-32 bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-8">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <div
-                class="bg-surface-container-lowest p-10 rounded-xl text-center group hover:bg-primary transition-colors duration-500">
-                <span
-                    class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:text-on-primary">calendar_month</span>
-                <h3 class="text-4xl font-headline font-black text-on-surface mb-2 group-hover:text-on-primary">
-                    1985</h3>
-                <p class="text-on-surface-variant font-body font-medium group-hover:text-primary-container">
-                    Tahun Berdiri</p>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-16">
+            <div class="text-center group md:border-r border-gray-200 last:border-0 relative">
+                <h3 class="text-5xl md:text-7xl font-headline font-normal text-[#111] mb-6 italic">1985</h3>
+                <p class="text-primary font-subhead text-[10px] uppercase tracking-[0.3em] font-bold">Tahun Berdiri</p>
             </div>
-            <div
-                class="bg-surface-container-lowest p-10 rounded-xl text-center group hover:bg-primary transition-colors duration-500">
-                <span
-                    class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:text-on-primary">groups</span>
-                <h3 class="text-4xl font-headline font-black text-on-surface mb-2 group-hover:text-on-primary">
-                    1,250</h3>
-                <p class="text-on-surface-variant font-body font-medium group-hover:text-primary-container">
-                    Jumlah Murid</p>
+            <div class="text-center group md:border-r border-gray-200 last:border-0 relative">
+                <h3 class="text-5xl md:text-7xl font-headline font-normal text-[#111] mb-6 italic">1.2k</h3>
+                <p class="text-primary font-subhead text-[10px] uppercase tracking-[0.3em] font-bold">Jumlah Murid</p>
             </div>
-            <div
-                class="bg-surface-container-lowest p-10 rounded-xl text-center group hover:bg-primary transition-colors duration-500">
-                <span
-                    class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:text-on-primary">school</span>
-                <h3 class="text-4xl font-headline font-black text-on-surface mb-2 group-hover:text-on-primary">
-                    85</h3>
-                <p class="text-on-surface-variant font-body font-medium group-hover:text-primary-container">
-                    Jumlah Guru</p>
+            <div class="text-center group md:border-r border-gray-200 last:border-0 relative">
+                <h3 class="text-5xl md:text-7xl font-headline font-normal text-[#111] mb-6 italic">85<span class="text-4xl">+</span></h3>
+                <p class="text-primary font-subhead text-[10px] uppercase tracking-[0.3em] font-bold">Jumlah Guru</p>
             </div>
-            <div
-                class="bg-surface-container-lowest p-10 rounded-xl text-center group hover:bg-primary transition-colors duration-500">
-                <span
-                    class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:text-on-primary">workspace_premium</span>
-                <h3 class="text-4xl font-headline font-black text-on-surface mb-2 group-hover:text-on-primary">
-                    15k+</h3>
-                <p class="text-on-surface-variant font-body font-medium group-hover:text-primary-container">
-                    Jumlah Alumni</p>
+            <div class="text-center group border-0 relative">
+                <h3 class="text-5xl md:text-7xl font-headline font-normal text-[#111] mb-6 italic">15k</h3>
+                <p class="text-primary font-subhead text-[10px] uppercase tracking-[0.3em] font-bold">Jejaring Alumni</p>
             </div>
         </div>
     </div>
