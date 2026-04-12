@@ -11,7 +11,13 @@ class SekolahSeeder extends Seeder
     {
         $visi = 'Terwujudnya sekolah unggul yang menginspirasi, melahirkan generasi emas yang berkarakter Pancasila, berdaya saing global, dan mampu berkontribusi nyata dalam pembangunan bangsa.';
 
-        $misi = 'Menyelenggarakan pembelajaran berkualitas, membentuk karakter peserta didik, mengembangkan potensi akademik/non-akademik, serta menjalin kolaborasi strategis dengan berbagai pihak.';
+        $misi = [
+            'Menyelenggarakan pembelajaran berkualitas tinggi yang berpusat pada peserta didik, mengacu pada Kurikulum Merdeka, dan mengintegrasikan teknologi informasi.',
+            'Membentuk karakter peserta didik yang beriman, bertakwa, berakhlak mulia, kreatif, inovatif, dan memiliki jiwa kepemimpinan.',
+            'Mengembangkan potensi peserta didik secara optimal melalui berbagai program intrakurikuler dan ekstrakurikuler yang berorientasi pada minat dan bakat.',
+            'Memfasilitasi peserta didik untuk meraih prestasi akademik yang gemilang dan lulus ke perguruan tinggi negeri favorit.',
+            'Menjalin kerjasama yang erat dengan berbagai pihak (perguruan tinggi, industri, komunitas) untuk mendukung pengembangan sekolah dan peserta didik.',
+        ];
 
         $deskripsi = implode("\n", [
             'Identitas Sekolah',

@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             StrukturOrganisasiSeeder::class,
             KategoriSeeder::class,
             BlogSeeder::class,
+            FaqSeeder::class,
         ]);
     }
 }
