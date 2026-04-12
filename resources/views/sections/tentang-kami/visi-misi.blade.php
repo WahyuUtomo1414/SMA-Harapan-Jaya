@@ -9,16 +9,16 @@
                     Visi Utama
                 </span>
                 <h2 class="text-on-surface text-4xl md:text-6xl font-headline font-normal leading-[1.1] mb-10 tracking-tight italic">
-                    Menjadi <span class="not-italic font-bold text-primary">Episentrum</span> Integritas Intelektual.
+                    Visi <span class="not-italic font-bold text-primary">Kami</span>.
                 </h2>
                 <p class="text-gray-600 text-lg font-body leading-relaxed mb-12 font-light border-l border-gray-300 pl-6">
-                    "Menjadi institusi pendidikan yang membina integritas intelektual dan kemuliaan karakter di era global."
+                    "{{ $sekolah?->visi ?? 'Menjadi institusi pendidikan yang membina integritas intelektual dan kemuliaan karakter di era global.' }}"
                 </p>
                 
                 <div class="relative overflow-hidden group">
-                    <img alt="Visi SMA Harapan Jaya"
+                    <img alt="Visi {{ $sekolah?->nama }}"
                         class="w-full aspect-[4/5] object-cover transition-transform duration-1000 group-hover:scale-105"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuClSMWEdge7maIFlfsky4h21xgtc8DekIEmuEG0efFeFrK3RZAzK2gFKBqiV7PTDuVOBingAZo59A5T3GzG6ylr-XTGeFxE3r8sT2sDKe49hhYfSqTIPmYogIZwEN2xuQcPEMaUkaZa1hpuIi6Tpkuy8vMdwKNL8NO84Xx3YPZYZE7eXZbGnXBPkfZeNrz_EZ51Kb-22sJWAw6LkUKqIEI9aywtLp5XrF8pbcJ-iudRNJqZ73Z5ehG56PqPiqo1737mUFjuZ_63W0s" />
+                        src="{{ $sekolah?->thumbnail ? asset('storage/' . $sekolah->thumbnail) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuClSMWEdge7maIFlfsky4h21xgtc8DekIEmuEG0efFeFrK3RZAzK2gFKBqiV7PTDuVOBingAZo59A5T3GzG6ylr-XTGeFxE3r8sT2sDKe49hhYfSqTIPmYogIZwEN2xuQcPEMaUkaZa1hpuIi6Tpkuy8vMdwKNL8NO84Xx3YPZYZE7eXZbGnXBPkfZeNrz_EZ51Kb-22sJWAw6LkUKqIEI9aywtLp5XrF8pbcJ-iudRNJqZ73Z5ehG56PqPiqo1737mUFjuZ_63W0s' }}" />
                     <div class="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors duration-700"></div>
                 </div>
             </div>
@@ -29,44 +29,58 @@
                     <div>
                         <span class="text-primary font-subhead font-bold text-[11px] tracking-[0.3em] uppercase mb-8 block">Misi Kami</span>
                         <div class="space-y-16">
-                            <div class="group border-b border-gray-100 pb-12 transition-colors hover:border-primary/30">
-                                <div class="flex items-start gap-8">
-                                    <span class="text-4xl font-headline font-light text-gray-200 group-hover:text-primary/20 transition-colors">01</span>
-                                    <div>
-                                        <h3 class="text-2xl font-headline font-bold text-on-surface mb-4">Ekselensi Akademik</h3>
-                                        <p class="text-gray-600 font-body leading-relaxed font-light">
-                                            Kurikulum adaptif yang menantang pemikiran kritis siswa dengan standar internasional, 
-                                            memastikan kesiapan menghadapi dinamika global.
-                                        </p>
+                            @if($sekolah?->misi && is_iterable($sekolah->misi))
+                                @foreach($sekolah->misi as $index => $misi)
+                                    <div class="group border-b border-gray-100 pb-12 transition-colors hover:border-primary/30">
+                                        <div class="flex items-start gap-8">
+                                            <span class="text-4xl font-headline font-light text-gray-200 group-hover:text-primary/20 transition-colors">{{ sprintf('%02d', $index + 1) }}</span>
+                                            <div>
+                                                <p class="text-xl font-headline font-bold text-on-surface mb-4">
+                                                    @if(is_array($misi))
+                                                        {{ $misi['misi'] ?? $misi['value'] ?? implode(', ', $misi) }}
+                                                    @else
+                                                        {{ $misi }}
+                                                    @endif
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @elseif($sekolah?->misi)
+                                <div class="group border-b border-gray-100 pb-12 transition-colors hover:border-primary/30">
+                                    <div class="flex items-start gap-8">
+                                        <span class="text-4xl font-headline font-light text-gray-200 group-hover:text-primary/20 transition-colors">01</span>
+                                        <div>
+                                            <p class="text-xl font-headline font-bold text-on-surface mb-4">
+                                                {{ $sekolah->misi }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="group border-b border-gray-100 pb-12 transition-colors hover:border-primary/30">
-                                <div class="flex items-start gap-8">
-                                    <span class="text-4xl font-headline font-light text-gray-200 group-hover:text-primary/20 transition-colors">02</span>
-                                    <div>
-                                        <h3 class="text-2xl font-headline font-bold text-on-surface mb-4">Pengembangan Karakter</h3>
-                                        <p class="text-gray-600 font-body leading-relaxed font-light">
-                                            Membentuk pribadi beretika, bertanggung jawab, dan memiliki empati sosial yang tinggi 
-                                            melalui habituasi nilai-nilai luhur.
-                                        </p>
+                            @else
+                                <div class="group border-b border-gray-100 pb-12 transition-colors hover:border-primary/30">
+                                    <div class="flex items-start gap-8">
+                                        <span class="text-4xl font-headline font-light text-gray-200 group-hover:text-primary/20 transition-colors">01</span>
+                                        <div>
+                                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-4">Ekselensi Akademik</h3>
+                                            <p class="text-gray-600 font-body leading-relaxed font-light">
+                                                Kurikulum adaptif yang menantang pemikiran kritis siswa dengan standar internasional.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="group border-b border-gray-100 pb-12 transition-colors hover:border-primary/30">
-                                <div class="flex items-start gap-8">
-                                    <span class="text-4xl font-headline font-light text-gray-200 group-hover:text-primary/20 transition-colors">03</span>
-                                    <div>
-                                        <h3 class="text-2xl font-headline font-bold text-on-surface mb-4">Wawasan Global</h3>
-                                        <p class="text-gray-600 font-body leading-relaxed font-light">
-                                            Mempersiapkan siswa untuk berkompetisi dan berkolaborasi dalam kancah dunia modern 
-                                            dengan penguasaan bahasa dan teknologi.
-                                        </p>
+                                <div class="group border-b border-gray-100 pb-12 transition-colors hover:border-primary/30">
+                                    <div class="flex items-start gap-8">
+                                        <span class="text-4xl font-headline font-light text-gray-200 group-hover:text-primary/20 transition-colors">02</span>
+                                        <div>
+                                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-4">Pengembangan Karakter</h3>
+                                            <p class="text-gray-600 font-body leading-relaxed font-light">
+                                                Membentuk pribadi beretika, bertanggung jawab, dan memiliki empati sosial yang tinggi.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
 
@@ -74,7 +88,7 @@
                         <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 -mr-8 -mt-8 rounded-full"></div>
                         <p class="text-xl font-headline leading-relaxed text-gray-700 italic relative z-10">
                             <span class="text-4xl text-primary font-serif absolute -left-8 -top-4 opacity-20">"</span>
-                            SMA Harapan Jaya bukan sekadar tempat menuntut ilmu; ia adalah ekosistem tempat ide-ide tumbuh dan karakter ditempa secara mendalam. 
+                            {{ $sekolah?->nama ?? 'SMA Harapan Jaya' }} bukan sekadar tempat menuntut ilmu; ia adalah ekosistem tempat ide-ide tumbuh dan karakter ditempa secara mendalam. 
                             Kami mengintegrasikan tradisi intelektual yang kuat dengan inovasi pedagogi modern.
                         </p>
                     </div>

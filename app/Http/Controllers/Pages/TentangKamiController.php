@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sekolah;
+use App\Models\StrukturOrganisasi;
 
 class TentangKamiController extends Controller
 {
@@ -15,6 +16,10 @@ class TentangKamiController extends Controller
             $sekolah = Sekolah::first();
         }
 
-        return view('pages.tentang-kami', compact('sekolah'));
+        $organisasi = StrukturOrganisasi::where('status', true)
+            ->orderBy('urutan')
+            ->get();
+
+        return view('pages.tentang-kami', compact('sekolah', 'organisasi'));
     }
 }
