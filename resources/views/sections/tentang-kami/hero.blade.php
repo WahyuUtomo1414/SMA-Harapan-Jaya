@@ -1,16 +1,28 @@
 <!-- Hero Section -->
-<header class="relative h-[640px] w-full overflow-hidden">
-    <img alt="Main campus building" class="absolute inset-0 w-full h-full object-cover"
-        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-XEPjIMxu1NoW7xczh3G-wH5EO78t7LID-2JLHEoYR0_PMsAmkH0EpqMXwF3_jTnkt_p7oOs_EetVrWqG7d958_qNz0VLFzEYLiMLLKps1nQ_RQnN3kzkR_u7mMrqpU6UBe_4j7aGj1scNNdJ7qi-ZmRUrwBHJSKFtY2rwwJ5ZQ_4xSmptSGHhhhdX1TVXqYWYTyJcF8fP6wvFuGjz2rkzW_lqFVyq5BsUEFzMdzgtSRXTg5EiWgbBnfeH7yZv9HNDn0cSOjoanc" />
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end pb-24 px-8 md:px-24">
-        <div class="max-w-7xl mx-auto w-full">
+<section class="relative min-h-[60vh] flex flex-col lg:flex-row items-stretch border-b border-gray-200">
+    <div class="w-full lg:w-1/2 flex flex-col justify-center px-12 py-20 lg:py-0 bg-white z-10 relative">
+        <div class="absolute top-0 left-0 w-full h-[6px] bg-primary"></div>
+        <div class="max-w-xl mx-auto xl:ml-auto xl:mr-12">
             <span
-                class="text-primary-container font-headline font-bold tracking-[0.3em] text-[10px] uppercase mb-6 block opacity-80">PROFIL
-                LEMBAGA</span>
+                class="inline-block border border-gray-300 text-gray-500 px-4 py-1.5 text-[10px] font-subhead font-bold tracking-[0.25em] uppercase mb-10">
+                Profil Lembaga
+            </span>
             <h1
-                class="font-headline font-extrabold text-5xl md:text-7xl text-white tracking-tighter leading-none max-w-4xl">
-                Membangun Masa Depan Melalui Karakter &amp; Integritas
+                class="text-on-surface text-5xl md:text-7xl font-headline font-normal leading-[1.05] mb-8 tracking-tight">
+                Membangun <br /> <span class="italic text-primary">Karakter</span> <br /> & Integritas.
             </h1>
+            <p
+                class="text-gray-600 text-lg font-body leading-relaxed mb-12 font-light border-l border-gray-300 pl-6 ml-1">
+                Dedikasi kami dalam mencetak generasi unggul yang tidak hanya cerdas secara intelektual, 
+                tetapi juga memiliki kedalaman spiritual dan integritas moral.
+            </p>
         </div>
     </div>
-</header>
+    <div
+        class="w-full lg:w-1/2 relative min-h-[40vh] lg:min-h-full bg-gray-100 flex items-center justify-center overflow-hidden">
+        <img alt="Tentang Kami SMA Harapan Jaya"
+            class="w-full h-full object-cover transition-transform hover:scale-[1.05] duration-1000"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-XEPjIMxu1NoW7xczh3G-wH5EO78t7LID-2JLHEoYR0_PMsAmkH0EpqMXwF3_jTnkt_p7oOs_EetVrWqG7d958_qNz0VLFzEYLiMLLKps1nQ_RQnN3kzkR_u7mMrqpU6UBe_4j7aGj1scNNdJ7qi-ZmRUrwBHJSKFtY2rwwJ5ZQ_4xSmptSGHhhhdX1TVXqYWYTyJcF8fP6wvFuGjz2rkzW_lqFVyq5BsUEFzMdzgtSRXTg5EiWgbBnfeH7yZv9HNDn0cSOjoanc" />
+        <div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+    </div>
+</section>
