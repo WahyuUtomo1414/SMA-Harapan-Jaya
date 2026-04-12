@@ -7,6 +7,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Schema;
 
 class SekolahForm
@@ -68,8 +69,10 @@ class SekolahForm
                 Textarea::make('visi')
                     ->required()
                     ->columnSpanFull(),
-                Textarea::make('misi')
-                    ->required()
+                Repeater::make('misi')
+                    ->schema([
+                        Textarea::make('teks')->required()->label('Deskripsi Misi'),
+                    ])
                     ->columnSpanFull(),
                 Textarea::make('deskripsi')
                     ->required()
@@ -79,13 +82,35 @@ class SekolahForm
                     ->disk('public')
                     ->directory('sekolah')
                     ->required(),
-                Select::make('status')
-                    ->options([
-                        true => 'Active',
-                        false => 'Non Active',
+                FileUpload::make('thumbnail')
+                    ->image()
+                    ->disk('public')
+                    ->directory('sekolah/thumbnail'),
+                Textarea::make('maps')
+                    ->label('Google Maps')
+                    ->columnSpanFull(),
+                Repeater::make('sosial_media')
+                    ->schema([
+                        Select::make('nama')
+                            ->options([
+                                'Facebook' => 'Facebook',
+                                'Instagram' => 'Instagram',
+                                'YouTube' => 'YouTube',
+                            ])
+                            ->required(),
+                        TextInput::make('link')
+                            ->url()
+                            ->required(),
                     ])
-                    ->native(false)
-                    ->required(),
+                    ->columns(2)
+                    ->columnSpanFull(),
+                // Select::make('status')
+                //     ->options([
+                //         true => 'Active',
+                //         false => 'Non Active',
+                //     ])
+                //     ->native(false)
+                //     ->required(),
             ]);
     }
 }
