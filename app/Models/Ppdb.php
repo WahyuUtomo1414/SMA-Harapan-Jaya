@@ -18,11 +18,11 @@ class Ppdb extends Model
     protected function casts(): array
     {
         return [
+            'status' => 'boolean',
             'alur_ppdb' => 'array',
             'persyaratan' => 'array',
             'timeline' => 'array',
             'kontak' => 'array',
-            'status' => 'boolean',
         ];
     }
 }

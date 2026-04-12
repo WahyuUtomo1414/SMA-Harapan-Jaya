@@ -1,69 +1,50 @@
 <!-- Process Flow -->
-<section class="py-24 bg-surface-variant/20">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center space-y-4 mb-20">
-            <h2 class="font-headline text-4xl font-extrabold text-on-surface tracking-tight">Alur Pendaftaran
+<section id="alur" class="py-32 bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-8">
+        <div class="text-center mb-24">
+            <span
+                class="inline-block border border-gray-300 text-gray-500 px-4 py-1.5 text-[10px] font-subhead font-bold tracking-[0.25em] uppercase mb-10">
+                Tata Cara Pendaftaran
+            </span>
+            <h2 class="text-on-surface text-4xl md:text-6xl font-headline font-normal leading-tight italic">
+                Alur <span class="not-italic font-bold text-primary">Pendaftaran</span>
             </h2>
-            <div class="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
-            <p class="text-on-surface-variant max-w-2xl mx-auto font-medium">Sistem pendaftaran kami dirancang
-                untuk memberikan kemudahan bagi calon orang tua murid dengan transparansi penuh di setiap
-                tahapnya.</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-            <!-- Step 1 -->
-            <div class="group">
-                <div
-                    class="h-full bg-surface p-8 rounded-3xl border border-outline-variant/30 transition-all hover:border-primary/50 hover:shadow-xl relative overflow-hidden">
-                    <div class="absolute top-4 right-6 text-6xl font-black text-outline-variant/10">01</div>
-                    <div
-                        class="h-14 w-14 bg-primary text-on-primary rounded-2xl flex items-center justify-center mb-8 shadow-md group-hover:rotate-6 transition-transform">
-                        <span class="material-symbols-outlined text-2xl">person_add</span>
-                    </div>
-                    <h3 class="font-headline font-bold text-xl mb-4 text-on-surface">Registrasi</h3>
-                    <p class="text-on-surface-variant text-sm leading-relaxed">Isi formulir data diri melalui
-                        portal PPDB online kami secara akurat.</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            <!-- Offline Path -->
+            <div>
+                <div class="flex items-center gap-4 mb-12 border-b border-gray-100 pb-6">
+                    <span class="material-symbols-outlined text-primary text-3xl">storefront</span>
+                    <h3 class="text-2xl font-headline font-bold text-on-surface italic">Jalur Mandiri (Offline)</h3>
+                </div>
+                <div class="space-y-8">
+                    @if($ppdb?->alur_ppdb && isset($ppdb->alur_ppdb['offline']))
+                        @foreach($ppdb->alur_ppdb['offline'] as $index => $step)
+                            <div class="group flex items-start gap-8 transition-colors hover:bg-gray-50 p-6 -mx-6">
+                                <span class="text-3xl font-headline font-light text-gray-200 group-hover:text-primary/20 transition-colors">{{ sprintf('%02d', $index + 1) }}</span>
+                                <p class="text-lg font-body text-gray-600 leading-relaxed font-light pt-1">{{ $step }}</p>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
-            <!-- Step 2 -->
-            <div class="group">
-                <div
-                    class="h-full bg-surface p-8 rounded-3xl border border-outline-variant/30 transition-all hover:border-secondary/50 hover:shadow-xl relative overflow-hidden">
-                    <div class="absolute top-4 right-6 text-6xl font-black text-outline-variant/10">02</div>
-                    <div
-                        class="h-14 w-14 bg-secondary text-on-secondary rounded-2xl flex items-center justify-center mb-8 shadow-md group-hover:rotate-6 transition-transform">
-                        <span class="material-symbols-outlined text-2xl">description</span>
-                    </div>
-                    <h3 class="font-headline font-bold text-xl mb-4 text-on-surface">Verifikasi</h3>
-                    <p class="text-on-surface-variant text-sm leading-relaxed">Tim administrasi akan memvalidasi
-                        berkas fisik dan dokumen pendukung Anda.</p>
+
+            <!-- Online Path -->
+            <div>
+                <div class="flex items-center gap-4 mb-12 border-b border-gray-100 pb-6">
+                    <span class="material-symbols-outlined text-primary text-3xl">language</span>
+                    <h3 class="text-2xl font-headline font-bold text-on-surface italic">Jalur SPMB Bersama (Online)</h3>
                 </div>
-            </div>
-            <!-- Step 3 -->
-            <div class="group">
-                <div
-                    class="h-full bg-surface p-8 rounded-3xl border border-outline-variant/30 transition-all hover:border-tertiary/50 hover:shadow-xl relative overflow-hidden">
-                    <div class="absolute top-4 right-6 text-6xl font-black text-outline-variant/10">03</div>
-                    <div
-                        class="h-14 w-14 bg-tertiary text-on-tertiary rounded-2xl flex items-center justify-center mb-8 shadow-md group-hover:rotate-6 transition-transform">
-                        <span class="material-symbols-outlined text-2xl">psychology</span>
-                    </div>
-                    <h3 class="font-headline font-bold text-xl mb-4 text-on-surface">Seleksi</h3>
-                    <p class="text-on-surface-variant text-sm leading-relaxed">Pelaksanaan observasi, wawancara,
-                        dan tes pemetaan potensi akademik.</p>
-                </div>
-            </div>
-            <!-- Step 4 -->
-            <div class="group">
-                <div
-                    class="h-full bg-primary text-on-primary p-8 rounded-3xl border border-primary transition-all shadow-xl shadow-primary/20 relative overflow-hidden">
-                    <div class="absolute top-4 right-6 text-6xl font-black text-white/10">04</div>
-                    <div
-                        class="h-14 w-14 bg-white text-primary rounded-2xl flex items-center justify-center mb-8 shadow-md group-hover:scale-110 transition-transform">
-                        <span class="material-symbols-outlined text-2xl font-bold">campaign</span>
-                    </div>
-                    <h3 class="font-headline font-bold text-xl mb-4">Pengumuman</h3>
-                    <p class="text-on-primary/80 text-sm leading-relaxed">Hasil seleksi diumumkan melalui portal
-                        dan email pribadi pendaftar.</p>
+                <div class="space-y-8">
+                    @if($ppdb?->alur_ppdb && isset($ppdb->alur_ppdb['online']))
+                        @foreach($ppdb->alur_ppdb['online'] as $index => $step)
+                            <div class="group flex items-start gap-8 transition-colors hover:bg-gray-50 p-6 -mx-6">
+                                <span class="text-3xl font-headline font-light text-gray-200 group-hover:text-primary/20 transition-colors">{{ sprintf('%02d', $index + 1) }}</span>
+                                <p class="text-lg font-body text-gray-600 leading-relaxed font-light pt-1">{!! $step !!}</p>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>

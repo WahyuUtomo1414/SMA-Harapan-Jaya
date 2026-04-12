@@ -1,50 +1,34 @@
-<!-- Column 2: Requirements -->
-<div
-    class="bg-surface-variant/40 rounded-[3rem] p-10 flex flex-col h-full border border-outline-variant/30">
-    <h3 class="font-headline font-bold text-2xl mb-8 text-on-surface">Persyaratan Umum</h3>
-    <ul class="space-y-6 flex-grow">
-        <li class="flex items-start gap-4 group">
-            <div
-                class="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
-                <span class="material-symbols-outlined text-sm font-black">check</span>
+<!-- Requirements -->
+<div class="bg-gray-50 border border-gray-100 p-12 relative group">
+    <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 -mr-8 -mt-8 rounded-full"></div>
+    <div class="relative z-10">
+        <div class="flex items-center gap-4 mb-10 border-b border-gray-200 pb-6">
+            <span class="material-symbols-outlined text-primary text-3xl">assignment</span>
+            <h3 class="text-2xl font-headline font-bold text-on-surface italic">Persyaratan</h3>
+        </div>
+        <ul class="space-y-6">
+            @if($ppdb?->persyaratan)
+                @foreach($ppdb->persyaratan as $item)
+                    <li class="flex items-center gap-4 group/item">
+                        <span class="w-1.5 h-1.5 bg-primary/30 rounded-full group-hover/item:scale-150 transition-transform"></span>
+                        <span class="text-lg font-body text-gray-600 font-light leading-snug">{{ $item }}</span>
+                    </li>
+                @endforeach
+            @endif
+        </ul>
+        
+        <div class="mt-16 pt-8 border-t border-gray-200">
+            <p class="text-[10px] font-subhead font-bold text-gray-400 uppercase tracking-widest mb-6">Informasi Lebih Lanjut</p>
+            <div class="space-y-4">
+                @if($ppdb?->kontak)
+                    @foreach($ppdb->kontak as $platform => $value)
+                        <div class="flex items-center gap-4">
+                            <span class="text-primary font-subhead font-bold text-[10px] uppercase tracking-widest w-20">{{ $platform }}</span>
+                            <span class="font-body font-light text-gray-600 text-sm">{{ $value }}</span>
+                        </div>
+                    @endforeach
+                @endif
             </div>
-            <span class="text-sm text-on-surface-variant font-semibold">Fotokopi Akta Kelahiran
-                &amp; KK</span>
-        </li>
-        <li class="flex items-start gap-4 group">
-            <div
-                class="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
-                <span class="material-symbols-outlined text-sm font-black">check</span>
-            </div>
-            <span class="text-sm text-on-surface-variant font-semibold">Pas Foto Terbaru Ukuran
-                3x4</span>
-        </li>
-        <li class="flex items-start gap-4 group">
-            <div
-                class="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
-                <span class="material-symbols-outlined text-sm font-black">check</span>
-            </div>
-            <span class="text-sm text-on-surface-variant font-semibold">Rapor 3 Semester
-                Terakhir</span>
-        </li>
-        <li class="flex items-start gap-4 group">
-            <div
-                class="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
-                <span class="material-symbols-outlined text-sm font-black">check</span>
-            </div>
-            <span class="text-sm text-on-surface-variant font-semibold">Sertifikat Prestasi
-                (Opsional)</span>
-        </li>
-    </ul>
-    <div class="mt-12 bg-secondary-container/50 p-6 rounded-2xl border border-secondary-container">
-        <h4 class="font-headline font-bold text-on-secondary-container text-sm mb-2">Bantuan Admisi
-        </h4>
-        <p class="text-xs text-on-secondary-container/80 mb-4 font-medium leading-relaxed">Tim kami
-            tersedia untuk konsultasi tatap muka maupun daring.</p>
-        <a class="text-sm font-bold text-primary flex items-center gap-2 group" href="#">
-            Hubungi WhatsApp
-            <span
-                class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
-        </a>
+        </div>
     </div>
 </div>
