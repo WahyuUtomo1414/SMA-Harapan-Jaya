@@ -4,26 +4,18 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="relative min-h-[40vh] flex flex-col lg:flex-row items-stretch border-b border-gray-200">
-    <div class="w-full lg:w-1/2 flex flex-col justify-center px-12 py-20 lg:py-0 bg-white z-10 relative">
-        <div class="absolute top-0 left-0 w-full h-[6px] bg-primary"></div>
-        <div class="max-w-xl mx-auto xl:ml-auto xl:mr-12">
-            <span
-                class="inline-block border border-gray-300 text-gray-500 px-4 py-1.5 text-[10px] font-subhead font-bold tracking-[0.25em] uppercase mb-10">
-                Berita & Wawasan
-            </span>
-            <h1
-                class="text-on-surface text-5xl md:text-7xl font-headline font-normal leading-[1.05] mb-8 tracking-tight">
-                Jendela <br /> <span class="italic text-primary">Inspirasi</span> <br /> & Prestasi.
-            </h1>
-        </div>
-    </div>
-    <div
-        class="w-full lg:w-1/2 relative min-h-[30vh] lg:min-h-full bg-gray-100 flex items-center justify-center overflow-hidden">
-        <img alt="Blog Hero"
-            class="w-full h-full object-cover transition-transform hover:scale-[1.05] duration-1000"
-            src="https://images.unsplash.com/photo-1491843384429-17e71289ff39?q=80&w=2070&auto=format&fit=crop" />
-        <div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+<section class="relative py-32 bg-white border-b border-gray-200 overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-[6px] bg-primary"></div>
+    <div class="max-w-7xl mx-auto px-8 relative text-center">
+        <span
+            class="inline-block border border-gray-300 text-gray-500 px-4 py-1.5 text-[10px] font-subhead font-bold tracking-[0.25em] uppercase mb-10">
+            Berita & Wawasan
+        </span>
+        <h1
+            class="text-on-surface text-5xl md:text-8xl font-headline font-normal leading-[1.05] mb-8 tracking-tight italic">
+            Jendela <span class="not-italic font-bold text-primary">Inspirasi</span> <br /> & Prestasi.
+        </h1>
+        <p class="text-gray-400 font-subhead font-bold text-[11px] tracking-[0.3em] uppercase">SMA Harapan Jaya Jakarta</p>
     </div>
 </section>
 
