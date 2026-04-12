@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faq;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('pages.home');
+        $faqs = Faq::where('status', true)->get();
+        return view('pages.home', compact('faqs'));
     }
 
     public function tentangKami()
