@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Guru;
 use App\Models\StrukturOrganisasi;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class StrukturOrganisasiSeeder extends Seeder
 {
@@ -13,32 +14,42 @@ class StrukturOrganisasiSeeder extends Seeder
      */
     public function run(): void
     {
+        StrukturOrganisasi::truncate();
+
         $gurus = Guru::all();
 
-        foreach ($gurus as $index => $guru) {
-            $jabatan = $guru->jabatan;
-            $urutan = 99; // Default for others
+        $guruCount = 0;
+        $tendikCount = 0;
 
-            if (stripos($jabatan, 'KEPALA SEKOLAH') !== false) {
+        foreach ($gurus as $guru) {
+            $jabatan = Str::upper($guru->jabatan);
+            $urutan = 999; 
+
+            if ($jabatan === 'KEPALA SEKOLAH') {
                 $urutan = 1;
-            } elseif (stripos($jabatan, 'KURIKULUM') !== false) {
+            } elseif ($jabatan === 'WAKIL KURIKULUM') {
                 $urutan = 2;
-            } elseif (stripos($jabatan, 'KESISWAAN') !== false) {
+            } elseif ($jabatan === 'WAKIL KESISWAAN') {
                 $urutan = 3;
-            } elseif (stripos($jabatan, 'TATA USAHA') !== false) {
-                $urutan = 4;
-            } elseif (stripos($jabatan, 'GURU') !== false) {
-                $urutan = 5;
+            } elseif (Str::contains($jabatan, 'GURU')) {
+                $urutan = 10 + $guruCount;
+                $guruCount++;
+            } elseif (Str::contains($jabatan, 'TENDIK')) {
+                $urutan = 50 + $tendikCount;
+                $tendikCount++;
+            } elseif (Str::contains($jabatan, 'KEAMANAN')) {
+                $urutan = 900;
+            } elseif (Str::contains($jabatan, 'KEBERSIHAN')) {
+                $urutan = 901;
             }
 
-            StrukturOrganisasi::updateOrCreate(
-                ['nama' => $guru->nama, 'jabatan' => $guru->jabatan],
-                [
-                    'foto' => '', // Empty as requested
-                    'urutan' => $urutan,
-                    'status' => true,
-                ]
-            );
+            StrukturOrganisasi::create([
+                'nama' => $guru->nama,
+                'jabatan' => $guru->jabatan,
+                'foto' => '',
+                'urutan' => $urutan,
+                'status' => true,
+            ]);
         }
     }
 }

@@ -19,11 +19,11 @@ class StrukturOrganisasiForm
                 TextInput::make('jabatan')
                     ->required()
                     ->maxLength(128),
-                FileUpload::make('foto')
-                    ->image()
-                    ->disk('public')
-                    ->directory('struktur_organisasi')
-                    ->required(),
+                // FileUpload::make('foto')
+                //     ->image()
+                //     ->disk('public')
+                //     ->directory('struktur_organisasi')
+                //     ->required(),
                 TextInput::make('urutan')
                     ->label('Urutan')
                     ->required()

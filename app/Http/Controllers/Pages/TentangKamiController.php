@@ -20,6 +20,10 @@ class TentangKamiController extends Controller
             ->orderBy('urutan')
             ->get();
 
-        return view('pages.tentang-kami', compact('sekolah', 'organisasi'));
+        $topLeader = $organisasi->where('urutan', 1)->first();
+        $subordinates = $organisasi->whereIn('urutan', [2, 3, 4])->sortBy('urutan')->take(3);
+        $remainingStaff = $organisasi->whereNotIn('id', array_filter([$topLeader?->id, ...$subordinates->pluck('id')->toArray()]))->sortBy('urutan');
+
+        return view('pages.tentang-kami', compact('sekolah', 'topLeader', 'subordinates', 'remainingStaff'));
     }
 }

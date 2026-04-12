@@ -12,12 +12,6 @@
         </div>
 
         <div class="flex flex-col items-center">
-            @php
-                $topLeader = $organisasi->where('urutan', 1)->first();
-                $subordinates = $organisasi->whereIn('urutan', [2, 3, 4])->sortBy('urutan')->take(3);
-                $remainingStaff = $organisasi->whereNotIn('id', array_filter([$topLeader?->id, ...$subordinates->pluck('id')->toArray()]))->sortBy('urutan');
-            @endphp
-
             @if($topLeader)
                 <!-- Headmaster -->
                 <div class="mb-24 relative w-full flex justify-center">
@@ -40,7 +34,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-{{ $subordinates->count() }} gap-8 w-full relative pt-12 border-b border-gray-100 pb-24">
                     <!-- Horizontal Connection Line -->
                     @if($subordinates->count() > 1)
-                        <div class="absolute top-0 left-[16.66%] right-[16.66%] h-px bg-gray-200 hidden md:block"></div>
+                        <div class="absolute top-0 left-0 right-0 h-px bg-gray-200 hidden md:flex justify-center">
+                            <div class="h-full bg-gray-200" style="width: {{ 100 - (100 / $subordinates->count()) }}%"></div>
+                        </div>
                     @endif
                     
                     @foreach($subordinates as $member)
@@ -64,7 +60,7 @@
                         @foreach($remainingStaff as $staff)
                             <div class="group">
                                 <div class="bg-gray-50/50 border border-gray-100 p-6 transition-all duration-500 group-hover:bg-white group-hover:border-gray-200 group-hover:shadow-md">
-                                    <p class="text-gray-400 font-subhead text-[8px] tracking-widest uppercase mb-2">{{ $staff->jabatan }}</p>
+                                    <p class="text-gray-500 font-subhead font-bold text-[9px] tracking-widest uppercase mb-2">{{ $staff->jabatan }}</p>
                                     <h6 class="font-headline font-bold text-on-surface text-base leading-tight">{{ $staff->nama }}</h6>
                                 </div>
                             </div>
