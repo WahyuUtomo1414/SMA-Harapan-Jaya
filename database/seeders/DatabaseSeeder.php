@@ -23,6 +23,9 @@ class DatabaseSeeder extends Seeder
             BlogSeeder::class,
             FaqSeeder::class,
             PpdbSeeder::class,
+            KelasSeeder::class,
+            MataPelajaranSeeder::class,
+            MuridSeeder::class,
         ]);
     }
 }
