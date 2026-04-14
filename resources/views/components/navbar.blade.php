@@ -16,10 +16,10 @@
             <a class="nav-link {{ request()->routeIs('ppdb') ? 'text-primary' : 'text-gray-500 hover:text-primary' }} transition-colors duration-300 relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right hover:after:scale-x-100 hover:after:origin-bottom-left after:transition-transform after:duration-300 {{ request()->routeIs('ppdb') ? 'after:scale-x-100' : '' }} pb-1"
                 href="{{ route('ppdb') }}">PPDB</a>
         </div>
-        <button
+        <a href="{{ route('ppdb') }}"
             class="hidden md:block bg-primary text-white border border-primary px-8 py-3 font-subhead font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-primary transition-all duration-300">
             Daftar Sekarang
-        </button>
+        </a>
         <!-- Mobile Menu Icon -->
         <button id="mobile-menu-btn" class="md:hidden text-primary p-2">
             <span class="material-symbols-outlined text-3xl">menu</span>
@@ -38,10 +38,10 @@
                 href="{{ route('blog.index') }}">Berita</a>
             <a class="{{ request()->routeIs('ppdb') ? 'text-primary' : 'text-gray-500' }}"
                 href="{{ route('ppdb') }}">PPDB</a>
-            <button
-                class="bg-primary text-white border border-primary px-8 py-3 font-subhead font-bold text-xs uppercase tracking-widest w-full mt-4">
+            <a href="{{ route('ppdb') }}"
+                class="bg-primary text-white border border-primary px-8 py-3 font-subhead font-bold text-xs uppercase tracking-widest w-full mt-4 block text-center">
                 Daftar Sekarang
-            </button>
+            </a>
         </div>
     </div>
 </nav>

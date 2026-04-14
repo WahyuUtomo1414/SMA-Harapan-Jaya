@@ -29,6 +29,19 @@
                     @endforeach
                 @endif
             </div>
+
+            {{-- CTA Daftar --}}
+            <div class="mt-10 pt-8 border-t border-gray-100">
+                <p class="text-sm font-body text-gray-500 mb-5 leading-relaxed">
+                    Sudah siap? Lengkapi formulir pendaftaran online sekarang dan jadilah bagian dari keluarga besar SMA Harapan Jaya.
+                </p>
+                <a href="{{ route('ppdb.form') }}"
+                    class="inline-flex items-center gap-3 bg-primary text-white px-8 py-4 font-subhead uppercase tracking-[0.2em] text-xs transition hover:bg-[#006b35]">
+                    <span class="material-symbols-outlined text-base">edit_document</span>
+                    Mulai Pendaftaran Online
+                </a>
+            </div>
         </div>
     </div>
 </div>
+
