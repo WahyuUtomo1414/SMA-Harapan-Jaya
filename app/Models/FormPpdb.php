@@ -11,6 +11,10 @@ class FormPpdb extends Model
 {
     use HasFactory, AuditedBySoftDelete, SoftDeletes;
 
+    public const STATUS_PENDING  = 'pending';
+    public const STATUS_DITERIMA = 'diterima';
+    public const STATUS_DITOLAK  = 'ditolak';
+
     protected $table = 'form_ppdb';
 
     protected $guarded = ['id'];
