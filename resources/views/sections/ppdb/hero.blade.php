@@ -16,11 +16,11 @@
                 {{ $ppdb?->deskripsi ?? 'Wujudkan potensi terbaik putra-putri Anda melalui ekosistem pembelajaran yang kolaboratif, modern, dan berlandaskan nilai-nilai luhur.' }}
             </p>
             <div class="flex flex-wrap items-center gap-8">
-                <a href="#alur"
-                    class="group relative inline-flex items-center justify-center bg-[#111] text-white px-8 py-4 font-subhead uppercase tracking-[0.2em] text-xs transition-colors hover:bg-primary">
-                    Lihat Alur
+                <a href="{{ route('ppdb.form') }}"
+                    class="group relative inline-flex items-center justify-center bg-primary text-white px-8 py-4 font-subhead uppercase tracking-[0.2em] text-xs transition-colors hover:bg-[#006b35]">
+                    Daftar Sekarang
                 </a>
-                @if($ppdb?->brosur)
+                @if ($ppdb?->brosur)
                     <a href="{{ asset('storage/' . $ppdb->brosur) }}" target="_blank"
                         class="text-primary font-subhead uppercase tracking-widest text-[11px] font-bold hover:text-[#111] transition-colors border-b border-primary/30 hover:border-[#111] pb-1">
                         Unduh Brosur
