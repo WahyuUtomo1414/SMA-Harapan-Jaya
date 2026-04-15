@@ -7,16 +7,18 @@
                 <p class="text-primary font-subhead text-[10px] uppercase tracking-[0.3em] font-bold">Tahun Berdiri</p>
             </div>
             <div class="text-center group md:border-r border-gray-200 last:border-0 relative">
-                <h3 class="text-5xl md:text-7xl font-headline font-normal text-[#111] mb-6 italic">1.2k</h3>
+                <h3 class="text-5xl md:text-7xl font-headline font-normal text-[#111] mb-6 italic">241</h3>
                 <p class="text-primary font-subhead text-[10px] uppercase tracking-[0.3em] font-bold">Jumlah Murid</p>
             </div>
             <div class="text-center group md:border-r border-gray-200 last:border-0 relative">
-                <h3 class="text-5xl md:text-7xl font-headline font-normal text-[#111] mb-6 italic">85<span class="text-4xl">+</span></h3>
+                <h3 class="text-5xl md:text-7xl font-headline font-normal text-[#111] mb-6 italic">22<span
+                        class="text-4xl">+</span></h3>
                 <p class="text-primary font-subhead text-[10px] uppercase tracking-[0.3em] font-bold">Jumlah Guru</p>
             </div>
             <div class="text-center group border-0 relative">
-                <h3 class="text-5xl md:text-7xl font-headline font-normal text-[#111] mb-6 italic">15k</h3>
-                <p class="text-primary font-subhead text-[10px] uppercase tracking-[0.3em] font-bold">Jejaring Alumni</p>
+                <h3 class="text-5xl md:text-7xl font-headline font-normal text-[#111] mb-6 italic">+15k</h3>
+                <p class="text-primary font-subhead text-[10px] uppercase tracking-[0.3em] font-bold">Jejaring Alumni
+                </p>
             </div>
         </div>
     </div>
