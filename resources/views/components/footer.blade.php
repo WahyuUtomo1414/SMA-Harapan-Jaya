@@ -2,22 +2,26 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-16 px-8 py-20 max-w-7xl mx-auto font-body text-sm leading-relaxed">
         <div class="md:col-span-2 md:pr-12">
             <div class="flex items-center gap-3 mb-8">
-                <img alt="Logo" class="w-12 h-12 object-contain" src="{{ asset('images/logo.png') }}" />
-                <div class="font-headline font-bold text-2xl text-white uppercase tracking-wider">SMA Harapan Jaya</div>
+                <img alt="Logo" class="w-12 h-12 object-contain" src="{{ $sekolah?->logo ? asset('storage/' . $sekolah->logo) : asset('images/logo.png') }}" />
+                <div class="font-headline font-bold text-2xl text-white uppercase tracking-wider">{{ $sekolah?->nama ?? 'SMA Harapan Jaya' }}</div>
             </div>
             <p class="text-white mb-8 font-subhead font-light leading-loose text-xs tracking-wide uppercase max-w-md">
-                Membangun jembatan antara tradisi keunggulan dan inovasi masa depan dalam setiap langkah pendidikan.
-                Berkomitmen untuk mencetak generasi yang berintegritas dan siap bersaing secara global.
+                {{ $sekolah?->deskripsi ?? 'Membangun jembatan antara tradisi keunggulan dan inovasi masa depan dalam setiap langkah pendidikan. Berkomitmen untuk mencetak generasi yang berintegritas dan siap bersaing secara global.' }}
             </p>
             <div class="flex gap-6">
-                <!-- FontAwesome icons a la W3Schools -->
-                <a href="#" class="text-white hover:opacity-80 transition-opacity text-xl">
+                @php
+                    $sosialMedia = collect($sekolah?->sosial_media ?? []);
+                    $facebook = $sosialMedia->first(fn($item) => strtolower($item['nama'] ?? '') === 'facebook')['link'] ?? '#';
+                    $instagram = $sosialMedia->first(fn($item) => strtolower($item['nama'] ?? '') === 'instagram')['link'] ?? '#';
+                    $youtube = $sosialMedia->first(fn($item) => strtolower($item['nama'] ?? '') === 'youtube')['link'] ?? '#';
+                @endphp
+                <a href="{{ $facebook }}" class="text-white hover:opacity-80 transition-opacity text-xl">
                     <i class="fa fa-facebook-official"></i>
                 </a>
-                <a href="#" class="text-white hover:opacity-80 transition-opacity text-xl">
+                <a href="{{ $instagram }}" class="text-white hover:opacity-80 transition-opacity text-xl">
                     <i class="fa fa-instagram"></i>
                 </a>
-                <a href="#" class="text-white hover:opacity-80 transition-opacity text-xl">
+                <a href="{{ $youtube }}" class="text-white hover:opacity-80 transition-opacity text-xl">
                     <i class="fa fa-youtube-play"></i>
                 </a>
             </div>
@@ -41,21 +45,20 @@
             <ul class="space-y-5 text-white font-subhead">
                 <li class="flex items-start gap-4">
                     <span class="material-symbols-outlined text-lg">location_on</span>
-                    <span class="leading-relaxed">Jl. Daan Mogot KM 13,<br />Cengkareng, Jakarta Barat</span>
+                    <span class="leading-relaxed">{{ $sekolah?->alamat ?? 'Jl. Daan Mogot KM 13, Cengkareng, Jakarta Barat' }}</span>
                 </li>
                 <li class="flex items-center gap-4">
                     <span class="material-symbols-outlined text-lg">call</span>
-                    +62 (21) 540-1920
+                    {{ $sekolah?->no_telepon ?? '+62 (21) 540-1920' }}
                 </li>
                 <li class="flex items-center gap-4">
                     <span class="material-symbols-outlined text-lg">mail</span>
-                    info@harapanjaya.sch.id
+                    {{ $sekolah?->email ?? 'info@harapanjaya.sch.id' }}
                 </li>
             </ul>
         </div>
     </div>
     <div class="border-t border-white/10 py-6 px-8 text-center bg-[#41644A]">
-        <p class="text-white font-subhead text-xs uppercase tracking-widest">&copy; {{ date('Y') }} SMA Harapan
-            Jaya.</p>
+        <p class="text-white font-subhead text-xs uppercase tracking-widest">&copy; {{ date('Y') }} {{ $sekolah?->nama ?? 'SMA Harapan Jaya' }}.</p>
     </div>
 </footer>

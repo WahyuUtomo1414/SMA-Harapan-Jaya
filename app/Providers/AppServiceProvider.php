@@ -28,5 +28,11 @@ class AppServiceProvider extends ServiceProvider
                 use BaseModelSoftDeleteTrait;
             })->base($this);
         });
+
+        
+        view()->composer('*', function ($view) {
+            $sekolah = \App\Models\Sekolah::where('status', true)->first() ?: \App\Models\Sekolah::first();
+            $view->with('sekolah', $sekolah);
+        });
     }
 }

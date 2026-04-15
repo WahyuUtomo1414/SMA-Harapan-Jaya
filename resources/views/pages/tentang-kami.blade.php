@@ -7,4 +7,5 @@
     @include('sections.tentang-kami.visi-misi')
     @include('sections.tentang-kami.organisasi')
     @include('sections.tentang-kami.legalitas')
+    {{-- @include('sections.tentang-kami.cta') --}}
 @endsection
