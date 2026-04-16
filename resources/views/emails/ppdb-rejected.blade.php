@@ -1,38 +1,61 @@
 <x-mail::message>
-<div style="text-align: right; font-family: 'Inter', sans-serif; font-size: 12px; color: #666; margin-bottom: 20px;">
-    <strong>{{ $sekolah?->nama ?? config('app.name') }}</strong><br>
-    {{ $sekolah?->email ?? 'info@sma-harapanjaya.sch.id' }}<br>
-    Jakarta, {{ now()->translatedFormat('d F Y') }}
+{{-- Header Resmi ala NCU --}}
+<div style="border-bottom: 2px solid #111; padding-bottom: 15px; margin-bottom: 30px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="80" style="vertical-align: top;">
+                @if($sekolah?->logo)
+                    <img src="{{ asset('storage/' . $sekolah->logo) }}" width="80" alt="Logo">
+                @else
+                    <img src="{{ asset('images/logo.png') }}" width="80" alt="Logo">
+                @endif
+            </td>
+            <td style="padding-left: 20px; vertical-align: middle;">
+                <h1 style="margin: 0; font-family: 'Helvetica', Arial, sans-serif; font-size: 20px; color: #111; text-transform: uppercase; letter-spacing: 1px;">
+                    {{ $sekolah?->nama ?? config('app.name') }}
+                </h1>
+                <p style="margin: 5px 0 0 0; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px;">
+                    Panitia Penerimaan Peserta Didik Baru (PPDB)
+                </p>
+            </td>
+        </tr>
+    </table>
 </div>
 
-<div style="text-align: center; margin-bottom: 40px;">
-    <h1 style="font-family: 'Playfair Display', serif; color: #111; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid #111; display: inline-block; padding-bottom: 10px;">
-        Informasi Hasil Seleksi PPDB
-    </h1>
+<div style="font-family: 'Courier New', Courier, monospace; font-size: 14px; margin-bottom: 25px;">
+    Student: <span style="font-weight: bold;">{{ $record->nama_lengkap }}</span>
 </div>
 
-Yth. **{{ $record->nama_lengkap }}**,
-
-Dengan hormat,
-
-Terima kasih atas minat dan kepercayaan yang Anda berikan dengan mendaftarkan diri pada program Penerimaan Peserta Didik Baru (PPDB) di SMA Harapan Jaya.
-
-Kami informasikan bahwa panitia seleksi telah melakukan peninjauan secara menyeluruh terhadap seluruh dokumen dan hasil seleksi yang telah dilaksanakan. Melalui surat ini, dengan berat hati kami sampaikan bahwa untuk saat ini:
-
-<div style="text-align: center; margin: 30px 0; padding: 20px; border: 1px solid #e5e7eb; background-color: #f9fafb;">
-    <span style="font-size: 16px; font-weight: bold; color: #dc2626; text-transform: uppercase;">Pendaftaran Belum Dapat Diterima</span>
+<div style="text-align: center; margin-bottom: 30px;">
+    <h2 style="font-family: 'Helvetica', Arial, sans-serif; font-size: 18px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin: 0;">
+        INFORMASI HASIL SELEKSI PPDB
+    </h2>
 </div>
 
-Keputusan ini diambil mengingat terbatasnya kuota daya tampung siswa dan tingginya standar kompetisi pada tahun ajaran ini. Kami sangat menghargai potensi yang Anda miliki dan mendoakan kesuksesan untuk perjalanan pendidikan Anda di institusi lainnya.
+**Kepada Calon Siswa:** Kami berterima kasih atas partisipasi Anda dalam proses seleksi pendaftaran siswa baru di {{ $sekolah?->nama ?? 'sekolah kami' }}.
 
-Demikian informasi ini kami sampaikan. Atas perhatian Anda, kami ucapkan terima kasih.
+Setelah meninjau seluruh dokumen pendaftaran dan mempertimbangkan kuota yang tersedia, kami menginformasikan bahwa pendaftaran Anda saat ini **BELUM DAPAT DITERIMA** untuk tahun ajaran {{ now()->format('Y') }}/{{ now()->addYear()->format('Y') }}.
 
-Hormat kami,
+Keputusan ini bersifat final dan didasarkan pada peringkat seleksi akademik serta keterbatasan daya tampung kelas. Kami menghargai usaha yang telah Anda tunjukkan dan mendoakan kesuksesan untuk kelanjutan studi Anda di institusi pendidikan lainnya.
 
-**Panitia PPDB**<br>
-{{ $sekolah?->nama ?? config('app.name') }}
+<div style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 20px;">
+    <table width="100%">
+        <tr>
+            <td style="font-size: 12px; color: #666;">
+                Tanggal Terbit: {{ now()->translatedFormat('d F Y') }}<br>
+                Panitia Seleksi PPDB
+            </td>
+            <td style="text-align: right; vertical-align: bottom;">
+                <x-mail::button :url="config('app.url')">
+                    Halaman Utama
+                </x-mail::button>
+            </td>
+        </tr>
+    </table>
+</div>
 
-<x-mail::button :url="config('app.url')">
-Kembali ke Beranda
-</x-mail::button>
+<div style="margin-top: 30px; background-color: #f9fafb; border: 1px solid #e5e7eb; padding: 15px; font-size: 11px; color: #999;">
+    <strong>Academic Records Office:</strong><br>
+    Your application record will be stored in our database for the current academic cycle and will be purged thereafter.
+</div>
 </x-mail::message>
