@@ -19,7 +19,8 @@
                 @forelse($fasilitas as $item)
                     <div class="flex-none w-72 md:w-80 snap-start group/item">
                         <div class="relative aspect-[4/5] overflow-hidden bg-gray-100 mb-6 border border-gray-100">
-                            <img src="{{ $item->foto }}" alt="{{ $item->nama }}" 
+                            <img src="{{ Str::startsWith($item->foto, 'http') ? $item->foto : asset('storage/' . $item->foto) }}" 
+                                 alt="{{ $item->nama }}" 
                                  class="w-full h-full object-cover grayscale contrast-125 group-hover/item:grayscale-0 group-hover/item:scale-105 transition-all duration-700">
                             
                             <!-- Overlay detail on hover if needed, or keep it minimal -->
