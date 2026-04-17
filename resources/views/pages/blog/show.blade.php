@@ -92,7 +92,7 @@
                                 @foreach ($relatedBlogs as $related)
                                     <a href="{{ route('blog.show', $related->slug) }}" class="group flex gap-6 items-start">
                                         <div class="w-20 h-20 flex-shrink-0 overflow-hidden">
-                                            <img src="{{ $related->thumbnail }}"
+                                            <img src="{{ Str::startsWith($related->thumbnail, 'http') ? $related->thumbnail : asset('storage/' . $related->thumbnail) }}"
                                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                         </div>
                                         <div>
