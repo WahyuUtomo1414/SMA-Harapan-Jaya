@@ -58,6 +58,6 @@ class LoginController extends Controller
             403
         );
 
-        return redirect()->intended($user->dashboardUrl());
+        return redirect($user->dashboardUrl());
     }
 }
