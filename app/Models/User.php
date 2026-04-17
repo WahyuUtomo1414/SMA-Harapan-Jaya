@@ -6,6 +6,7 @@ namespace App\Models;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,5 +32,20 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->hasRole('super_admin');
+    }
+
+    public function dashboardUrl(): string
+    {
+        return match (true) {
+            $this->hasRole('super_admin') => url('/admin'),
+            $this->hasRole('guru') => route('guru.dashboard'),
+            $this->hasRole('murid') => route('murid.dashboard'),
+            default => route('home'),
+        };
     }
 }

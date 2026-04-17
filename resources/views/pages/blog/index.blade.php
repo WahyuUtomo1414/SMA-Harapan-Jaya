@@ -48,7 +48,7 @@
                 @foreach($blogs as $blog)
                     <article class="group flex flex-col h-full">
                         <div class="relative aspect-[4/3] overflow-hidden mb-10">
-                            <img src="{{ $blog->thumbnail }}" alt="{{ $blog->title }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                            <img src="{{ Str::startsWith($blog->thumbnail, 'http') ? $blog->thumbnail : asset('storage/' . $blog->thumbnail) }}" alt="{{ $blog->title }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                             <div class="absolute top-0 left-0 bg-white px-4 py-2 border-b border-r border-gray-100">
                                 <span class="text-primary font-subhead font-bold text-[9px] tracking-[0.2em] uppercase">{{ $blog->kategori->nama }}</span>
                             </div>

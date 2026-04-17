@@ -8,19 +8,18 @@
                 Penerimaan Peserta Didik Baru
             </span>
             <h1
-                class="text-on-surface text-5xl md:text-7xl font-headline font-normal leading-[1.05] mb-8 tracking-tight">
+                class="text-on-surface text-5xl md:text-7xl font-headline font-normal leading-[1.05] mb-10 tracking-tight">
                 Mulai <br /> <span class="italic text-primary">Langkah</span> <br /> Masa Depan.
             </h1>
-            <p
-                class="text-gray-600 text-lg font-body leading-relaxed mb-12 font-light border-l border-gray-300 pl-6 ml-1">
-                {{ $ppdb?->deskripsi ?? 'Wujudkan potensi terbaik putra-putri Anda melalui ekosistem pembelajaran yang kolaboratif, modern, dan berlandaskan nilai-nilai luhur.' }}
+            <p class="text-gray-600 text-lg font-body leading-relaxed mb-12 font-light max-w-lg">
+                {{ $ppdb?->deskripsi ?? 'Wujudkan Mimpi di Sekolah Sang Juara! SMA Harapan Jaya resmi membuka Sistem Penerimaan Murid Baru (SPMB) Tahun Pelajaran 2026-2027. Kami berpegang pada SATRIA: Solidaritas, Aktif, Tekun, Raih Impian, Amanah.' }}
             </p>
             <div class="flex flex-wrap items-center gap-8">
-                <a href="#alur"
-                    class="group relative inline-flex items-center justify-center bg-[#111] text-white px-8 py-4 font-subhead uppercase tracking-[0.2em] text-xs transition-colors hover:bg-primary">
-                    Lihat Alur
+                <a href="{{ route('ppdb.form') }}"
+                    class="group relative inline-flex items-center justify-center bg-primary text-white px-10 py-4 font-subhead uppercase tracking-[0.2em] text-xs transition-all hover:bg-[#006b35] hover:shadow-lg">
+                    Daftar Sekarang
                 </a>
-                @if($ppdb?->brosur)
+                @if ($ppdb?->brosur)
                     <a href="{{ asset('storage/' . $ppdb->brosur) }}" target="_blank"
                         class="text-primary font-subhead uppercase tracking-widest text-[11px] font-bold hover:text-[#111] transition-colors border-b border-primary/30 hover:border-[#111] pb-1">
                         Unduh Brosur
@@ -30,10 +29,11 @@
         </div>
     </div>
     <div
-        class="w-full lg:w-1/2 relative min-h-[40vh] lg:min-h-full bg-gray-100 flex items-center justify-center overflow-hidden">
-        <img alt="PPDB SMA Harapan Jaya"
-            class="w-full h-full object-cover transition-transform hover:scale-[1.05] duration-1000"
-            src="https://images.unsplash.com/photo-1523050335392-93851179ae22?q=80&w=2067&auto=format&fit=crop" />
-        <div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+        class="w-full lg:w-1/2 relative min-h-[50vh] lg:min-h-full bg-[#fffff] flex items-end justify-center overflow-hidden">
+        <div class="relative w-full h-full flex items-end justify-center">
+            <img alt="PPDB SMA Harapan Jaya"
+                class="w-auto h-auto max-h-[90%] max-w-[90%] object-contain transition-transform hover:scale-[1.02] duration-1000 block"
+                src="{{ asset('images/ppdb.png') }}" />
+        </div>
     </div>
 </section>

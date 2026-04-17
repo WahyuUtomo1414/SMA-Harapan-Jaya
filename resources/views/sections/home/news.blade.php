@@ -14,7 +14,7 @@
             @foreach($latestBlogs as $blog)
                 <a href="{{ route('blog.show', $blog->slug) }}" class="group cursor-pointer">
                     <div class="overflow-hidden mb-6 aspect-[4/3] bg-gray-100 relative">
-                        <img alt="{{ $blog->title }}" class="w-full h-full object-cover filter grayscale-[10%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" src="{{ $blog->thumbnail }}" />
+                        <img alt="{{ $blog->title }}" class="w-full h-full object-cover filter grayscale-[10%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" src="{{ Str::startsWith($blog->thumbnail, 'http') ? $blog->thumbnail : asset('storage/' . $blog->thumbnail) }}" />
                         <div class="absolute top-0 left-0 bg-primary/90 text-white font-subhead text-[9px] font-bold uppercase tracking-widest px-3 py-1">
                             {{ $blog->kategori->nama }}
                         </div>

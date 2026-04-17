@@ -56,12 +56,22 @@
                         {{ $sekolah?->alamat ?? 'Jl. Pendidikan Luhur No. 88, Kawasan Menteng, Jakarta Pusat' }}
                     </p>
                     <div class="aspect-[4/3] overflow-hidden grayscale contrast-125 border border-gray-200">
-                        @if ($sekolah?->maps)
+                        @if ($sekolah?->maps && str_contains($sekolah->maps, '<iframe'))
                             {!! $sekolah->maps !!}
                         @else
-                            <img alt="Map"
-                                class="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAivmw_rFT5mQnTM91pqbb8llLK4lJYc0kUZU-HciSoRuekNK-jsHnogTZJkLJy1W1E7cUyMbmRKa2nkVI3f_n2ws1HjRKZnpmS92en18WmVNVq23ckQ5IkRrtOyB8TRvuvq1-dCh-9lRfRGN-1EZfEZkJb7QixJgPn1T6heyraIYIv6TYx7YrAnht_BW0ltEUOdCab1FUAk0AXb2_Xx44zhWtANwkth_gBZNKh_iVvGZKZrW50SuQQMtn0JS2hIMzJFO0RlwKNDM8" />
+                            @php
+                                $addressQuery = urlencode($sekolah?->alamat ?? 'SMA Harapan Jaya Jakarta');
+                                $mapUrl = "https://maps.google.com/maps?q={$addressQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed";
+                            @endphp
+                            <iframe 
+                                src="{{ $mapUrl }}" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
                         @endif
                     </div>
                 </div>

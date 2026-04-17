@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages;
 use App\Http\Controllers\Controller;
 use App\Models\Sekolah;
 use App\Models\StrukturOrganisasi;
+use App\Models\Fasilitas;
 
 class TentangKamiController extends Controller
 {
@@ -24,6 +25,8 @@ class TentangKamiController extends Controller
         $subordinates = $organisasi->whereIn('urutan', [2, 3, 4])->sortBy('urutan')->take(3);
         $remainingStaff = $organisasi->whereNotIn('id', array_filter([$topLeader?->id, ...$subordinates->pluck('id')->toArray()]))->sortBy('urutan');
 
-        return view('pages.tentang-kami', compact('sekolah', 'topLeader', 'subordinates', 'remainingStaff'));
+        $fasilitas = Fasilitas::where('status', true)->get();
+
+        return view('pages.tentang-kami', compact('sekolah', 'topLeader', 'subordinates', 'remainingStaff', 'fasilitas'));
     }
 }

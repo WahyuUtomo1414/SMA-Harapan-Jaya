@@ -28,10 +28,16 @@
                     <span
                         class="material-symbols-outlined transform group-hover:translate-x-2 transition-transform">east</span>
                 </a>
-                <a href="#"
+                @php
+                    $waNumber = preg_replace('/[^0-9]/', '', $sekolah?->no_telepon ?? '62215401920');
+                    if (str_starts_with($waNumber, '0')) {
+                        $waNumber = '62' . substr($waNumber, 1);
+                    }
+                @endphp
+                <a href="https://wa.me/{{ $waNumber }}" target="_blank"
                     class="group relative inline-flex items-center justify-between bg-transparent border border-white/30 text-white px-8 py-5 font-subhead uppercase tracking-[0.2em] text-[11px] font-bold transition-all hover:border-white hover:bg-white/5 text-left w-full">
                     Hubungi kami
-                    {{-- <i class="fa fa-whatsapp text-4xl transform group-hover:translate-x-2 transition-transform"></i> --}}
+                    <i class="text-xl transform group-hover:translate-x-2 transition-transform"></i>
                 </a>
             </div>
         </div>

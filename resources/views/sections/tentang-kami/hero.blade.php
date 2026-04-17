@@ -21,7 +21,7 @@
         class="w-full lg:w-1/2 relative min-h-[40vh] lg:min-h-full bg-gray-100 flex items-center justify-center overflow-hidden">
         <img alt="Tentang Kami {{ $sekolah?->nama }}"
             class="w-full h-full object-cover transition-transform hover:scale-[1.05] duration-1000"
-            src="{{ $sekolah?->thumbnail ? asset('storage/' . $sekolah->thumbnail) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuB-XEPjIMxu1NoW7xczh3G-wH5EO78t7LID-2JLHEoYR0_PMsAmkH0EpqMXwF3_jTnkt_p7oOs_EetVrWqG7d958_qNz0VLFzEYLiMLLKps1nQ_RQnN3kzkR_u7mMrqpU6UBe_4j7aGj1scNNdJ7qi-ZmRUrwBHJSKFtY2rwwJ5ZQ_4xSmptSGHhhhdX1TVXqYWYTyJcF8fP6wvFuGjz2rkzW_lqFVyq5BsUEFzMdzgtSRXTg5EiWgbBnfeH7yZv9HNDn0cSOjoanc' }}" />
+            src="{{ $sekolah?->thumbnail ? asset('storage/' . $sekolah->thumbnail) : asset('images/tentang_kami_hero.png') }}" />
         <div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
     </div>
 </section>

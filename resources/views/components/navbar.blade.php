@@ -16,10 +16,25 @@
             <a class="nav-link {{ request()->routeIs('ppdb') ? 'text-primary' : 'text-gray-500 hover:text-primary' }} transition-colors duration-300 relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right hover:after:scale-x-100 hover:after:origin-bottom-left after:transition-transform after:duration-300 {{ request()->routeIs('ppdb') ? 'after:scale-x-100' : '' }} pb-1"
                 href="{{ route('ppdb') }}">PPDB</a>
         </div>
-        <button
-            class="hidden md:block bg-primary text-white border border-primary px-8 py-3 font-subhead font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-primary transition-all duration-300">
-            Daftar Sekarang
-        </button>
+        <div class="hidden md:flex items-center gap-2">
+            <a href="{{ route('ppdb') }}"
+                class="inline-flex h-10 w-40 items-center justify-center border border-primary bg-primary px-4 font-subhead text-[11px] font-bold uppercase tracking-widest text-white transition-all duration-300 hover:bg-white hover:text-primary">
+                Daftar Sekarang
+            </a>
+            @auth
+                <a href="{{ auth()->user()->dashboardUrl() }}"
+                    class="inline-flex h-10 w-40 items-center justify-center gap-2 border border-primary px-4 font-subhead text-[11px] font-bold uppercase tracking-widest text-primary transition-all duration-300 hover:bg-primary hover:text-white">
+                    <span class="material-symbols-outlined text-base">space_dashboard</span>
+                    Dashboard
+                </a>
+            @else
+                <a href="{{ route('login') }}"
+                    class="inline-flex h-10 w-40 items-center justify-center gap-2 border border-primary px-4 font-subhead text-[11px] font-bold uppercase tracking-widest text-primary transition-all duration-300 hover:bg-primary hover:text-white">
+                    <span class="material-symbols-outlined text-base">login</span>
+                    Login
+                </a>
+            @endauth
+        </div>
         <!-- Mobile Menu Icon -->
         <button id="mobile-menu-btn" class="md:hidden text-primary p-2">
             <span class="material-symbols-outlined text-3xl">menu</span>
@@ -38,10 +53,23 @@
                 href="{{ route('blog.index') }}">Berita</a>
             <a class="{{ request()->routeIs('ppdb') ? 'text-primary' : 'text-gray-500' }}"
                 href="{{ route('ppdb') }}">PPDB</a>
-            <button
-                class="bg-primary text-white border border-primary px-8 py-3 font-subhead font-bold text-xs uppercase tracking-widest w-full mt-4">
+            <a href="{{ route('ppdb') }}"
+                class="flex h-11 w-full items-center justify-center border border-primary bg-primary px-6 font-subhead text-xs font-bold uppercase tracking-widest text-white">
                 Daftar Sekarang
-            </button>
+            </a>
+            @auth
+                <a href="{{ auth()->user()->dashboardUrl() }}"
+                    class="flex h-11 w-full items-center justify-center gap-2 border border-primary px-6 font-subhead text-xs font-bold uppercase tracking-widest text-primary">
+                    <span class="material-symbols-outlined text-base">space_dashboard</span>
+                    Dashboard
+                </a>
+            @else
+                <a href="{{ route('login') }}"
+                    class="flex h-11 w-full items-center justify-center gap-2 border border-primary px-6 font-subhead text-xs font-bold uppercase tracking-widest text-primary">
+                    <span class="material-symbols-outlined text-base">login</span>
+                    Login
+                </a>
+            @endauth
         </div>
     </div>
 </nav>

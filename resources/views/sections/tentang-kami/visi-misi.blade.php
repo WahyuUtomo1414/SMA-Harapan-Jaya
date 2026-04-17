@@ -18,7 +18,7 @@
                 <div class="relative overflow-hidden group">
                     <img alt="Visi {{ $sekolah?->nama }}"
                         class="w-full aspect-[4/5] object-cover transition-transform duration-1000 group-hover:scale-105"
-                        src="{{ $sekolah?->thumbnail ? asset('storage/' . $sekolah->thumbnail) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuClSMWEdge7maIFlfsky4h21xgtc8DekIEmuEG0efFeFrK3RZAzK2gFKBqiV7PTDuVOBingAZo59A5T3GzG6ylr-XTGeFxE3r8sT2sDKe49hhYfSqTIPmYogIZwEN2xuQcPEMaUkaZa1hpuIi6Tpkuy8vMdwKNL8NO84Xx3YPZYZE7eXZbGnXBPkfZeNrz_EZ51Kb-22sJWAw6LkUKqIEI9aywtLp5XrF8pbcJ-iudRNJqZ73Z5ehG56PqPiqo1737mUFjuZ_63W0s' }}" />
+                        src="{{ $sekolah?->thumbnail ? asset('storage/' . $sekolah->thumbnail) : asset('images/tentang_kami_2.png') }}" />
                     <div class="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors duration-700"></div>
                 </div>
             </div>
