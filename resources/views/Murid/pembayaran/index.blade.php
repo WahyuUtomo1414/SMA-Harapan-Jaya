@@ -3,88 +3,126 @@
 @section('title', 'Status Pembayaran SPP')
 
 @section('content')
-<div class="animate-fade-in space-y-6 px-2 md:px-0">
-    {{-- Summary Cards --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {{-- Total Terbayar --}}
-        <div class="bg-blue-600 rounded-4xl p-8 text-white shadow-xl shadow-blue-100 relative overflow-hidden group">
-            <div class="absolute -right-5 -top-5 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"></path>
-                </svg>
-            </div>
-            <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Total Terbayar (2025/2026)</p>
-            <div class="flex items-baseline gap-2 mt-2">
-                <span class="text-xl font-bold opacity-70 italic">Rp</span>
-                <h3 class="text-4xl font-black italic">3.500.000</h3>
-            </div>
-            <p class="mt-6 text-[9px] font-black uppercase tracking-widest italic text-blue-100">7 dari 12 Bulan Lunas</p>
+<div class="animate-fade-in space-y-6 px-2 md:px-0 pb-12">
+    
+    {{-- Header & Filter --}}
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-black text-slate-800 tracking-tighter italic uppercase">Status Iuran SPP</h2>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">SIAKAD-HJ • Laporan Bulanan Siswa</p>
         </div>
-
-        {{-- Info Pembayaran Terakhir --}}
-        <div class="bg-white rounded-4xl p-8 border border-slate-100 shadow-sm md:col-span-2 flex flex-col justify-between">
-            <div>
-                {{-- PERBAIKAN DI SINI: Hanya gunakan text-blue-600 agar tidak konflik --}}
-                <h4 class="text-xl font-black uppercase tracking-tighter italic text-blue-600">Catatan Keuangan</h4>
-                <p class="text-[10px] font-black text-slate-400 mt-1 uppercase tracking-[0.2em]">Siswa hanya dapat memantau riwayat pembayaran</p>
-            </div>
-            <div class="mt-6 p-4 rounded-3xl bg-slate-50 border border-slate-100 flex items-center justify-between">
-                <div>
-                    <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Pembayaran Terakhir</p>
-                    <p class="text-sm font-black text-slate-700 italic uppercase">SPP Bulan Januari 2026</p>
-                </div>
-                <div class="text-right">
-                    <span class="px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-[9px] font-black uppercase tracking-widest">Sukses</span>
-                </div>
+        
+        {{-- Filter Tahun --}}
+        <div class="relative group">
+            <select class="appearance-none bg-white border-2 border-slate-100 text-slate-700 py-3 px-8 pr-12 rounded-2xl font-black text-[11px] uppercase tracking-widest focus:outline-none focus:border-emerald-500 transition-all cursor-pointer shadow-sm">
+                <option value="2026" selected>Tahun Kalender 2026</option>
+                <option value="2025">Tahun Kalender 2025</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-emerald-600">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path>
+                </svg>
             </div>
         </div>
     </div>
 
-    {{-- Tabel Status Per Bulan --}}
+    {{-- Summary Card --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-emerald-600 rounded-4xl p-8 text-white shadow-xl shadow-emerald-100 relative overflow-hidden group">
+            <div class="absolute -right-5 -top-5 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
+                </svg>
+            </div>
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-80">Rekapitulasi Tahun 2026</p>
+            <div class="flex items-baseline gap-2 mt-2">
+                <h3 class="text-6xl font-black italic">4<span class="text-2xl opacity-40 not-italic mx-1">/</span>12</h3>
+                <span class="text-xs font-bold opacity-80 uppercase tracking-widest">Bulan Terbayar</span>
+            </div>
+            <div class="mt-8 h-2.5 w-full bg-black/10 rounded-full overflow-hidden">
+                <div class="h-full bg-white rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(255,255,255,0.6)]" style="width: 33.3%"></div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-4xl p-8 border border-slate-100 shadow-sm md:col-span-2 flex flex-col justify-between">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h4 class="text-xl font-black uppercase tracking-tighter italic text-emerald-600">Status Kehadiran Iuran</h4>
+                    <p class="text-[10px] font-black text-slate-400 mt-1 uppercase tracking-[0.2em]">Data Berdasarkan Input Admin TU</p>
+                </div>
+                <div class="bg-emerald-50 px-4 py-2 rounded-2xl border border-emerald-100">
+                    <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Tepat Waktu</span>
+                </div>
+            </div>
+            <div class="mt-6 p-5 rounded-3xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Update Terakhir</p>
+                    <p class="text-sm font-black text-slate-700 italic uppercase">SPP April 2026 - <span class="text-emerald-600 italic">Diterima</span></p>
+                </div>
+                <svg class="w-8 h-8 text-emerald-500 opacity-20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+            </div>
+        </div>
+    </div>
+
+    {{-- Main Table: Urut Januari - Desember --}}
     <div class="bg-white rounded-4xl shadow-sm border border-slate-100 overflow-hidden">
         <div class="p-8 border-b border-slate-50">
-            <h3 class="font-black text-slate-800 uppercase text-sm tracking-[0.15em]">Riwayat Iuran SPP Tahunan</h3>
+            <div class="flex items-center gap-3">
+                <div class="w-2.5 h-10 bg-emerald-600 rounded-full shadow-lg shadow-emerald-100"></div>
+                <h3 class="font-black text-slate-800 uppercase text-sm tracking-[0.15em]">Checklist Iuran Kalender (Jan - Des)</h3>
+            </div>
         </div>
         
         <div class="overflow-x-auto">
             <table class="w-full min-w-200">
                 <thead>
-                    <tr class="bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                        <th class="px-8 py-6 text-left">Bulan</th>
-                        <th class="px-6 py-6 text-center italic">Nominal Tagihan</th>
-                        <th class="px-6 py-6 text-center italic">Tanggal Bayar</th>
-                        <th class="px-8 py-6 text-center">Status</th>
+                    <tr class="bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+                        <th class="px-8 py-6 text-left w-24">Bulan</th>
+                        <th class="px-6 py-6 text-left italic">Nama Bulan</th>
+                        <th class="px-6 py-6 text-center italic">Waktu Bayar</th>
+                        <th class="px-8 py-6 text-right">Status Pelunasan</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
                     @php
-                        $sppData = [
-                            ['bulan' => 'Juli 2025', 'nominal' => '500.000', 'tgl' => '10/07/2025', 'lunas' => true],
-                            ['bulan' => 'Agustus 2025', 'nominal' => '500.000', 'tgl' => '05/08/2025', 'lunas' => true],
-                            ['bulan' => 'September 2025', 'nominal' => '500.000', 'tgl' => '12/09/2025', 'lunas' => true],
-                            ['bulan' => 'Oktober 2025', 'nominal' => '500.000', 'tgl' => '08/10/2025', 'lunas' => true],
-                            ['bulan' => 'November 2025', 'nominal' => '500.000', 'tgl' => '15/11/2025', 'lunas' => true],
-                            ['bulan' => 'Desember 2025', 'nominal' => '500.000', 'tgl' => '02/12/2025', 'lunas' => true],
-                            ['bulan' => 'Januari 2026', 'nominal' => '500.000', 'tgl' => '07/01/2026', 'lunas' => true],
-                            ['bulan' => 'Februari 2026', 'nominal' => '500.000', 'tgl' => '-', 'lunas' => false],
-                            ['bulan' => 'Maret 2026', 'nominal' => '500.000', 'tgl' => '-', 'lunas' => false],
+                        $months = [
+                            ['01', 'Januari', '07/01/2026', true],
+                            ['02', 'Februari', '05/02/2026', true],
+                            ['03', 'Maret', '12/03/2026', true],
+                            ['04', 'April', '10/04/2026', true],
+                            ['05', 'Mei', '-', false],
+                            ['06', 'Juni', '-', false],
+                            ['07', 'Juli', '-', false],
+                            ['08', 'Agustus', '-', false],
+                            ['09', 'September', '-', false],
+                            ['10', 'Oktober', '-', false],
+                            ['11', 'November', '-', false],
+                            ['12', 'Desember', '-', false],
                         ];
                     @endphp
 
-                    @foreach($sppData as $s)
-                    <tr class="hover:bg-slate-50/30 transition-all group">
-                        <td class="px-8 py-6 font-black text-slate-700 uppercase text-sm group-hover:text-blue-600">
-                            {{ $s['bulan'] }}
+                    @foreach($months as $m)
+                    <tr class="hover:bg-emerald-50/20 transition-all group">
+                        <td class="px-8 py-6">
+                            <span class="text-xl font-black italic {{ $m[3] ? 'text-emerald-200' : 'text-slate-200' }}">
+                                {{ $m[0] }}
+                            </span>
                         </td>
-                        <td class="px-6 py-6 text-center font-bold text-slate-500">Rp {{ $s['nominal'] }}</td>
-                        <td class="px-6 py-6 text-center font-medium text-slate-400 text-xs">{{ $s['tgl'] }}</td>
-                        <td class="px-8 py-6 text-center">
-                            @if($s['lunas'])
-                                <div class="inline-block px-5 py-2 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 font-black text-[10px] uppercase tracking-widest italic">
+                        <td class="px-6 py-6 font-black text-slate-700 uppercase text-sm group-hover:text-emerald-600 transition-colors">
+                            {{ $m[1] }} 2026
+                        </td>
+                        <td class="px-6 py-6 text-center font-medium text-slate-400 text-xs italic">
+                            {{ $m[2] }}
+                        </td>
+                        <td class="px-8 py-6 text-right">
+                            @if($m[3])
+                                <div class="inline-flex items-center gap-2 px-6 py-2 rounded-2xl bg-emerald-600 text-white font-black text-[9px] uppercase tracking-widest italic shadow-lg shadow-emerald-100">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg>
                                     Lunas
                                 </div>
                             @else
-                                <div class="inline-block px-5 py-2 rounded-2xl bg-rose-50 text-rose-600 border border-rose-100 font-black text-[10px] uppercase tracking-widest italic">
+                                <div class="inline-flex items-center gap-2 px-6 py-2 rounded-2xl bg-slate-50 text-slate-400 border border-slate-100 font-black text-[9px] uppercase tracking-widest italic group-hover:border-rose-200 group-hover:text-rose-400 transition-all">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-rose-400"></div>
                                     Belum Bayar
                                 </div>
                             @endif
@@ -96,15 +134,12 @@
         </div>
     </div>
 
-    {{-- Alert Info --}}
-    <div class="bg-amber-50 rounded-3xl p-6 border border-amber-100 flex items-start gap-4">
-        <span class="text-xl">⚠️</span>
-        <div>
-            <p class="text-[10px] font-black text-amber-800 uppercase tracking-widest italic">Peringatan Sistem</p>
-            <p class="text-xs text-amber-700 font-medium mt-1 leading-relaxed">
-                Pembayaran SPP dilakukan melalui Tata Usaha (TU) atau transfer Bank. Data pada dashboard ini akan diperbarui maksimal 1x24 jam setelah proses verifikasi admin.
-            </p>
-        </div>
+    {{-- Alert --}}
+    <div class="bg-emerald-50 rounded-3xl p-6 border border-emerald-100 flex items-start gap-4">
+        <span class="text-xl">💡</span>
+        <p class="text-[11px] text-emerald-800 font-bold leading-relaxed uppercase tracking-tight">
+            Pembayaran iuran bulanan wajib diselesaikan sebelum tanggal 10 setiap bulannya untuk menghindari denda administrasi atau hambatan akses SIAKAD.
+        </p>
     </div>
 </div>
 @endsection

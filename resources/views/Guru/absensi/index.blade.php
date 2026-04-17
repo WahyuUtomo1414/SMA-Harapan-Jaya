@@ -1,151 +1,241 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Input Absensi')
+@section('title', 'Data Absensi')
 
 @section('content')
-<div class="animate-fade-in space-y-4 md:space-y-6 px-2 md:px-0">
-    
-    {{-- CARD HEADER --}}
-    <div class="bg-white rounded-4xl md:rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-slate-100">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div>
-                <h2 class="text-xl md:text-2xl font-black text-slate-800 tracking-tight uppercase">
-                    Input Absensi - {{ $info['mapel'] }}
-                </h2>
-                <div class="flex items-center gap-2 mt-1">
-                    <span class="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-[10px] font-black rounded-md uppercase">{{ $info['kelas'] }}</span>
-                    <span class="text-slate-300">•</span>
-                    <p class="text-xs md:text-sm text-slate-400 font-bold italic tracking-wide">2025/2026</p>
-                </div>
-            </div>
-            
-            <div class="group flex items-center justify-between lg:justify-start gap-3 bg-white px-5 py-3 rounded-2xl border border-slate-200 shadow-sm transition-all focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-50/50 w-full lg:w-auto">
-                <label for="tanggal" class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] border-r border-slate-100 pr-4">Tanggal</label>
-                <input type="date" form="form-absensi" name="tanggal" id="tanggal" value="{{ date('Y-m-d') }}" 
-                    class="bg-transparent border-none text-sm font-black text-slate-700 focus:ring-0 cursor-pointer p-0 text-right lg:text-left">
-            </div>
-        </div>
-    </div>
+<div class="max-w-7xl mx-auto">
 
-    {{-- FILTER & SEARCH --}}
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
-        <div class="flex items-center justify-between md:justify-start gap-4">
-            <form action="{{ route('guru.absensi') }}" method="GET" class="flex items-center gap-2 bg-white border border-slate-200 px-3 py-2 rounded-xl">
-                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest text-nowrap">Show</span>
-                <select name="limit" onchange="this.form.submit()" class="bg-transparent border-none text-xs font-black text-slate-700 focus:ring-0 cursor-pointer p-0">
-                    <option value="10" {{ request('limit') == 10 ? 'selected' : '' }}>10</option>
-                    <option value="25" {{ request('limit') == 25 ? 'selected' : '' }}>25</option>
-                    <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
-                </select>
-            </form>
-            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest text-nowrap">
-                Total: <span class="text-slate-800">{{ $info['total'] }} Siswa</span>
-            </p>
+    {{-- HEADER --}}
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <div>
+            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">
+                Data <span class="text-emerald-700">Absensi</span>
+            </h1>
+            <p class="text-slate-500 font-medium">Monitoring dan kelola kehadiran siswa harian</p>
         </div>
 
-        <form action="{{ route('guru.absensi') }}" method="GET" class="relative w-full md:w-64">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Nama/NISN..." class="pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-xs font-bold focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 transition-all w-full">
-            <svg class="w-4 h-4 absolute left-3 top-3.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        </form>
+        <a href="{{ route('guru.absensi.create') }}"
+           class="inline-flex items-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-emerald-700/20 active:scale-95">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+            </svg>
+            Tambah Absensi
+        </a>
     </div>
 
-    {{-- TABLE --}}
-    <div class="bg-white rounded-4xl md:rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden relative">
-        <form id="form-absensi" action="{{ route('guru.absensi.store') }}" method="POST">
-            @csrf
-            <div class="overflow-x-auto scrollbar-hide">
-                {{-- FIX: Menggunakan min-w-175 sesuai saran Tailwind --}}
-                <table class="w-full min-w-175">
-                    <thead>
-                        <tr class="bg-slate-50/50 border-b border-slate-100 text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                            <th class="px-6 md:px-8 py-6 text-left w-20">No</th>
-                            <th class="px-6 md:px-8 py-6 text-left sticky left-0 bg-white/95 backdrop-blur z-10">Informasi Siswa</th>
-                            <th class="px-4 py-6 text-center w-24 text-emerald-500 text-xs">Hadir</th>
-                            <th class="px-4 py-6 text-center w-24 text-amber-500 text-xs">Izin</th>
-                            <th class="px-4 py-6 text-center w-24 text-blue-500 text-xs">Sakit</th>
-                            <th class="px-4 py-6 text-center w-24 text-rose-500 text-xs">Alpha</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-50">
-                        @forelse($siswas as $index => $siswa)
-                        <tr class="group hover:bg-slate-50/50 transition-all duration-200">
-                            <td class="px-6 md:px-8 py-5 text-sm font-black text-slate-300 group-hover:text-slate-500">
-                                {{ str_pad($siswas->firstItem() + $index, 2, '0', STR_PAD_LEFT) }}
-                            </td>
-                            <td class="px-6 md:px-8 py-5 sticky left-0 bg-white/95 group-hover:bg-slate-50/95 backdrop-blur z-10 transition-colors">
-                                <div class="flex flex-col">
-                                    <span class="text-sm font-black text-slate-700 group-hover:text-indigo-600 uppercase tracking-tight truncate max-w-40 md:max-w-none">
-                                        {{ $siswa->nama }}
-                                    </span>
-                                    <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">NISN: {{ $siswa->nisn ?? '-' }}</span>
+    {{-- FILTER BOX --}}
+    <form method="GET"
+          action="{{ route('guru.absensi.index') }}"
+          class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-8 flex flex-wrap gap-4 items-end">
+
+        <div class="flex flex-col gap-1.5">
+            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Kelas</label>
+            <select name="kelas_id" class="bg-slate-50 border-slate-200 text-slate-700 rounded-xl p-2.5 focus:ring-emerald-500 focus:border-emerald-500 min-w-37.5">
+                <option value="">Semua Kelas</option>
+                @foreach($kelasList as $k)
+                    <option value="{{ $k->id }}" {{ request('kelas_id') == $k->id ? 'selected' : '' }}>
+                        {{ $k->nama ?? $k->kode }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Mata Pelajaran</label>
+            <select name="mapel_id" class="bg-slate-50 border-slate-200 text-slate-700 rounded-xl p-2.5 focus:ring-emerald-500 focus:border-emerald-500 min-w-45">
+                <option value="">Semua Mapel</option>
+                @foreach($mapelList as $m)
+                    <option value="{{ $m->id }}" {{ request('mapel_id') == $m->id ? 'selected' : '' }}>
+                        {{ $m->nama_pelajaran ?? $m->nama }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider ml-1">Tanggal</label>
+            <input type="date"
+                   name="tanggal"
+                   value="{{ request('tanggal') }}"
+                   class="bg-slate-50 border-slate-200 text-slate-700 rounded-xl p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-md shadow-emerald-700/10">
+                Filter
+            </button>
+
+            <a href="{{ route('guru.absensi.index') }}"
+               class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-6 py-2.5 rounded-xl font-bold transition-all">
+                Reset
+            </a>
+        </div>
+    </form>
+
+    {{-- TABLE AREA --}}
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50/50 border-b border-slate-100">
+                        <th class="p-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">No</th>
+                        <th class="p-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Nama Murid</th>
+                        <th class="p-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Kelas</th>
+                        <th class="p-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Mapel</th>
+                        <th class="p-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-center">Status</th>
+                        <th class="p-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-slate-50">
+                    @forelse($absensi as $i => $a)
+                    @php
+                        $kelas = optional(optional($a->jadwalPelajaran)->kelas);
+                        $mapel = optional(optional($a->jadwalPelajaran)->mataPelajaran);
+                        $detail = $a->absensiDetail->first();
+                        $status = optional($detail)->status_absen;
+                        $keterangan = $detail->keterangan ?? '-';
+                        $nama = optional($detail->murid)->nama ?? '-';
+                    @endphp
+
+                    <tr class="group hover:bg-emerald-50/30 transition-colors">
+                        <td class="p-5 text-sm text-slate-500 font-medium">{{ $i + 1 }}</td>
+                        <td class="p-5">
+                            <div class="font-bold text-slate-800">{{ $nama }}</div>
+                            <div class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">{{ \Carbon\Carbon::parse($a->tanggal)->translatedFormat('d F Y') }}</div>
+                        </td>
+                        <td class="p-5">
+                            <span class="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg text-[11px] font-bold uppercase">
+                                {{ $kelas->kode ?? $kelas->nama ?? '-' }}
+                            </span>
+                        </td>
+                        <td class="p-5 text-sm text-slate-600 font-medium">{{ $mapel->nama_pelajaran ?? $mapel->nama ?? '-' }}</td>
+
+                        <td class="p-5">
+                            <div class="flex justify-center">
+                                <span class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest
+                                {{ $status=='hadir'?'bg-emerald-100 text-emerald-700':
+                                   ($status=='izin'?'bg-blue-100 text-blue-700':
+                                   ($status=='sakit'?'bg-amber-100 text-amber-700':'bg-rose-100 text-rose-700')) }}">
+                                    {{ $status }}
+                                </span>
+                            </div>
+                        </td>
+
+                        <td class="p-5">
+                            <div class="flex items-center gap-2">
+                                <button onclick="openModal('{{ $nama }}','{{ $kelas->kode ?? $kelas->nama ?? '-' }}','{{ $mapel->nama_pelajaran ?? $mapel->nama ?? '-' }}','{{ \Carbon\Carbon::parse($a->tanggal)->format('d M Y') }}','{{ ucfirst($status) }}','{{ $keterangan }}')"
+                                        class="p-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-700 hover:text-white rounded-lg transition-all" title="Lihat Detail">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                </button>
+                                
+                                <a href="{{ route('guru.absensi.edit', $a->id) }}"
+                                   class="p-2 bg-amber-50 text-amber-700 hover:bg-amber-500 hover:text-white rounded-lg transition-all" title="Edit Data">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="p-20 text-center">
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 </div>
-                            </td>
-                            
-                            @foreach(['hadir', 'izin', 'sakit', 'alpha'] as $status)
-                            <td class="px-4 py-5 text-center">
-                                <div class="flex justify-center">
-                                    <input type="radio" name="absensi[{{ $siswa->id }}]" value="{{ $status }}" 
-                                           {{ $status == 'hadir' ? 'checked' : '' }}
-                                           class="custom-radio w-6 h-6 md:w-7 md:h-7 cursor-pointer transition-all duration-300">
-                                </div>
-                            </td>
-                            @endforeach
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6" class="px-8 py-16 text-center">
-                                <p class="text-xs font-black text-slate-300 uppercase tracking-widest">Siswa tidak ditemukan</p>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
-            {{-- FOOTER --}}
-            <div class="px-6 md:px-10 py-8 bg-slate-50/30 border-t border-slate-100 flex flex-col-reverse md:flex-row items-center justify-between gap-8">
-                <div class="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
-                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                        Data <span class="text-slate-800">{{ $siswas->firstItem() ?? 0 }}</span> - <span class="text-slate-800">{{ $siswas->lastItem() ?? 0 }}</span> dari <span class="text-slate-800">{{ $siswas->total() }}</span>
-                    </div>
-
-                    <div class="custom-pagination">
-                        {{ $siswas->links() }}
-                    </div>
-                </div>
-
-                <button type="submit" class="group w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] shadow-xl shadow-indigo-200 transition-all active:scale-95">
-                    Simpan Absensi
-                </button>
-            </div>
-        </form>
+                                <h3 class="text-slate-800 font-bold">Data tidak ditemukan</h3>
+                                <p class="text-slate-400 text-sm">Coba sesuaikan filter atau tambah data baru.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<style>
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+{{-- ================= MODAL DETAIL (THEMED) ================= --}}
+<div id="modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-100 transition-all duration-300">
+    <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="bg-white w-full max-w-md rounded-3xl overflow-hidden shadow-2xl transform transition-all">
+            <div class="bg-emerald-700 p-6 text-white relative">
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-white/50 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <h2 class="text-xl font-bold">Detail Kehadiran</h2>
+                <p class="text-emerald-100 text-xs mt-1 uppercase tracking-widest font-semibold">Informasi Absensi Murid</p>
+            </div>
 
-    .custom-radio {
-        appearance: none; -webkit-appearance: none;
-        background-color: #fff; margin: 0;
-        border: 2px solid #e2e8f0; border-radius: 9px;
-        display: grid; place-content: center; position: relative;
-    }
-    .custom-radio:hover { border-color: #6366f1; }
-    .custom-radio::before {
-        content: ""; width: 12px; height: 12px; transform: scale(0);
-        transition: 180ms transform cubic-bezier(0.34, 1.56, 0.64, 1);
-        background-color: white;
-        mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'/%3e%3c/svg%3e");
-        -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'/%3e%3c/svg%3e");
-        mask-repeat: no-repeat; mask-position: center;
-    }
-    .custom-radio:checked { background-color: #4f46e5; border-color: #4f46e5; box-shadow: 0 4px 10px -2px rgba(79, 70, 229, 0.3); }
-    .custom-radio:checked::before { transform: scale(1); }
+            <div class="p-8 space-y-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Nama Murid</p>
+                        <p id="m-nama" class="font-bold text-slate-800"></p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kelas</p>
+                        <p id="m-kelas" class="font-bold text-slate-800"></p>
+                    </div>
+                </div>
 
-    @media (max-width: 1024px) {
-        .sticky { box-shadow: 10px 0 15px -10px rgba(0,0,0,0.05); }
+                <div class="border-t border-slate-50 pt-4">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Mata Pelajaran</p>
+                    <p id="m-mapel" class="font-bold text-slate-800"></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 border-t border-slate-50 pt-4">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tanggal</p>
+                        <p id="m-tanggal" class="font-bold text-slate-800"></p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</p>
+                        <span id="m-status-pill" class="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mt-1"></span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Keterangan Tambahan</p>
+                    <p id="m-keterangan" class="text-sm text-slate-600 leading-relaxed italic"></p>
+                </div>
+
+                <button onclick="closeModal()"
+                        class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-2xl w-full transition-all shadow-lg active:scale-95">
+                    Tutup Detail
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- SCRIPT --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    window.openModal = function(nama, kelas, mapel, tanggal, status, keterangan){
+        document.getElementById('m-nama').innerText = nama;
+        document.getElementById('m-kelas').innerText = kelas;
+        document.getElementById('m-mapel').innerText = mapel;
+        document.getElementById('m-tanggal').innerText = tanggal;
+        
+        const pill = document.getElementById('m-status-pill');
+        pill.innerText = status;
+        
+        // Atur warna pill status di modal secara dinamis
+        pill.className = "inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mt-1 ";
+        const s = status.toLowerCase();
+        if(s === 'hadir') pill.classList.add('bg-emerald-100', 'text-emerald-700');
+        else if(s === 'izin') pill.classList.add('bg-blue-100', 'text-blue-700');
+        else if(s === 'sakit') pill.classList.add('bg-amber-100', 'text-amber-700');
+        else pill.classList.add('bg-rose-100', 'text-rose-700');
+
+        document.getElementById('m-keterangan').innerText = keterangan || 'Tidak ada keterangan tambahan.';
+        document.getElementById('modal').classList.remove('hidden');
     }
-</style>
+
+    window.closeModal = function(){
+        document.getElementById('modal').classList.add('hidden');
+    }
+});
+</script>
 @endsection

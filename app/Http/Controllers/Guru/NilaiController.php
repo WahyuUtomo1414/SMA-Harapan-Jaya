@@ -4,24 +4,41 @@ namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
 use App\Models\Murid;
-// use App\Models\Nilai; // Dikomentar dulu karena belum dipakai di kode aktif
+use App\Models\Kelas;
+use App\Models\Nilai;
+use App\Models\MataPelajaran;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class NilaiController extends Controller
 {
+    // ==========================================
+    // 1. INDEX
+    // ==========================================
     public function index(Request $request)
     {
         $perPage = $request->input('limit', 10);
-        $search = $request->input('search');
+        $kelasId = $request->input('kelas_id');
+        $mapelId = $request->input('mapel_id') ?? 1;
+        $search  = $request->input('search');
 
-        // Mencoba ambil data asli Murid
-        $query = Murid::with(['nilai' => function($q) {
-            $q->where('mata_pelajaran_id', 1); 
-        }])->where('status', true);
+        $kelasList = Kelas::orderBy('kode')->get();
+        $mapelList = MataPelajaran::orderBy('nama')->get();
+
+        $query = Murid::with([
+                'nilai' => function ($q) use ($mapelId) {
+                    $q->where('mata_pelajaran_id', $mapelId);
+                },
+                'kelas'
+            ])
+            ->where('status', true);
+
+        if ($kelasId) {
+            $query->where('kelas_id', $kelasId);
+        }
 
         if ($search) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('nama', 'LIKE', "%{$search}%")
                   ->orWhere('nisn', 'LIKE', "%{$search}%");
             });
@@ -29,57 +46,157 @@ class NilaiController extends Controller
 
         $siswas = $query->paginate($perPage)->withQueryString();
 
-        // LOGIKA DUMMY (Aktif selama DB Murid kosong)
-        if ($siswas->isEmpty() && !$search) {
-            $dummyData = collect([
-                (object) ['id' => 1, 'nama' => 'Ahmad Rizki (Dummy)', 'nisn' => '002341', 'tugas' => 85, 'uts' => 90, 'uas' => 88],
-                (object) ['id' => 2, 'nama' => 'Anisa Putri (Dummy)', 'nisn' => '002342', 'tugas' => 80, 'uts' => 85, 'uas' => 90],
-                (object) ['id' => 3, 'nama' => 'Budi Santoso (Dummy)', 'nisn' => '002343', 'tugas' => 75, 'uts' => 80, 'uas' => 85],
-                (object) ['id' => 4, 'nama' => 'Citra Lestari (Dummy)', 'nisn' => '002344', 'tugas' => 90, 'uts' => 95, 'uas' => 92],
-                (object) ['id' => 5, 'nama' => 'Dimas Pratama (Dummy)', 'nisn' => '002345', 'tugas' => 70, 'uts' => 75, 'uas' => 80],
-            ]);
-
-            $siswas = new LengthAwarePaginator(
-                $dummyData, $dummyData->count(), $perPage, 1, 
-                ['path' => $request->url(), 'query' => $request->query()]
-            );
-        }
-
         $info = [
-            'kelas' => 'X IPA 1',
-            'mapel' => 'Matematika',
+            'kelas' => $kelasId ? (Kelas::find($kelasId)?->kode ?? '-') : 'SEMUA KELAS',
+            'mapel' => MataPelajaran::find($mapelId)?->nama ?? 'Mapel',
             'semester' => 'Genap',
             'total' => $siswas->total()
         ];
 
-        return view('guru.nilai.index', compact('siswas', 'info'));
+        return view('guru.nilai.index', compact('siswas', 'info', 'kelasList', 'mapelList'));
     }
 
+    // ==========================================
+    // 2. CREATE
+    // ==========================================
+    public function create(Request $request)
+    {
+        $kelasId = $request->input('kelas_id');
+        $mapelId = $request->input('mapel_id') ?? 1;
+        $search  = $request->input('search');
+
+        $kelasList = Kelas::orderBy('kode')->get();
+
+        $query = Murid::with([
+                'nilai' => function ($q) use ($mapelId) {
+                    $q->where('mata_pelajaran_id', $mapelId);
+                },
+                'kelas'
+            ])
+            ->where('status', true);
+
+        if ($kelasId) {
+            $query->where('kelas_id', $kelasId);
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'LIKE', "%{$search}%")
+                  ->orWhere('nisn', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $siswas = $query->paginate(100)->withQueryString();
+
+        $info = [
+            'kelas' => $kelasId ? (Kelas::find($kelasId)?->kode ?? '-') : 'SEMUA KELAS',
+            'mapel' => MataPelajaran::find($mapelId)?->nama ?? 'Mapel',
+            'semester' => 'Genap',
+            'total' => $siswas->total()
+        ];
+
+        return view('guru.nilai.create', compact('siswas', 'info', 'kelasList'));
+    }
+
+    // ==========================================
+    // 3. STORE (FIX GURU NULL)
+    // ==========================================
     public function store(Request $request)
     {
-        $request->validate(['nilai' => 'required|array']);
+        $request->validate([
+            'nilai' => 'required|array'
+        ]);
 
-        /**
-         * NOTE: Logika simpan dimatikan sementara agar tidak Integrity Constraint Error.
-         * Jika tabel mata_pelajaran & guru sudah siap, silakan buka komentar di bawah.
-         */
-        /*
+        $mapelId = $request->input('mapel_id') ?? 1;
+
+        // 🔥 FIX: jangan sampai null
+        $guruId = Auth::id() ?? 1;
+
         foreach ($request->nilai as $muridId => $skor) {
+
             $tugas = $skor['tugas'] ?? 0;
-            $uts = $skor['uts'] ?? 0;
-            $uas = $skor['uas'] ?? 0;
+            $uts   = $skor['uts'] ?? 0;
+            $uas   = $skor['uas'] ?? 0;
+
             $total = ($tugas * 0.3) + ($uts * 0.3) + ($uas * 0.4);
 
-            \App\Models\Nilai::updateOrCreate(
-                ['murid_id' => $muridId, 'mata_pelajaran_id' => 1],
+            Nilai::updateOrCreate(
                 [
-                    'tugas' => $tugas, 'uts' => $uts, 'uas' => $uas,
-                    'total_nilai' => $total, 'guru_id' => 1, 'status' => true
+                    'murid_id' => $muridId,
+                    'mata_pelajaran_id' => $mapelId
+                ],
+                [
+                    'tugas' => $tugas,
+                    'uts' => $uts,
+                    'uas' => $uas,
+                    'total_nilai' => $total,
+                    'guru_id' => $guruId, // 🔥 FIX
+                    'status' => true
                 ]
             );
         }
-        */
 
-        return redirect()->back()->with('success', 'Berhasil! Nilai dihitung secara real-time (Mode Demo).');
+        return redirect()->route('guru.nilai.index')
+            ->with('success', 'Semua nilai berhasil disimpan!');
+    }
+
+    // ==========================================
+    // 4. EDIT
+    // ==========================================
+    public function edit($id)
+    {
+        $mapelId = 1;
+
+        $siswa = Murid::with([
+            'nilai' => function ($q) use ($mapelId) {
+                $q->where('mata_pelajaran_id', $mapelId);
+            },
+            'kelas'
+        ])->findOrFail($id);
+
+        $info = [
+            'kelas' => $siswa->kelas?->kode ?? '-',
+            'mapel' => MataPelajaran::find($mapelId)?->nama ?? 'Mapel',
+            'semester' => 'Genap',
+        ];
+
+        return view('guru.nilai.edit', compact('siswa', 'info'));
+    }
+
+    // ==========================================
+    // 5. UPDATE (FIX GURU NULL)
+    // ==========================================
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'tugas' => 'required|numeric|min:0|max:100',
+            'uts'   => 'required|numeric|min:0|max:100',
+            'uas'   => 'required|numeric|min:0|max:100',
+        ]);
+
+        $mapelId = 1;
+
+        // 🔥 FIX: jangan null
+        $guruId = Auth::id() ?? 1;
+
+        $total = ($request->tugas * 0.3) + ($request->uts * 0.3) + ($request->uas * 0.4);
+
+        Nilai::updateOrCreate(
+            [
+                'murid_id' => $id,
+                'mata_pelajaran_id' => $mapelId
+            ],
+            [
+                'tugas' => $request->tugas,
+                'uts' => $request->uts,
+                'uas' => $request->uas,
+                'total_nilai' => $total,
+                'guru_id' => $guruId, // 🔥 FIX
+                'status' => true
+            ]
+        );
+
+        return redirect()->route('guru.nilai.index')
+            ->with('success', 'Nilai berhasil diperbarui!');
     }
 }

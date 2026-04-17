@@ -1,21 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
-// Import Public Controllers
+// Controllers
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\TentangKamiController;
 use App\Http\Controllers\Pages\PpdbController;
 
-// Import Guru Controllers
 use App\Http\Controllers\Guru\DashboardController as GuruDashboard;
 use App\Http\Controllers\Guru\AbsensiController as GuruAbsensi;
 use App\Http\Controllers\Guru\NilaiController as GuruNilai;
 use App\Http\Controllers\Guru\MuridController as GuruMurid;
 use App\Http\Controllers\Guru\JadwalController as GuruJadwal;
 
-// Import Murid Controllers
 use App\Http\Controllers\Murid\DashboardController as MuridDashboard;
 use App\Http\Controllers\Murid\NilaiController as MuridNilai;
 use App\Http\Controllers\Murid\AbsensiController as MuridAbsensi;
@@ -23,11 +22,13 @@ use App\Http\Controllers\Murid\PembayaranController as MuridPembayaran;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - SMA Harapan Jaya
+| WEB ROUTES
 |--------------------------------------------------------------------------
 */
 
-// --- 1. PUBLIC ROUTES ---
+// =====================
+// PUBLIC
+// =====================
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang-sekolah', [TentangKamiController::class, 'index'])->name('tentang-kami');
 Route::get('/ppdb', [PpdbController::class, 'index'])->name('ppdb');
@@ -38,22 +39,43 @@ Route::prefix('blog')->name('blog.')->group(function () {
 });
 
 
-// --- 2. DASHBOARD GURU ---
+// =====================
+// GURU
+// =====================
 Route::prefix('guru')->name('guru.')->group(function () {
+
     Route::get('/dashboard', [GuruDashboard::class, 'index'])->name('dashboard');
     Route::get('/data-siswa', [GuruMurid::class, 'index'])->name('data-siswa');
     Route::get('/jadwal', [GuruJadwal::class, 'index'])->name('jadwal');
-    
-    Route::get('/nilai', [GuruNilai::class, 'index'])->name('nilai');
+
+    // =====================
+    // NILAI (🔥 FULL CRUD)
+    // =====================
+    Route::get('/nilai', [GuruNilai::class, 'index'])->name('nilai.index');
+    Route::get('/nilai/create', [GuruNilai::class, 'create'])->name('nilai.create');
     Route::post('/nilai', [GuruNilai::class, 'store'])->name('nilai.store');
 
-    Route::get('/absensi', [GuruAbsensi::class, 'index'])->name('absensi');
-    Route::post('/absensi', [GuruAbsensi::class, 'store'])->name('absensi.store');
+    Route::get('/nilai/{id}/edit', [GuruNilai::class, 'edit'])->name('nilai.edit');
+    Route::put('/nilai/{id}', [GuruNilai::class, 'update'])->name('nilai.update');
+
+
+    // =====================
+    // ABSENSI
+    // =====================
+    Route::get('/absensi', [GuruAbsensi::class, 'index'])->name('absensi.index');
+    Route::get('/absensi/create', [GuruAbsensi::class, 'create'])->name('absensi.create');
+    Route::post('/absensi/store', [GuruAbsensi::class, 'store'])->name('absensi.store');
+
+    Route::get('/absensi/{id}/edit', [GuruAbsensi::class, 'edit'])->name('absensi.edit');
+    Route::put('/absensi/{id}', [GuruAbsensi::class, 'update'])->name('absensi.update');
 });
 
 
-// --- 3. DASHBOARD MURID ---
+// =====================
+// MURID
+// =====================
 Route::prefix('murid')->name('murid.')->group(function () {
+
     Route::get('/dashboard', [MuridDashboard::class, 'index'])->name('dashboard');
     Route::get('/nilai', [MuridNilai::class, 'index'])->name('nilai');
     Route::get('/absensi', [MuridAbsensi::class, 'index'])->name('absensi');
@@ -61,7 +83,13 @@ Route::prefix('murid')->name('murid.')->group(function () {
 });
 
 
-// --- 4. AUTHENTICATION TEMPORARY ---
+// =====================
+// LOGOUT
+// =====================
 Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
     return redirect('/')->with('success', 'Berhasil keluar sistem.');
 })->name('logout');
