@@ -28,11 +28,11 @@
     <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mx-2">
         <form method="GET" action="{{ route('guru.nilai.create') }}" class="grid grid-cols-1 md:grid-cols-12 gap-4">
             {{-- KELAS --}}
-            <div class="md:col-span-4">
+            <div class="md:col-span-3">
                 <label class="text-[10px] font-bold text-slate-400 uppercase mb-2 block ml-1 tracking-widest">Pilih Kelas</label>
                 <select name="kelas_id" onchange="this.form.submit()"
                         class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-slate-700 font-bold focus:ring-2 focus:ring-emerald-500 transition-all appearance-none cursor-pointer">
-                    <option value="">🔵 Semua Kelas</option>
+                    <option value="">Semua Kelas</option>
                     @foreach($kelasList as $k)
                         <option value="{{ $k->id }}" {{ request('kelas_id') == $k->id ? 'selected' : '' }}>
                             Kelas {{ $k->kode }}
@@ -41,8 +41,20 @@
                 </select>
             </div>
 
+            <div class="md:col-span-3">
+                <label class="text-[10px] font-bold text-slate-400 uppercase mb-2 block ml-1 tracking-widest">Mata Pelajaran</label>
+                <select name="mapel_id" onchange="this.form.submit()"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-slate-700 font-bold focus:ring-2 focus:ring-emerald-500 transition-all appearance-none cursor-pointer">
+                    @foreach($mapelList as $m)
+                        <option value="{{ $m->id }}" {{ request('mapel_id', $info['mapel_id']) == $m->id ? 'selected' : '' }}>
+                            {{ $m->nama }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             {{-- SEARCH --}}
-            <div class="md:col-span-6">
+            <div class="md:col-span-4">
                 <label class="text-[10px] font-bold text-slate-400 uppercase mb-2 block ml-1 tracking-widest">Cari Siswa</label>
                 <div class="relative">
                     <input type="text" name="search" value="{{ request('search') }}"

@@ -56,7 +56,23 @@ class NilaiController extends Controller
             ->whereIn('id', $this->taughtSubjectIds($guruId, $kelasId ? (int) $kelasId : null))
             ->orderBy('nama')
             ->get();
-        $mapelId = (int) ($request->input('mapel_id') ?: $mapelList->first()?->id);
+        $mapelId = $request->input('mapel_id') ? (int) $request->input('mapel_id') : $mapelList->first()?->id;
+
+        if ($mapelId && ! $mapelList->pluck('id')->contains((int) $mapelId)) {
+            abort(403);
+        }
+
+        $studentKelasIds = $kelasId
+            ? collect([(int) $kelasId])
+            : Kelas::query()
+                ->whereHas('jadwalPelajaran', function ($q) use ($guruId, $mapelId) {
+                    $q->where('guru_id', $guruId);
+
+                    if ($mapelId) {
+                        $q->where('mata_pelajaran_id', $mapelId);
+                    }
+                })
+                ->pluck('id');
 
         $query = Murid::with([
                 'nilai' => function ($q) use ($mapelId, $guruId) {
@@ -65,12 +81,8 @@ class NilaiController extends Controller
                 },
                 'kelas'
             ])
-            ->whereIn('kelas_id', $allowedKelasIds)
+            ->whereIn('kelas_id', $studentKelasIds)
             ->where('status', true);
-
-        if ($kelasId) {
-            $query->where('kelas_id', $kelasId);
-        }
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -83,7 +95,7 @@ class NilaiController extends Controller
 
         $info = [
             'kelas' => $kelasId ? (Kelas::find($kelasId)?->kode ?? '-') : 'SEMUA KELAS',
-            'mapel' => MataPelajaran::find($mapelId)?->nama ?? 'Mapel',
+            'mapel' => $mapelId ? (MataPelajaran::find($mapelId)?->nama ?? 'Mapel') : '-',
             'mapel_id' => $mapelId,
             'semester' => 'Genap',
             'total' => $siswas->total()
@@ -115,7 +127,23 @@ class NilaiController extends Controller
             ->whereIn('id', $this->taughtSubjectIds($guruId, $kelasId ? (int) $kelasId : null))
             ->orderBy('nama')
             ->get();
-        $mapelId = (int) ($request->input('mapel_id') ?: $mapelList->first()?->id);
+        $mapelId = $request->input('mapel_id') ? (int) $request->input('mapel_id') : $mapelList->first()?->id;
+
+        if ($mapelId && ! $mapelList->pluck('id')->contains((int) $mapelId)) {
+            abort(403);
+        }
+
+        $studentKelasIds = $kelasId
+            ? collect([(int) $kelasId])
+            : Kelas::query()
+                ->whereHas('jadwalPelajaran', function ($q) use ($guruId, $mapelId) {
+                    $q->where('guru_id', $guruId);
+
+                    if ($mapelId) {
+                        $q->where('mata_pelajaran_id', $mapelId);
+                    }
+                })
+                ->pluck('id');
 
         $query = Murid::with([
                 'nilai' => function ($q) use ($mapelId, $guruId) {
@@ -124,12 +152,8 @@ class NilaiController extends Controller
                 },
                 'kelas'
             ])
-            ->whereIn('kelas_id', $allowedKelasIds)
+            ->whereIn('kelas_id', $studentKelasIds)
             ->where('status', true);
-
-        if ($kelasId) {
-            $query->where('kelas_id', $kelasId);
-        }
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -142,7 +166,7 @@ class NilaiController extends Controller
 
         $info = [
             'kelas' => $kelasId ? (Kelas::find($kelasId)?->kode ?? '-') : 'SEMUA KELAS',
-            'mapel' => MataPelajaran::find($mapelId)?->nama ?? 'Mapel',
+            'mapel' => $mapelId ? (MataPelajaran::find($mapelId)?->nama ?? 'Mapel') : '-',
             'mapel_id' => $mapelId,
             'semester' => 'Genap',
             'total' => $siswas->total()
@@ -157,7 +181,11 @@ class NilaiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nilai' => 'required|array'
+            'mapel_id' => 'required|exists:mata_pelajaran,id',
+            'nilai' => 'required|array',
+            'nilai.*.tugas' => 'nullable|numeric|min:0|max:100',
+            'nilai.*.uts' => 'nullable|numeric|min:0|max:100',
+            'nilai.*.uas' => 'nullable|numeric|min:0|max:100',
         ]);
 
         $guruId = Auth::user()->guru_id;
@@ -187,7 +215,7 @@ class NilaiController extends Controller
                     'tugas' => $tugas,
                     'uts' => $uts,
                     'uas' => $uas,
-                    'total_nilai' => $total,
+                    'total_nilai' => (int) round($total),
                     'status' => true
                 ]
             );
@@ -203,17 +231,22 @@ class NilaiController extends Controller
     public function edit($id)
     {
         $guruId = Auth::user()->guru_id;
-        $mapelId = (int) request('mapel_id', $this->taughtSubjectIds($guruId)->first());
+        $siswa = Murid::query()
+            ->whereIn('kelas_id', $this->taughtClassIds($guruId))
+            ->findOrFail($id);
 
-        $siswa = Murid::with([
+        $allowedMapelIds = $this->taughtSubjectIds($guruId, $siswa->kelas_id);
+        $mapelId = request('mapel_id') ? (int) request('mapel_id') : $allowedMapelIds->first();
+
+        abort_unless($mapelId && $allowedMapelIds->contains((int) $mapelId), 403);
+
+        $siswa->load([
             'nilai' => function ($q) use ($mapelId, $guruId) {
                 $q->where('mata_pelajaran_id', $mapelId)
                     ->where('guru_id', $guruId);
             },
-            'kelas'
-        ])
-            ->whereIn('kelas_id', $this->taughtClassIds($guruId))
-            ->findOrFail($id);
+            'kelas',
+        ]);
 
         $info = [
             'kelas' => $siswa->kelas?->kode ?? '-',
@@ -231,13 +264,14 @@ class NilaiController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'mapel_id' => 'required|exists:mata_pelajaran,id',
             'tugas' => 'required|numeric|min:0|max:100',
             'uts'   => 'required|numeric|min:0|max:100',
             'uas'   => 'required|numeric|min:0|max:100',
         ]);
 
         $guruId = Auth::user()->guru_id;
-        $mapelId = (int) $request->input('mapel_id', $this->taughtSubjectIds($guruId)->first());
+        $mapelId = (int) $request->input('mapel_id');
         $murid = Murid::query()
             ->whereIn('kelas_id', $this->taughtClassIds($guruId))
             ->findOrFail($id);
@@ -256,7 +290,7 @@ class NilaiController extends Controller
                 'tugas' => $request->tugas,
                 'uts' => $request->uts,
                 'uas' => $request->uas,
-                'total_nilai' => $total,
+                'total_nilai' => (int) round($total),
                 'status' => true
             ]
         );

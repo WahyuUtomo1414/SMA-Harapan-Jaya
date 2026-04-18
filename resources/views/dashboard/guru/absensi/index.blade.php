@@ -93,10 +93,15 @@
                     @php
                         $kelas = optional(optional($a->jadwalPelajaran)->kelas);
                         $mapel = optional(optional($a->jadwalPelajaran)->mataPelajaran);
-                        $detail = $a->absensiDetail->first();
-                        $status = optional($detail)->status ? 'hadir' : 'alpha';
-                        $keterangan = '-';
-                        $nama = optional($detail->murid)->nama ?? '-';
+                        $details = $a->absensiDetail;
+                        $detail = $details->first();
+                        $summary = $details->countBy('status_absen');
+                        $keterangan = $details->pluck('keterangan')->filter()->implode(', ') ?: '-';
+                        $nama = $details->count().' Murid';
+                        $kelasLabel = $kelas->kode ?? $kelas->nama ?? '-';
+                        $mapelLabel = $mapel->nama_pelajaran ?? $mapel->nama ?? '-';
+                        $tanggalLabel = \Carbon\Carbon::parse($a->tanggal)->format('d M Y');
+                        $summaryLabel = 'Hadir: '.$summary->get('hadir', 0).', Izin: '.$summary->get('izin', 0).', Sakit: '.$summary->get('sakit', 0).', Alpha: '.$summary->get('alpha', 0);
                     @endphp
 
                     <tr class="group hover:bg-emerald-50/30 transition-colors">
@@ -114,18 +119,15 @@
 
                         <td class="p-5">
                             <div class="flex justify-center">
-                                <span class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest
-                                {{ $status=='hadir'?'bg-emerald-100 text-emerald-700':
-                                   ($status=='izin'?'bg-blue-100 text-blue-700':
-                                   ($status=='sakit'?'bg-amber-100 text-amber-700':'bg-rose-100 text-rose-700')) }}">
-                                    {{ $status }}
+                                <span class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-700">
+                                    H: {{ $summary->get('hadir', 0) }} / I: {{ $summary->get('izin', 0) }} / S: {{ $summary->get('sakit', 0) }} / A: {{ $summary->get('alpha', 0) }}
                                 </span>
                             </div>
                         </td>
 
                         <td class="p-5">
                             <div class="flex items-center gap-2">
-                                <button onclick="openModal('{{ $nama }}','{{ $kelas->kode ?? $kelas->nama ?? '-' }}','{{ $mapel->nama_pelajaran ?? $mapel->nama ?? '-' }}','{{ \Carbon\Carbon::parse($a->tanggal)->format('d M Y') }}','{{ ucfirst($status) }}','{{ $keterangan }}')"
+                                <button onclick="openModal(@js($nama), @js($kelasLabel), @js($mapelLabel), @js($tanggalLabel), @js($summaryLabel), @js($keterangan))"
                                         class="p-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-700 hover:text-white rounded-lg transition-all" title="Lihat Detail">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                 </button>

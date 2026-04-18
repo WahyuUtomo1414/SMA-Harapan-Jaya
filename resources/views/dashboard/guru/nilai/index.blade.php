@@ -16,7 +16,7 @@
         </div>
 
         {{-- TOMBOL INPUT NILAI (YANG TADI HILANG) --}}
-        <a href="{{ route('guru.nilai.create') }}" 
+        <a href="{{ route('guru.nilai.create', request()->only('kelas_id', 'mapel_id')) }}" 
            class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-2xl font-black shadow-xl shadow-emerald-200 transition-all active:scale-95">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/>
@@ -28,7 +28,7 @@
     {{-- FILTER SECTION --}}
     <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mx-2">
         <form method="GET" action="{{ route('guru.nilai.index') }}" class="grid grid-cols-1 md:grid-cols-12 gap-5">
-            <div class="md:col-span-4">
+            <div class="md:col-span-3">
                 <label class="text-[10px] font-bold text-slate-400 uppercase mb-2 block ml-1 tracking-widest">Kelas</label>
                 <select name="kelas_id" onchange="this.form.submit()" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-slate-700 font-bold focus:ring-2 focus:ring-emerald-500 transition-all appearance-none cursor-pointer">
                     <option value="">Semua Kelas</option>
@@ -40,14 +40,25 @@
                 </select>
             </div>
 
-            <div class="md:col-span-5">
+            <div class="md:col-span-3">
+                <label class="text-[10px] font-bold text-slate-400 uppercase mb-2 block ml-1 tracking-widest">Mata Pelajaran</label>
+                <select name="mapel_id" onchange="this.form.submit()" class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-slate-700 font-bold focus:ring-2 focus:ring-emerald-500 transition-all appearance-none cursor-pointer">
+                    @foreach($mapelList as $m)
+                        <option value="{{ $m->id }}" {{ request('mapel_id', $info['mapel_id']) == $m->id ? 'selected' : '' }}>
+                            {{ $m->nama }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="md:col-span-4">
                 <label class="text-[10px] font-bold text-slate-400 uppercase mb-2 block ml-1 tracking-widest">Pencarian</label>
                 <input type="text" name="search" value="{{ request('search') }}" 
                        placeholder="Cari Nama atau NISN..." 
                        class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-slate-700 focus:ring-2 focus:ring-emerald-500 transition-all">
             </div>
 
-            <div class="md:col-span-3 flex items-end">
+            <div class="md:col-span-2 flex items-end">
                 <button type="submit" class="w-full bg-slate-800 hover:bg-black text-white font-bold py-3.5 rounded-2xl transition-all shadow-lg flex justify-center items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     Filter Data
@@ -109,7 +120,7 @@
                                         </svg>
                                     </button>
                                     
-                                    <a href="{{ route('guru.nilai.edit', $siswa->id) }}"
+                                    <a href="{{ route('guru.nilai.edit', ['id' => $siswa->id, 'mapel_id' => $info['mapel_id']]) }}"
                                        class="p-2.5 bg-amber-50 text-amber-700 hover:bg-amber-500 hover:text-white rounded-xl transition-all" 
                                        title="Edit Data">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

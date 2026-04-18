@@ -37,7 +37,7 @@
                                name="absensi[{{ $detail->murid_id }}]"
                                value="{{ $status }}"
                                required
-                               {{ ($detail->status ? 'hadir' : 'alpha') == $status ? 'checked' : '' }}>
+                               {{ $detail->status_absen == $status ? 'checked' : '' }}>
 
                         <span class="px-3 py-1 border rounded-lg text-sm">
                             {{ $status }}
@@ -50,7 +50,7 @@
                 {{-- KETERANGAN --}}
                 <input type="text"
                        name="keterangan[{{ $detail->murid_id }}]"
-                       value=""
+                       value="{{ $detail->keterangan }}"
                        class="border rounded-lg px-3 py-1 w-60"
                        placeholder="Keterangan">
 

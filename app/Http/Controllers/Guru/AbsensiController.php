@@ -154,6 +154,8 @@ class AbsensiController extends Controller
             'mapel_id' => 'required|exists:mata_pelajaran,id',
             'tanggal' => 'required|date',
             'absensi' => 'required|array',
+            'absensi.*' => 'required|in:hadir,izin,sakit,alpha',
+            'keterangan' => 'nullable|array',
         ]);
 
         DB::beginTransaction();
@@ -166,8 +168,8 @@ class AbsensiController extends Controller
                 ->where('guru_id', $guruId)
                 ->first();
 
-            if (!$jadwal) {
-                return back()->with('error', 'Jadwal tidak ditemukan');
+            if (! $jadwal) {
+                throw new \RuntimeException('Jadwal tidak ditemukan untuk guru yang sedang login.');
             }
 
             $absensi = Absensi::create([
@@ -186,7 +188,9 @@ class AbsensiController extends Controller
                 AbsensiDetail::create([
                     'absensi_id' => $absensi->id,
                     'murid_id' => $muridId,
-                    'status' => $status === 'hadir',
+                    'status_absen' => $status,
+                    'keterangan' => $request->input("keterangan.{$muridId}"),
+                    'status' => true,
                 ]);
             }
 
@@ -226,24 +230,33 @@ class AbsensiController extends Controller
     {
         $request->validate([
             'absensi' => 'required|array',
+            'absensi.*' => 'required|in:hadir,izin,sakit,alpha',
+            'keterangan' => 'nullable|array',
         ]);
 
         DB::beginTransaction();
 
         try {
 
-            $absensi = Absensi::query()
+            $absensi = Absensi::with('jadwalPelajaran')
                 ->where('guru_id', Auth::user()->guru_id)
                 ->findOrFail($id);
 
             foreach ($request->absensi as $muridId => $status) {
+                Murid::query()
+                    ->where('id', $muridId)
+                    ->where('kelas_id', $absensi->jadwalPelajaran->kelas_id)
+                    ->firstOrFail();
+
                 AbsensiDetail::updateOrCreate(
                     [
                         'absensi_id' => $absensi->id,
-                        'murid_id' => $muridId
+                        'murid_id' => $muridId,
                     ],
                     [
-                        'status' => $status === 'hadir',
+                        'status_absen' => $status,
+                        'keterangan' => $request->input("keterangan.{$muridId}"),
+                        'status' => true,
                     ]
                 );
             }
