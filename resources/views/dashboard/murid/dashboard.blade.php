@@ -150,8 +150,8 @@
                                 <p class="font-bold text-slate-700 leading-tight mt-0.5">{{ $a->absensi->jadwalPelajaran->mataPelajaran->nama ?? '-' }}</p>
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter {{ ($a->status ?? '') == 'hadir' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-600' }}">
-                                    {{ $a->status ?? '-' }}
+                                <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter {{ ($a->status ?? false) ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-600' }}">
+                                    {{ ($a->status ?? false) ? 'Hadir' : 'Alpha' }}
                                 </span>
                             </td>
                         </tr>

@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-
 use App\Http\Controllers\Auth\LoginController;
 
 use App\Http\Controllers\BlogController;
@@ -51,14 +49,6 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
-
-Route::post('/logout', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-
-    return redirect('/')->with('success', 'Berhasil keluar sistem.');
-})->name('logout');
 
 // BLOG
 Route::prefix('blog')->name('blog.')->group(function () {

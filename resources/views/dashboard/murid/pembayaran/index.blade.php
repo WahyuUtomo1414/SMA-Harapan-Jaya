@@ -4,6 +4,28 @@
 @section('page_title', 'Status Pembayaran')
 
 @section('content')
+@php
+    $spp = $spp ?? collect();
+    $selectedYear = 2026;
+    $sppByMonth = $spp->where('tahun', $selectedYear)->keyBy('bulan');
+    $paidCount = $sppByMonth->where('status_bayar', 'lunas')->count();
+    $latestSpp = $spp->sortByDesc(fn ($item) => sprintf('%04d%02d', $item->tahun, $item->bulan))->first();
+    $monthNames = [
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember',
+    ];
+@endphp
+
 <div class="animate-fade-in space-y-6 px-2 md:px-0 pb-12">
     
     {{-- Header & Filter --}}
@@ -16,7 +38,7 @@
         {{-- Filter Tahun --}}
         <div class="relative group">
             <select class="appearance-none bg-white border-2 border-slate-100 text-slate-700 py-3 px-8 pr-12 rounded-2xl font-black text-[11px] uppercase tracking-widest focus:outline-none focus:border-emerald-500 transition-all cursor-pointer shadow-sm">
-                <option value="2026" selected>Tahun Kalender 2026</option>
+                <option value="2026" selected>Tahun Kalender {{ $selectedYear }}</option>
                 <option value="2025">Tahun Kalender 2025</option>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-emerald-600">
@@ -35,13 +57,13 @@
                     <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
                 </svg>
             </div>
-            <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-80">Rekapitulasi Tahun 2026</p>
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-80">Rekapitulasi Tahun {{ $selectedYear }}</p>
             <div class="flex items-baseline gap-2 mt-2">
-                <h3 class="text-6xl font-black italic">4<span class="text-2xl opacity-40 not-italic mx-1">/</span>12</h3>
+                <h3 class="text-6xl font-black italic">{{ $paidCount }}<span class="text-2xl opacity-40 not-italic mx-1">/</span>12</h3>
                 <span class="text-xs font-bold opacity-80 uppercase tracking-widest">Bulan Terbayar</span>
             </div>
             <div class="mt-8 h-2.5 w-full bg-black/10 rounded-full overflow-hidden">
-                <div class="h-full bg-white rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(255,255,255,0.6)]" style="width: 33.3%"></div>
+                <div class="h-full bg-white rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(255,255,255,0.6)]" style="width: {{ round(($paidCount / 12) * 100, 1) }}%"></div>
             </div>
         </div>
 
@@ -58,7 +80,16 @@
             <div class="mt-6 p-5 rounded-3xl bg-slate-50 border border-slate-100 flex items-center justify-between">
                 <div>
                     <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Update Terakhir</p>
-                    <p class="text-sm font-black text-slate-700 italic uppercase">SPP April 2026 - <span class="text-emerald-600 italic">Diterima</span></p>
+                    <p class="text-sm font-black text-slate-700 italic uppercase">
+                        @if($latestSpp)
+                            SPP {{ $monthNames[$latestSpp->bulan] ?? '-' }} {{ $latestSpp->tahun }} -
+                            <span class="{{ $latestSpp->status_bayar === 'lunas' ? 'text-emerald-600' : 'text-rose-500' }} italic">
+                                {{ $latestSpp->status_bayar === 'lunas' ? 'Diterima' : 'Belum Lunas' }}
+                            </span>
+                        @else
+                            Belum ada data SPP
+                        @endif
+                    </p>
                 </div>
                 <svg class="w-8 h-8 text-emerald-500 opacity-20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
             </div>
@@ -85,38 +116,26 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
+                    @foreach($monthNames as $monthNumber => $monthName)
                     @php
-                        $months = [
-                            ['01', 'Januari', '07/01/2026', true],
-                            ['02', 'Februari', '05/02/2026', true],
-                            ['03', 'Maret', '12/03/2026', true],
-                            ['04', 'April', '10/04/2026', true],
-                            ['05', 'Mei', '-', false],
-                            ['06', 'Juni', '-', false],
-                            ['07', 'Juli', '-', false],
-                            ['08', 'Agustus', '-', false],
-                            ['09', 'September', '-', false],
-                            ['10', 'Oktober', '-', false],
-                            ['11', 'November', '-', false],
-                            ['12', 'Desember', '-', false],
-                        ];
+                        $monthSpp = $sppByMonth->get($monthNumber);
+                        $isPaid = $monthSpp?->status_bayar === 'lunas';
+                        $paidAt = $isPaid ? $monthSpp->updated_at?->format('d/m/Y') : '-';
                     @endphp
-
-                    @foreach($months as $m)
                     <tr class="hover:bg-emerald-50/20 transition-all group">
                         <td class="px-8 py-6">
-                            <span class="text-xl font-black italic {{ $m[3] ? 'text-emerald-200' : 'text-slate-200' }}">
-                                {{ $m[0] }}
+                            <span class="text-xl font-black italic {{ $isPaid ? 'text-emerald-200' : 'text-slate-200' }}">
+                                {{ str_pad((string) $monthNumber, 2, '0', STR_PAD_LEFT) }}
                             </span>
                         </td>
                         <td class="px-6 py-6 font-black text-slate-700 uppercase text-sm group-hover:text-emerald-600 transition-colors">
-                            {{ $m[1] }} 2026
+                            {{ $monthName }} {{ $selectedYear }}
                         </td>
                         <td class="px-6 py-6 text-center font-medium text-slate-400 text-xs italic">
-                            {{ $m[2] }}
+                            {{ $paidAt }}
                         </td>
                         <td class="px-8 py-6 text-right">
-                            @if($m[3])
+                            @if($isPaid)
                                 <div class="inline-flex items-center gap-2 px-6 py-2 rounded-2xl bg-emerald-600 text-white font-black text-[9px] uppercase tracking-widest italic shadow-lg shadow-emerald-100">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg>
                                     Lunas
@@ -124,7 +143,7 @@
                             @else
                                 <div class="inline-flex items-center gap-2 px-6 py-2 rounded-2xl bg-slate-50 text-slate-400 border border-slate-100 font-black text-[9px] uppercase tracking-widest italic group-hover:border-rose-200 group-hover:text-rose-400 transition-all">
                                     <div class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-rose-400"></div>
-                                    Belum Bayar
+                                    Belum Lunas
                                 </div>
                             @endif
                         </td>

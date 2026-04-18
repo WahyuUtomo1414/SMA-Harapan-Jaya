@@ -3,51 +3,45 @@
 namespace App\Http\Controllers\Murid;
 
 use App\Http\Controllers\Controller;
-use App\Models\Murid;
 use App\Models\AbsensiDetail;
-use App\Models\Absensi;
-use App\Models\MataPelajaran;
+use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends Controller
 {
     public function index()
     {
-        // 🔥 TANPA LOGIN (ambil murid pertama)
-        $murid = Murid::first();
+        $murid = Auth::user()->murid;
 
         if (!$murid) {
             return view('dashboard.murid.absensi.index', [
                 'dataAbsenMapel' => collect(),
-                'murid' => null
+                'murid' => null,
             ]);
         }
 
-        // 🔥 ambil detail absensi murid
-        $absensiDetail = AbsensiDetail::where('murid_id', $murid->id)->get();
+        $absensiDetail = AbsensiDetail::with([
+            'absensi.jadwalPelajaran.mataPelajaran',
+            'absensi.jadwalPelajaran.kelas',
+            'absensi.guru',
+        ])
+            ->where('murid_id', $murid->id)
+            ->get();
 
-        // 🔥 ambil absensi utama
-        $absensiIds = $absensiDetail->pluck('absensi_id')->unique();
-
-        $absensiUtama = Absensi::whereIn('id', $absensiIds)->get()->keyBy('id');
-
-        // 🔥 group per absensi
-        $dataAbsenMapel = $absensiDetail->groupBy('absensi_id')->map(function ($items, $absensi_id) use ($absensiUtama) {
-
-            $absensi = $absensiUtama[$absensi_id] ?? null;
-
-            // 🔥 FIX AMAN NULL
-            $mapel = $absensi ? MataPelajaran::find($absensi->mata_pelajaran_id) : null;
-            $namaMapel = $mapel->nama ?? '-';
-
+        $dataAbsenMapel = $absensiDetail->groupBy(
+            fn (AbsensiDetail $detail): string => (string) ($detail->absensi?->jadwalPelajaran?->mata_pelajaran_id ?? 'unknown')
+        )->map(function ($items) {
+            $first = $items->first();
             $total = $items->count();
-            $hadir = $items->where('status', 1)->count();
+            $hadir = $items->where('status', true)->count();
             $non = $total - $hadir;
 
             return [
-                'nama' => $namaMapel,
+                'nama' => $first?->absensi?->jadwalPelajaran?->mataPelajaran?->nama ?? '-',
                 'total' => $total,
                 'hadir' => $hadir,
                 'non' => $non,
+                'sakit' => 0,
+                'izin' => 0,
                 'persen' => $total ? round(($hadir / $total) * 100) : 0,
             ];
         })->values();
