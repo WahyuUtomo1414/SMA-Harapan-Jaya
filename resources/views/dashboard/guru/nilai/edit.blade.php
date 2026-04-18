@@ -29,6 +29,7 @@
     <form method="POST" action="{{ route('guru.nilai.update', $siswa->id) }}">
         @csrf
         @method('PUT')
+        <input type="hidden" name="mapel_id" value="{{ $info['mapel_id'] }}">
 
         <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden mx-2">
             

@@ -3,18 +3,20 @@
 namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
-use App\Models\Guru;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $guru = Guru::with([
+        $guru = Auth::user()->guru()
+            ->with([
             'jadwalPelajaran.kelas',
             'jadwalPelajaran.mataPelajaran',
             'absensi',
             'nilai.mataPelajaran'
-        ])->first();
+            ])
+            ->first();
 
         if (!$guru) {
             return view('dashboard.guru.dashboard', [

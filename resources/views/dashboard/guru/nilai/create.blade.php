@@ -66,7 +66,7 @@
         <form action="{{ route('guru.nilai.store') }}" method="POST" id="form-nilai">
             @csrf
             {{-- Hidden input untuk mapel_id jika diperlukan oleh controller --}}
-            <input type="hidden" name="mapel_id" value="{{ request('mapel_id', 1) }}">
+            <input type="hidden" name="mapel_id" value="{{ $info['mapel_id'] }}">
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">

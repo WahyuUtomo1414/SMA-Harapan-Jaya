@@ -94,8 +94,8 @@
                         $kelas = optional(optional($a->jadwalPelajaran)->kelas);
                         $mapel = optional(optional($a->jadwalPelajaran)->mataPelajaran);
                         $detail = $a->absensiDetail->first();
-                        $status = optional($detail)->status_absen;
-                        $keterangan = $detail->keterangan ?? '-';
+                        $status = optional($detail)->status ? 'hadir' : 'alpha';
+                        $keterangan = '-';
                         $nama = optional($detail->murid)->nama ?? '-';
                     @endphp
 
