@@ -45,4 +45,9 @@ class Murid extends Model
     {
         return $this->hasMany(Nilai::class, 'murid_id');
     }
+
+    public function spp(): HasMany
+    {
+        return $this->hasMany(Spp::class, 'murid_id');
+    }
 }
