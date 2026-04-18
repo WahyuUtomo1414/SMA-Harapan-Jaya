@@ -43,6 +43,20 @@ class UserForm
                     ->searchable()
                     ->native(false)
                     ->required(),
+
+                Select::make('guru_id')
+                    ->label('Guru')
+                    ->relationship('guru', 'nama')
+                    ->preload()
+                    ->searchable()
+                    ->native(false),
+
+                Select::make('murid_id')
+                    ->label('Murid')
+                    ->relationship('murid', 'nama')
+                    ->preload()
+                    ->searchable()
+                    ->native(false),
             ]);
     }
 }
