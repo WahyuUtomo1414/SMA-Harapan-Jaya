@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Murid extends Model
@@ -30,6 +31,11 @@ class Murid extends Model
         return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'murid_id');
+    }
+
     public function absensiDetail(): HasMany
     {
         return $this->hasMany(AbsensiDetail::class, 'murid_id');
@@ -38,5 +44,10 @@ class Murid extends Model
     public function nilai(): HasMany
     {
         return $this->hasMany(Nilai::class, 'murid_id');
+    }
+
+    public function spp(): HasMany
+    {
+        return $this->hasMany(Spp::class, 'murid_id');
     }
 }

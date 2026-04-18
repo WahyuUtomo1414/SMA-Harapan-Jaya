@@ -36,6 +36,16 @@ class UsersTable
                     })
                     ->searchable(),
 
+                TextColumn::make('guru.nama')
+                    ->label('Guru')
+                    ->searchable()
+                    ->toggleable(),
+
+                TextColumn::make('murid.nama')
+                    ->label('Murid')
+                    ->searchable()
+                    ->toggleable(),
+
                 TextColumn::make('email_verified_at')
                     ->label('Email Terverifikasi')
                     ->dateTime('d M Y H:i')
