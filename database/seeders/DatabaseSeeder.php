@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             MuridSeeder::class,
             JadwalPelajaranSeeder::class,
             FasilitasSeeder::class,
+            SppSeeder::class,
         ]);
     }
 }

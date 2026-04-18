@@ -2,10 +2,14 @@
 
 namespace App\Filament\Resources\Spps\Schemas;
 
+use App\Models\Murid;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 
 class SppForm
 {
@@ -13,18 +17,27 @@ class SppForm
     {
         return $schema
             ->components([
-                Select::make('murid_id')
-                    ->label('Murid')
-                    ->relationship('murid', 'nama')
+                Select::make('kelas_id')
+                    ->label('Kelas')
+                    ->relationship('kelas', 'kode')
+                    ->live()
+                    ->afterStateUpdated(fn (Set $set) => $set('murid_id', null))
                     ->preload()
                     ->searchable()
                     ->required(),
 
-                Select::make('kelas_id')
-                    ->label('Kelas')
-                    ->relationship('kelas', 'kode')
-                    ->preload()
+                Select::make('murid_id')
+                    ->label('Murid')
+                    ->options(fn (Get $get): array => filled($get('kelas_id'))
+                        ? Murid::query()
+                            ->where('kelas_id', $get('kelas_id'))
+                            ->orderBy('nama')
+                            ->pluck('nama', 'id')
+                            ->all()
+                        : [])
                     ->searchable()
+                    ->preload()
+                    ->disabled(fn (Get $get): bool => blank($get('kelas_id')))
                     ->required(),
 
                 Select::make('bulan')
@@ -57,8 +70,7 @@ class SppForm
                 Select::make('status_bayar')
                     ->label('Status Bayar')
                     ->options([
-                        'belum_bayar' => 'Belum Bayar',
-                        'cicilan' => 'Cicilan',
+                        'belum_lunas' => 'Belum Lunas',
                         'lunas' => 'Lunas',
                     ])
                     ->native(false)
@@ -69,14 +81,8 @@ class SppForm
                     ->rows(4)
                     ->columnSpanFull(),
 
-                Select::make('status')
-                    ->label('Status')
-                    ->options([
-                        true => 'Active',
-                        false => 'Non Active',
-                    ])
-                    ->native(false)
-                    ->required(),
+                Hidden::make('status')
+                    ->default(true),
             ]);
     }
 }

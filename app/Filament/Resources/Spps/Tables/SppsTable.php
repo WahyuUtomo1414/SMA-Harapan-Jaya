@@ -58,27 +58,25 @@ class SppsTable
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'lunas' => 'success',
-                        'cicilan' => 'warning',
-                        'belum_bayar' => 'danger',
+                        'belum_lunas' => 'danger',
                         default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'lunas' => 'Lunas',
-                        'cicilan' => 'Cicilan',
-                        'belum_bayar' => 'Belum Bayar',
+                        'belum_lunas' => 'Belum Lunas',
                         default => $state,
                     })
                     ->searchable(),
 
-                TextColumn::make('status')
-                    ->label('Status')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        '1' => 'success',
-                        '0' => 'danger',
-                        default => 'gray',
-                    })
-                    ->formatStateUsing(fn (string $state): string => $state === '1' ? 'Active' : 'Non Active'),
+                // TextColumn::make('status')
+                //     ->label('Status')
+                //     ->badge()
+                //     ->color(fn (string $state): string => match ($state) {
+                //         '1' => 'success',
+                //         '0' => 'danger',
+                //         default => 'gray',
+                //     })
+                //     ->formatStateUsing(fn (string $state): string => $state === '1' ? 'Active' : 'Non Active'),
 
                 TextColumn::make('createdBy.name')
                     ->label('Dibuat Oleh')
