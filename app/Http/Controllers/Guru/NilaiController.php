@@ -53,7 +53,7 @@ class NilaiController extends Controller
             'total' => $siswas->total()
         ];
 
-        return view('guru.nilai.index', compact('siswas', 'info', 'kelasList', 'mapelList'));
+        return view('dashboard.guru.nilai.index', compact('siswas', 'info', 'kelasList', 'mapelList'));
     }
 
     // ==========================================
@@ -95,7 +95,7 @@ class NilaiController extends Controller
             'total' => $siswas->total()
         ];
 
-        return view('guru.nilai.create', compact('siswas', 'info', 'kelasList'));
+        return view('dashboard.guru.nilai.create', compact('siswas', 'info', 'kelasList'));
     }
 
     // ==========================================
@@ -160,7 +160,7 @@ class NilaiController extends Controller
             'semester' => 'Genap',
         ];
 
-        return view('guru.nilai.edit', compact('siswa', 'info'));
+        return view('dashboard.guru.nilai.edit', compact('siswa', 'info'));
     }
 
     // ==========================================

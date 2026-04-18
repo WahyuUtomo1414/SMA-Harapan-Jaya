@@ -16,7 +16,7 @@ class AbsensiController extends Controller
         $murid = Murid::first();
 
         if (!$murid) {
-            return view('murid.absensi.index', [
+            return view('dashboard.murid.absensi.index', [
                 'dataAbsenMapel' => collect(),
                 'murid' => null
             ]);
@@ -52,6 +52,6 @@ class AbsensiController extends Controller
             ];
         })->values();
 
-        return view('murid.absensi.index', compact('dataAbsenMapel', 'murid'));
+        return view('dashboard.murid.absensi.index', compact('dataAbsenMapel', 'murid'));
     }
 }

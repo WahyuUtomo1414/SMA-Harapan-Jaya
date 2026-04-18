@@ -9,6 +9,6 @@ class PembayaranController extends Controller
 {
     public function index()
     {
-        return view('murid.pembayaran.index');
+        return view('dashboard.murid.pembayaran.index');
     }
 }

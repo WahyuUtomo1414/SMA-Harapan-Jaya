@@ -36,6 +36,6 @@ class MuridController extends Controller
         // 🔥 AMBIL DATA KELAS DARI DATABASE
         $kelasList = Kelas::where('status', 1)->get();
 
-        return view('guru.murid.index', compact('murids', 'kelasList'));
+        return view('dashboard.guru.murid.index', compact('murids', 'kelasList'));
     }
 }

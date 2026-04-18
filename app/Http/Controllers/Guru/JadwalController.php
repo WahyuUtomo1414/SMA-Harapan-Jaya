@@ -22,6 +22,6 @@ class JadwalController extends Controller
             'nama' => 'Guru Demo'
         ];
 
-        return view('guru.jadwal.index', compact('jadwal', 'guru'));
+        return view('dashboard.guru.jadwal.index', compact('jadwal', 'guru'));
     }
 }

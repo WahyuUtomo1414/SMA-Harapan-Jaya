@@ -36,7 +36,7 @@ class DashboardController extends Controller
         $alpha = $absensi->where('status', 'alpha')->count();
 
         // PASTIKAN: File blade ada di resources/views/murid/dashboard.blade.php
-        return view('murid.dashboard', compact(
+        return view('dashboard.murid.dashboard', compact(
             'murid',
             'nilai',
             'rataRata',

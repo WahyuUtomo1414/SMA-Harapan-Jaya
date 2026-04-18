@@ -14,6 +14,6 @@ class NilaiController extends Controller
             ->latest()
             ->get();
 
-        return view('murid.nilai.index', compact('nilai'));
+        return view('dashboard.murid.nilai.index', compact('nilai'));
     }
 }

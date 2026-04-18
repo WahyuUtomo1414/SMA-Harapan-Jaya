@@ -54,7 +54,7 @@ class AbsensiController extends Controller
 
         $absensi = $query->latest()->get();
 
-        return view('guru.absensi.index', compact(
+        return view('dashboard.guru.absensi.index', compact(
             'kelasList',
             'mapelList',
             'kelasId',
@@ -85,7 +85,7 @@ class AbsensiController extends Controller
                 ->get();
         }
 
-        return view('guru.absensi.create', compact(
+        return view('dashboard.guru.absensi.create', compact(
             'kelasList',
             'mapelList',
             'jadwalList',
@@ -159,7 +159,7 @@ class AbsensiController extends Controller
             'jadwalPelajaran.mataPelajaran'
         )->findOrFail($id);
 
-        return view('guru.absensi.edit', compact('absensi'));
+        return view('dashboard.guru.absensi.edit', compact('absensi'));
     }
 
     // =========================

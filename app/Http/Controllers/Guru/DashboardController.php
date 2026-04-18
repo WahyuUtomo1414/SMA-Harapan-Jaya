@@ -17,7 +17,7 @@ class DashboardController extends Controller
         ])->first();
 
         if (!$guru) {
-            return view('guru.dashboard', [
+            return view('dashboard.guru.dashboard', [
                 'guru' => null,
                 'jadwal' => collect(),
                 'totalJadwal' => 0,
@@ -43,7 +43,7 @@ class DashboardController extends Controller
         $maxNilai = $totalNilai > 0 ? $nilai->max('total_nilai') : 0;
         $minNilai = $totalNilai > 0 ? $nilai->min('total_nilai') : 0;
 
-        return view('guru.dashboard', compact(
+        return view('dashboard.guru.dashboard', compact(
             'guru',
             'jadwal',
             'totalJadwal',
