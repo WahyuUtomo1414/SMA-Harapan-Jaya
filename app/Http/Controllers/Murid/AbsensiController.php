@@ -32,16 +32,20 @@ class AbsensiController extends Controller
         )->map(function ($items) {
             $first = $items->first();
             $total = $items->count();
-            $hadir = $items->where('status', true)->count();
-            $non = $total - $hadir;
+            $hadir = $items->where('status_absen', 'hadir')->count();
+            $izin = $items->where('status_absen', 'izin')->count();
+            $sakit = $items->where('status_absen', 'sakit')->count();
+            $alpha = $items->where('status_absen', 'alpha')->count();
+            $non = $izin + $sakit + $alpha;
 
             return [
                 'nama' => $first?->absensi?->jadwalPelajaran?->mataPelajaran?->nama ?? '-',
                 'total' => $total,
                 'hadir' => $hadir,
                 'non' => $non,
-                'sakit' => 0,
-                'izin' => 0,
+                'sakit' => $sakit,
+                'izin' => $izin,
+                'alpha' => $alpha,
                 'persen' => $total ? round(($hadir / $total) * 100) : 0,
             ];
         })->values();

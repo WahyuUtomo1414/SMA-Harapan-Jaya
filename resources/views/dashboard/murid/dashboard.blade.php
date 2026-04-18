@@ -132,7 +132,7 @@
                     <span class="p-1.5 bg-emerald-100 text-emerald-600 rounded-lg text-sm">📅</span>
                     Presensi Terakhir
                 </h2>
-                <a href="#" class="text-[10px] font-bold text-emerald-600 hover:underline uppercase tracking-widest">Lihat Semua</a>
+                <a href="{{ route('murid.absensi') }}" class="text-[10px] font-bold text-emerald-600 hover:underline uppercase tracking-widest">Lihat Semua</a>
             </div>
             <div class="overflow-x-auto flex-1">
                 <table class="w-full text-sm">
@@ -150,8 +150,18 @@
                                 <p class="font-bold text-slate-700 leading-tight mt-0.5">{{ $a->absensi->jadwalPelajaran->mataPelajaran->nama ?? '-' }}</p>
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter {{ ($a->status ?? false) ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-600' }}">
-                                    {{ ($a->status ?? false) ? 'Hadir' : 'Alpha' }}
+                                @php
+                                    $statusAbsen = $a->status_absen ?? '-';
+                                    $statusClass = match ($statusAbsen) {
+                                        'hadir' => 'bg-emerald-100 text-emerald-700',
+                                        'izin' => 'bg-blue-100 text-blue-700',
+                                        'sakit' => 'bg-amber-100 text-amber-700',
+                                        'alpha' => 'bg-rose-100 text-rose-600',
+                                        default => 'bg-slate-100 text-slate-500',
+                                    };
+                                @endphp
+                                <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter {{ $statusClass }}">
+                                    {{ $statusAbsen }}
                                 </span>
                             </td>
                         </tr>

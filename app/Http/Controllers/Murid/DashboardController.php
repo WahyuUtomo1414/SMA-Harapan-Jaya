@@ -31,18 +31,21 @@ class DashboardController extends Controller
         $nilai = $murid->nilai ?? collect();
         $rataRata = $nilai->count() > 0 ? $nilai->avg('total_nilai') : 0;
 
-        $absensi = AbsensiDetail::with([
+        $allAbsensi = AbsensiDetail::with([
             'absensi.jadwalPelajaran.mataPelajaran',
             'absensi.jadwalPelajaran.kelas',
             'absensi.guru',
         ])
             ->where('murid_id', $murid->id)
-            ->latest()
-            ->take(5)
             ->get();
 
-        $hadir = $absensi->where('status', true)->count();
-        $alpha = $absensi->where('status', false)->count();
+        $absensi = $allAbsensi
+            ->sortByDesc(fn (AbsensiDetail $detail) => $detail->absensi?->tanggal ?? $detail->created_at)
+            ->take(5)
+            ->values();
+
+        $hadir = $allAbsensi->where('status_absen', 'hadir')->count();
+        $alpha = $allAbsensi->where('status_absen', 'alpha')->count();
 
         $spp = Spp::query()
             ->with('kelas')

@@ -8,7 +8,8 @@
     $spp = $spp ?? collect();
     $selectedYear = 2026;
     $sppByMonth = $spp->where('tahun', $selectedYear)->keyBy('bulan');
-    $paidCount = $sppByMonth->where('status_bayar', 'lunas')->count();
+    $isPaidStatus = fn ($status) => in_array(strtoupper(str_replace('_', ' ', (string) $status)), ['LUNAS'], true);
+    $paidCount = $sppByMonth->filter(fn ($item) => $isPaidStatus($item->status_bayar))->count();
     $latestSpp = $spp->sortByDesc(fn ($item) => sprintf('%04d%02d', $item->tahun, $item->bulan))->first();
     $monthNames = [
         1 => 'Januari',
@@ -83,8 +84,8 @@
                     <p class="text-sm font-black text-slate-700 italic uppercase">
                         @if($latestSpp)
                             SPP {{ $monthNames[$latestSpp->bulan] ?? '-' }} {{ $latestSpp->tahun }} -
-                            <span class="{{ $latestSpp->status_bayar === 'lunas' ? 'text-emerald-600' : 'text-rose-500' }} italic">
-                                {{ $latestSpp->status_bayar === 'lunas' ? 'Diterima' : 'Belum Lunas' }}
+                            <span class="{{ $isPaidStatus($latestSpp->status_bayar) ? 'text-emerald-600' : 'text-rose-500' }} italic">
+                                {{ $isPaidStatus($latestSpp->status_bayar) ? 'Diterima' : 'Belum Lunas' }}
                             </span>
                         @else
                             Belum ada data SPP
@@ -119,7 +120,7 @@
                     @foreach($monthNames as $monthNumber => $monthName)
                     @php
                         $monthSpp = $sppByMonth->get($monthNumber);
-                        $isPaid = $monthSpp?->status_bayar === 'lunas';
+                        $isPaid = $monthSpp && $isPaidStatus($monthSpp->status_bayar);
                         $paidAt = $isPaid ? $monthSpp->updated_at?->format('d/m/Y') : '-';
                     @endphp
                     <tr class="hover:bg-emerald-50/20 transition-all group">

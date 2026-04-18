@@ -54,7 +54,7 @@
                 <div class="p-4 rounded-3xl bg-rose-50 text-center">
                     <p class="text-[8px] font-black text-rose-400 uppercase">Alpa</p>
                     <p class="text-lg font-black text-rose-600">
-                        {{ $dataAbsenMapel->sum('non') ?? 0 }}
+                        {{ $dataAbsenMapel->sum('alpha') ?? 0 }}
                     </p>
                 </div>
 
