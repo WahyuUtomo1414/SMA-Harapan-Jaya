@@ -87,25 +87,30 @@
         <div class="flex flex-col h-full overflow-hidden relative">
             
             {{-- BRAND LOGO (Warna Hijau & Kuning) --}}
-            <div class="p-6 flex items-center gap-4 group cursor-default overflow-hidden shrink-0 border-b border-white/5">
-                <div class="relative shrink-0">
-                    <div class="absolute -inset-1 bg-amber-400 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-                    <div class="relative w-12 h-12 rounded-2xl flex items-center justify-center bg-emerald-900 border border-white/10 shadow-lg">
-                        {{-- Icon Topi Toga / Edukasi --}}
-                        <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
-                        </svg>
+            <div class="p-6 flex items-center gap-4 group cursor-default shrink-0 border-b border-white/5 overflow-hidden">
+                <div class="relative shrink-0 transition-all duration-500"
+                     :class="(sidebarOpen || mobileOpen) ? 'w-16' : 'w-10'">
+                    
+                    {{-- Efek cahaya di belakang logo --}}
+                    <div class="absolute inset-0 bg-amber-400 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                    
+                    {{-- Container Logo --}}
+                    <div class="relative aspect-square flex items-center justify-center transition-all duration-500">
+                        {{-- Gambar Logo: Ukuran mengikuti parent div --}}
+                        <img src="{{ asset('images/logo.png') }}" 
+                             alt="Logo SMA Harapan Jaya" 
+                             class="w-full h-full object-contain transform transition-all duration-500 group-hover:scale-110">
                     </div>
                 </div>
                 
-                <div class="flex flex-col transition-all duration-500" 
-                     :class="(sidebarOpen || mobileOpen) ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10 w-0'">
+                {{-- Text Label: Akan hilang halus saat sidebar ditutup --}}
+                <div class="flex flex-col transition-all duration-500 overflow-hidden" 
+                     :class="(sidebarOpen || mobileOpen) ? 'opacity-100 translate-x-0 w-auto' : 'opacity-0 -translate-x-10 w-0'">
                     <div class="flex items-center gap-1.5 whitespace-nowrap">
                         <span class="text-[10px] font-bold text-amber-400 uppercase tracking-[0.2em]">Sekolah SMA</span>
                     </div>
-                    <h1 class="text-lg font-extrabold text-white tracking-tight leading-none whitespace-nowrap">
-                        HARAPAN <span class="text-emerald-400">JAYA</span>
+                    <h1 class="text-xl font-black text-white tracking-tight leading-none whitespace-nowrap uppercase">
+                        Harapan <span class="text-emerald-400">Jaya</span>
                     </h1>
                 </div>
             </div>
