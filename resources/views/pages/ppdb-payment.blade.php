@@ -37,7 +37,65 @@
     <form method="POST" action="{{ route('ppdb.payment.store') }}" enctype="multipart/form-data" class="space-y-10">
         @csrf
 
-        {{-- ── A. Pilih Rekening Tujuan ────────────────────────────── --}}
+        {{-- ── Info Formulir & Rincian Pembayaran ─────────────────────── --}}
+        <div class="border border-gray-200 bg-white">
+            <div class="bg-gray-800 px-8 py-4 flex items-center justify-between">
+                <h2 class="text-white font-headline text-lg font-medium tracking-tight">Rincian Pembayaran</h2>
+                <span class="text-gray-300 font-subhead text-xs uppercase tracking-widest">{{ now()->translatedFormat('d F Y') }}</span>
+            </div>
+            <div class="px-8 py-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-10">
+                <div>
+                    <p class="text-xs font-subhead font-bold uppercase tracking-widest text-gray-500 mb-1">Nomor Formulir</p>
+                    <p class="font-headline font-medium text-on-surface text-base">PPDB-{{ str_pad($formPpdb->id, 5, '0', STR_PAD_LEFT) }}</p>
+                </div>
+                <div>
+                    <p class="text-xs font-subhead font-bold uppercase tracking-widest text-gray-500 mb-1">Nama Pendaftar</p>
+                    <p class="font-body text-on-surface text-base font-medium">{{ $formPpdb->nama_lengkap }}</p>
+                </div>
+                <div>
+                    <p class="text-xs font-subhead font-bold uppercase tracking-widest text-gray-500 mb-1">Jurusan</p>
+                    <p class="font-body text-on-surface text-base font-medium">{{ $formPpdb->jurusan }}</p>
+                </div>
+            </div>
+            <div class="px-8 py-6">
+                @php
+                $rincian = [
+                    ['no' => 1, 'jenis' => 'Uang Pangkal',                    'nominal' => 3500000],
+                    ['no' => 2, 'jenis' => 'SPP Bulan Juli',                  'nominal' => 250000],
+                    ['no' => 3, 'jenis' => 'Seragam Sekolah',                 'nominal' => 700000],
+                    ['no' => 4, 'jenis' => 'Kartu Pelajar dan Administrasi',  'nominal' => 100000],
+                ];
+                $total = collect($rincian)->sum('nominal');
+                @endphp
+
+                <table class="w-full border-collapse text-sm font-body">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-gray-300 px-4 py-3 text-center font-subhead font-bold uppercase tracking-wider text-xs text-gray-600 w-12">No</th>
+                            <th class="border border-gray-300 px-4 py-3 text-left font-subhead font-bold uppercase tracking-wider text-xs text-gray-600">Jenis Pembayaran</th>
+                            <th class="border border-gray-300 px-4 py-3 text-right font-subhead font-bold uppercase tracking-wider text-xs text-gray-600">Nominal (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($rincian as $item)
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="border border-gray-300 px-4 py-3 text-center text-gray-600">{{ $item['no'] }}</td>
+                            <td class="border border-gray-300 px-4 py-3 text-on-surface">{{ $item['jenis'] }}</td>
+                            <td class="border border-gray-300 px-4 py-3 text-right text-on-surface font-medium">{{ number_format($item['nominal'], 0, ',', '.') }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-gray-50">
+                            <td colspan="2" class="border border-gray-300 px-4 py-3 text-right font-subhead font-bold uppercase tracking-wider text-xs text-gray-700">Total Pembayaran</td>
+                            <td class="border border-gray-300 px-4 py-3 text-right font-headline font-bold text-on-surface text-base">{{ number_format($total, 0, ',', '.') }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+
         <div class="border border-gray-200 bg-white">
             <div class="bg-primary px-8 py-4">
                 <h2 class="text-white font-headline text-lg font-medium tracking-tight">A. Pilih Rekening Tujuan</h2>
