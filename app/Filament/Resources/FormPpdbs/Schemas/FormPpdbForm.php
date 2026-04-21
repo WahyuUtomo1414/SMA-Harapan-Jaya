@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\FormPpdbs\Schemas;
 
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -35,10 +36,11 @@ class FormPpdbForm
                             ->label('Tempat Lahir')
                             ->required()
                             ->maxLength(128),
-                        TextInput::make('tanggal_lahir')
+                        DatePicker::make('tanggal_lahir')
                             ->label('Tanggal Lahir')
-                            ->type('date')
-                            ->required(),
+                            ->required()
+                            ->native(false)
+                            ->displayFormat('d/m/Y'),
                         TextInput::make('no_hp')
                             ->label('No. HP / WhatsApp')
                             ->tel()
