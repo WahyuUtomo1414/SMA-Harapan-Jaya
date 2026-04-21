@@ -114,6 +114,41 @@
                         </td>
                     </tr>
 
+                    {{-- Info Akun Draft --}}
+                    <tr>
+                        <td style="padding: 0 35px 25px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a;">
+                                <tr>
+                                    <td style="padding: 18px 20px;">
+                                        <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold; color: #15803d; text-transform: uppercase; letter-spacing: 0.5px;">
+                                            🎉 Informasi Akun Siswa
+                                        </p>
+                                        <p style="margin: 0 0 12px 0; font-size: 13px; color: #333333; line-height: 1.6;">
+                                            Berikut adalah akses sementara untuk portal siswa Anda. Segera ganti password setelah login pertama.
+                                        </p>
+                                        <table cellpadding="0" cellspacing="0" style="background-color: #ffffff; border: 1px solid #d1fae5; width: 100%;">
+                                            <tr>
+                                                <td style="padding: 10px 15px; border-bottom: 1px solid #d1fae5;">
+                                                    <span style="font-size: 12px; color: #6b7280; display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px;">Email Login</span>
+                                                    <span style="font-size: 14px; font-weight: bold; color: #111111; font-family: monospace;">{{ $record->email }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 10px 15px;">
+                                                    <span style="font-size: 12px; color: #6b7280; display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px;">Password Sementara</span>
+                                                    <span style="font-size: 14px; font-weight: bold; color: #111111; font-family: monospace; letter-spacing: 2px;">{{ $draftPassword }}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p style="margin: 10px 0 0 0; font-size: 11px; color: #6b7280; font-style: italic;">
+                                            * Informasi akun ini bersifat sementara. Sekolah akan mengaktifkan akun Anda secara resmi saat daftar ulang.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
                     {{-- Footer --}}
                     <tr>
                         <td style="padding: 20px 35px; border-top: 1px solid #eeeeee; background-color: #f9f9f9;">
