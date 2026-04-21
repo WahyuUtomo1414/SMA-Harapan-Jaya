@@ -55,17 +55,32 @@ class FormPpdbsTable
                     ->label('No. HP')
                     ->toggleable(isToggledHiddenByDefault: true),
 
+                TextColumn::make('status_pembayaran')
+                    ->label('Status Pembayaran')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        FormPpdb::PEMBAYARAN_LUNAS => 'success',
+                        FormPpdb::PEMBAYARAN_MENUNGGU_KONFIRMASI  => 'warning',
+                        default    => 'danger',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        FormPpdb::PEMBAYARAN_LUNAS => 'Lunas',
+                        FormPpdb::PEMBAYARAN_MENUNGGU_KONFIRMASI  => 'Menunggu Konfirmasi',
+                        default    => 'Belum Bayar',
+                    })
+                    ->sortable(),
+
                 TextColumn::make('status_penerimaan')
                     ->label('Status Penerimaan')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'diterima' => 'success',
-                        'ditolak'  => 'danger',
+                        FormPpdb::STATUS_DITERIMA => 'success',
+                        FormPpdb::STATUS_DITOLAK  => 'danger',
                         default    => 'warning',  // pending
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'diterima' => 'Diterima',
-                        'ditolak'  => 'Ditolak',
+                        FormPpdb::STATUS_DITERIMA => 'Diterima',
+                        FormPpdb::STATUS_DITOLAK  => 'Ditolak',
                         default    => 'Menunggu',
                     })
                     ->sortable(),

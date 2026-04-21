@@ -170,6 +170,27 @@ class FormPpdbForm
                             ->required(),
                     ])
                     ->columnSpanFull(),
+
+                // ── D. Pembayaran ────────────────────────────────────
+                Section::make('D. Pembayaran')
+                    ->schema([
+                        Select::make('status_pembayaran')
+                            ->label('Status Pembayaran')
+                            ->options([
+                                \App\Models\FormPpdb::PEMBAYARAN_BELUM_BAYAR => 'Belum Bayar',
+                                \App\Models\FormPpdb::PEMBAYARAN_MENUNGGU_KONFIRMASI => 'Menunggu Konfirmasi',
+                                \App\Models\FormPpdb::PEMBAYARAN_LUNAS => 'Lunas',
+                            ])
+                            ->native(false)
+                            ->required(),
+                        FileUpload::make('bukti_pembayaran')
+                            ->label('Bukti Pembayaran')
+                            ->disk('public')
+                            ->directory('form-ppdb/bukti-pembayaran')
+                            ->image()
+                            ->maxSize(2048),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }
