@@ -42,10 +42,11 @@ class FormPpdbController extends Controller
             'no_hp_ortu'     => 'nullable|string|max:20',
             'alamat_ortu'    => 'nullable|string|max:512',
             // Dokumen
-            'kartu_keluarga' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'akte_kelahiran' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'ijazah'         => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'pas_foto'       => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'kartu_keluarga'   => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'akte_kelahiran'   => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ijazah'           => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'pas_foto'         => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
             'nik.unique'           => 'NIK sudah terdaftar.',
             'nik.required'         => 'NIK wajib diisi.',
@@ -66,6 +67,14 @@ class FormPpdbController extends Controller
             ->store('form-ppdb/ijazah', 'public');
         $validated['pas_foto'] = $request->file('pas_foto')
             ->store('form-ppdb/pas-foto', 'public');
+
+        if ($request->hasFile('bukti_pembayaran')) {
+            $validated['bukti_pembayaran'] = $request->file('bukti_pembayaran')
+                ->store('form-ppdb/bukti-pembayaran', 'public');
+            $validated['status_pembayaran'] = FormPpdb::PEMBAYARAN_MENUNGGU_KONFIRMASI;
+        } else {
+            $validated['status_pembayaran'] = FormPpdb::PEMBAYARAN_BELUM_BAYAR;
+        }
 
         $validated['status_penerimaan'] = FormPpdb::STATUS_PENDING;
         $validated['status'] = true;
