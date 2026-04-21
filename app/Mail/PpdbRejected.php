@@ -40,7 +40,7 @@ class PpdbRejected extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.ppdb-rejected',
+            view: 'emails.ppdb-rejected',
         );
     }
 

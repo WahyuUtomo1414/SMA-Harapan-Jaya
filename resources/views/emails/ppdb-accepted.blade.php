@@ -1,87 +1,142 @@
-<x-mail::message>
-    <div style="border-bottom: 2px solid #111; padding-bottom: 15px; margin-bottom: 30px;">
-        <table width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-                <td width="80" style="vertical-align: top;">
-                    @if ($sekolah?->logo)
-                        <img src="{{ asset('storage/' . $sekolah->logo) }}" width="80" alt="Lambang Sekolah">
-                    @else
-                        <img src="{{ asset('images/logo.png') }}" width="80" alt="Lambang Sekolah">
-                    @endif
-                </td>
-                <td style="padding-left: 20px; vertical-align: middle;">
-                    <h1
-                        style="margin: 0; font-family: Arial, sans-serif; font-size: 20px; color: #111; text-transform: uppercase; letter-spacing: 1px;">
-                        {{ $sekolah?->nama ?? config('app.name') }}
-                    </h1>
-                    <p
-                        style="margin: 5px 0 0 0; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px;">
-                        Panitia Penerimaan Peserta Didik Baru (PPDB)
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Penerimaan Peserta Didik Baru</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 30px 0;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border: 1px solid #e0e0e0;">
 
-    <div style="font-family: Arial, sans-serif; font-size: 14px; margin-bottom: 25px;">
-        Kepada Yth.<br>
-        Calon Peserta Didik: <strong>{{ $record->nama_lengkap }}</strong>
-    </div>
+                    {{-- Header Kop Surat --}}
+                    <tr>
+                        <td style="padding: 25px 35px 20px; border-bottom: 2px solid #111111;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td width="70" style="vertical-align: middle;">
+                                        @if ($sekolah?->logo)
+                                            <img src="{{ asset('storage/' . $sekolah->logo) }}" width="60" height="60" alt="Logo Sekolah" style="display: block;">
+                                        @else
+                                            <img src="{{ asset('images/logo.png') }}" width="60" height="60" alt="Logo Sekolah" style="display: block;">
+                                        @endif
+                                    </td>
+                                    <td style="padding-left: 15px; vertical-align: middle;">
+                                        <p style="margin: 0; font-size: 18px; font-weight: bold; color: #111111; text-transform: uppercase; letter-spacing: 1px;">
+                                            {{ $sekolah?->nama ?? config('app.name') }}
+                                        </p>
+                                        <p style="margin: 4px 0 0 0; font-size: 11px; color: #666666; text-transform: uppercase; letter-spacing: 1px;">
+                                            Panitia Penerimaan Peserta Didik Baru (PPDB)
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2
-            style="font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin: 0;">
-            Surat Penerimaan Peserta Didik Baru
-        </h2>
-    </div>
+                    {{-- Judul Surat --}}
+                    <tr>
+                        <td style="padding: 25px 35px 10px; text-align: center;">
+                            <p style="margin: 0; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #111111;">
+                                SURAT PENERIMAAN PESERTA DIDIK BARU
+                            </p>
+                        </td>
+                    </tr>
 
-    Dengan hormat,
+                    {{-- Sapaan --}}
+                    <tr>
+                        <td style="padding: 15px 35px 5px;">
+                            <p style="margin: 0; font-size: 14px; color: #333333; line-height: 1.6;">
+                                Kepada Yth.<br>
+                                Calon Peserta Didik: <strong>{{ $record->nama_lengkap }}</strong>
+                            </p>
+                        </td>
+                    </tr>
 
-    Berdasarkan hasil seleksi administrasi dan penilaian panitia PPDB {{ $sekolah?->nama ?? 'sekolah' }}, kami
-    menyampaikan bahwa calon peserta didik atas nama **{{ $record->nama_lengkap }}** dinyatakan **DITERIMA** sebagai
-    peserta didik baru untuk tahun ajaran {{ now()->format('Y') }}/{{ now()->addYear()->format('Y') }}.
+                    {{-- Isi Surat --}}
+                    <tr>
+                        <td style="padding: 15px 35px;">
+                            <p style="font-size: 14px; color: #333333; line-height: 1.8; margin: 0 0 15px 0;">
+                                Dengan hormat,
+                            </p>
+                            <p style="font-size: 14px; color: #333333; line-height: 1.8; margin: 0 0 15px 0;">
+                                Berdasarkan hasil seleksi administrasi dan penilaian panitia PPDB
+                                <strong>{{ $sekolah?->nama ?? 'SMA Harapan Jaya' }}</strong>, kami menyampaikan bahwa
+                                calon peserta didik atas nama <strong>{{ $record->nama_lengkap }}</strong> dinyatakan
+                                <strong style="color: #16a34a;">DITERIMA</strong> sebagai peserta didik baru untuk
+                                tahun ajaran {{ now()->format('Y') }}/{{ now()->addYear()->format('Y') }}.
+                            </p>
+                        </td>
+                    </tr>
 
-    Berikut ketentuan daftar ulang yang perlu diperhatikan:
+                    {{-- Ketentuan Daftar Ulang --}}
+                    <tr>
+                        <td style="padding: 0 35px 15px;">
+                            <p style="font-size: 14px; color: #333333; margin: 0 0 10px 0; font-weight: bold;">Ketentuan Daftar Ulang:</p>
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td width="20" style="vertical-align: top; font-size: 14px; color: #333; padding-top: 3px;">•</td>
+                                    <td style="font-size: 14px; color: #333333; line-height: 1.7; padding-bottom: 6px;">
+                                        <strong>Verifikasi dokumen:</strong> Membawa dokumen asli seperti Akta Kelahiran, Kartu Keluarga, dan Ijazah / SKL.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20" style="vertical-align: top; font-size: 14px; color: #333; padding-top: 3px;">•</td>
+                                    <td style="font-size: 14px; color: #333333; line-height: 1.7; padding-bottom: 6px;">
+                                        <strong>Tempat daftar ulang:</strong> Kantor Tata Usaha {{ $sekolah?->nama ?? 'sekolah' }}.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20" style="vertical-align: top; font-size: 14px; color: #333; padding-top: 3px;">•</td>
+                                    <td style="font-size: 14px; color: #333333; line-height: 1.7; padding-bottom: 6px;">
+                                        <strong>Waktu pelayanan:</strong> Hari kerja pukul 08.00 – 15.00 WIB.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20" style="vertical-align: top; font-size: 14px; color: #333; padding-top: 3px;">•</td>
+                                    <td style="font-size: 14px; color: #333333; line-height: 1.7; padding-bottom: 6px;">
+                                        <strong>Batas waktu:</strong> Paling lambat 7 hari setelah surel ini diterima.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 
-    * **Verifikasi dokumen:** Membawa dokumen asli seperti Akta Kelahiran, Kartu Keluarga, Ijazah atau Surat Keterangan
-    Lulus.
-    * **Tempat daftar ulang:** Kantor Tata Usaha {{ $sekolah?->nama ?? 'sekolah' }}.
-    * **Waktu pelayanan:** Hari kerja pukul 08.00 - 15.00 WIB.
-    * **Batas waktu:** Paling lambat 7 hari setelah surel ini diterima.
+                    {{-- Penutup --}}
+                    <tr>
+                        <td style="padding: 0 35px 25px;">
+                            <p style="font-size: 13px; color: #666666; line-height: 1.7; margin: 0;">
+                                Seluruh data dan dokumen yang diserahkan wajib sesuai dengan kondisi sebenarnya.
+                                Apabila di kemudian hari ditemukan ketidaksesuaian data, sekolah berhak meninjau kembali status penerimaan.
+                            </p>
+                        </td>
+                    </tr>
 
-    <div
-        style="border: 1px solid #111; padding: 12px; margin: 25px 0; text-align: center; font-family: Arial, sans-serif; font-weight: bold;">
-        NOMOR REGISTRASI: PPDB-{{ $record->id }}-{{ now()->format('Y') }}
-    </div>
+                    {{-- Footer --}}
+                    <tr>
+                        <td style="padding: 20px 35px; border-top: 1px solid #eeeeee; background-color: #f9f9f9;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="font-size: 12px; color: #888888; vertical-align: middle;">
+                                        Tanggal terbit: {{ now()->translatedFormat('d F Y') }}<br>
+                                        Panitia PPDB {{ $sekolah?->nama ?? config('app.name') }}
+                                    </td>
+                                    <td style="text-align: right; vertical-align: middle;">
+                                        <a href="{{ config('app.url') }}"
+                                            style="display: inline-block; padding: 10px 20px; background-color: #111111; color: #ffffff; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+                                            Buka Situs Sekolah
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 
-    Seluruh data dan dokumen yang diserahkan wajib sesuai dengan kondisi sebenarnya. Apabila di kemudian hari ditemukan
-    ketidaksesuaian data, sekolah berhak meninjau kembali status penerimaan.
-
-    <div style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
-        <table width="100%">
-            <tr>
-                <td style="font-size: 12px; color: #666;">
-                    Tanggal terbit: {{ now()->translatedFormat('d F Y') }}<br>
-                    Panitia PPDB {{ $sekolah?->nama ?? config('app.name') }}
-                </td>
-                <td style="text-align: right; vertical-align: bottom;">
-                    <x-mail::button :url="config('app.url')">
-                        Buka Situs Sekolah
-                    </x-mail::button>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div
-        style="margin-top: 30px; background-color: #fdf9e9; border: 1px solid #e5e7eb; padding: 15px; font-size: 11px;">
-        <strong>Catatan untuk petugas:</strong><br><br>
-        <table width="100%" style="border-collapse: collapse;">
-            <tr>
-                <td style="border-bottom: 1px solid #ccc; padding-bottom: 5px;">Nama verifikator: __________</td>
-                <td style="border-bottom: 1px solid #ccc; padding-bottom: 5px;">Status: Terverifikasi</td>
-                <td style="border-bottom: 1px solid #ccc; padding-bottom: 5px;">Tanggal: __________</td>
-            </tr>
-        </table>
-    </div>
-</x-mail::message>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

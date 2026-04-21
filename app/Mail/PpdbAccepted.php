@@ -40,7 +40,7 @@ class PpdbAccepted extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.ppdb-accepted',
+            view: 'emails.ppdb-accepted',
         );
     }
 
