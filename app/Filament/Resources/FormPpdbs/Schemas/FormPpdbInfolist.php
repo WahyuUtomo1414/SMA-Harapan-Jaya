@@ -183,6 +183,33 @@ class FormPpdbInfolist
                     ])
                     ->columns(2)
                     ->columnSpanFull(),
+
+                // ── D. Pembayaran ────────────────────────────────────────
+                Section::make('D. Pembayaran')
+                    ->schema([
+                        TextEntry::make('status_pembayaran')
+                            ->label('Status Pembayaran')
+                            ->badge()
+                            ->color(fn (?string $state): string => match ($state) {
+                                FormPpdb::PEMBAYARAN_LUNAS => 'success',
+                                FormPpdb::PEMBAYARAN_MENUNGGU_KONFIRMASI  => 'warning',
+                                default    => 'danger',
+                            })
+                            ->formatStateUsing(fn (?string $state): string => match ($state) {
+                                FormPpdb::PEMBAYARAN_LUNAS => 'Lunas',
+                                FormPpdb::PEMBAYARAN_MENUNGGU_KONFIRMASI  => 'Menunggu Konfirmasi',
+                                default    => 'Belum Bayar',
+                            }),
+                        
+                        ImageEntry::make('bukti_pembayaran')
+                            ->label('Bukti Pembayaran')
+                            ->disk('public')
+                            ->url(fn (FormPpdb $record): string => self::fileUrl($record->bukti_pembayaran))
+                            ->openUrlInNewTab()
+                            ->visible(fn (FormPpdb $record): bool => !empty($record->bukti_pembayaran)),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull(),
             ]);
     }
 }

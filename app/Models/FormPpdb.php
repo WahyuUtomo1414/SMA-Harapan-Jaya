@@ -15,6 +15,10 @@ class FormPpdb extends Model
     public const STATUS_DITERIMA = 'diterima';
     public const STATUS_DITOLAK  = 'ditolak';
 
+    public const PEMBAYARAN_BELUM_BAYAR = 'belum_bayar';
+    public const PEMBAYARAN_MENUNGGU_KONFIRMASI = 'menunggu_konfirmasi';
+    public const PEMBAYARAN_LUNAS = 'lunas';
+
     protected $table = 'form_ppdb';
 
     protected $guarded = ['id'];

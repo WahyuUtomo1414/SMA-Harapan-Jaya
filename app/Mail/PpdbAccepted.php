@@ -15,6 +15,7 @@ class PpdbAccepted extends Mailable
     use Queueable, SerializesModels;
 
     public $record;
+    public string $draftPassword;
 
     /**
      * Create a new message instance.
@@ -22,6 +23,7 @@ class PpdbAccepted extends Mailable
     public function __construct(FormPpdb $record)
     {
         $this->record = $record;
+        $this->draftPassword = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%'), 0, 16);
     }
 
     /**
@@ -40,7 +42,7 @@ class PpdbAccepted extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.ppdb-accepted',
+            view: 'emails.ppdb-accepted',
         );
     }
 

@@ -39,6 +39,9 @@ Route::get('/ppdb', [PpdbController::class, 'index'])->name('ppdb');
 Route::get('/ppdb/daftar', [FormPpdbController::class, 'create'])->name('ppdb.form');
 Route::post('/ppdb/daftar', [FormPpdbController::class, 'store'])->name('ppdb.form.store');
 
+Route::get('/ppdb/pembayaran', [FormPpdbController::class, 'payment'])->name('ppdb.payment');
+Route::post('/ppdb/pembayaran', [FormPpdbController::class, 'processPayment'])->name('ppdb.payment.store');
+
 // LOGIN
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');

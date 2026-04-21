@@ -7,22 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Ppdb extends Model
+class Rekening extends Model
 {
     use HasFactory, AuditedBySoftDelete, SoftDeletes;
 
-    protected $table = 'form_ppdb';
+    protected $table = 'rekening';
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     protected function casts(): array
     {
-        return [
-            'status' => 'boolean',
-            'alur_ppdb' => 'array',
-            'persyaratan' => 'array',
-            'timeline' => 'array',
-            'kontak' => 'array',
-        ];
+        return [];
     }
 }

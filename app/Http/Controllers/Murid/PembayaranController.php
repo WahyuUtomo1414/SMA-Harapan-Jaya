@@ -11,15 +11,22 @@ class PembayaranController extends Controller
     public function index()
     {
         $murid = Auth::user()->murid;
+
+        // 🔥 ambil tahun dari request (default tahun sekarang)
+        $selectedYear = request('tahun', now()->year);
+
         $spp = $murid
-            ? Spp::query()
-                ->with(['kelas'])
+            ? Spp::with('kelas')
                 ->where('murid_id', $murid->id)
-                ->orderByDesc('tahun')
-                ->orderByDesc('bulan')
+                ->where('tahun', $selectedYear) // ✅ SAMAKAN FILTER
+                ->orderBy('bulan') // biar urut Jan - Des
                 ->get()
             : collect();
 
-        return view('dashboard.murid.pembayaran.index', compact('murid', 'spp'));
+        return view('dashboard.murid.pembayaran.index', compact(
+            'murid',
+            'spp',
+            'selectedYear'
+        ));
     }
 }

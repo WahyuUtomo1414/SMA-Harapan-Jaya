@@ -131,11 +131,12 @@
 
                 {{-- Email --}}
                 <div>
-                    <label for="email" class="block text-xs font-subhead font-bold uppercase tracking-widest text-gray-600 mb-2">Email</label>
+                    <label for="email" class="block text-xs font-subhead font-bold uppercase tracking-widest text-gray-600 mb-2">Email <span class="text-red-500">*</span></label>
                     <input id="email" name="email" type="email"
                         value="{{ old('email') }}"
-                        placeholder="email@contoh.com (opsional)"
-                        class="w-full border border-gray-300 px-4 py-3 text-sm font-body text-on-surface placeholder-gray-400 focus:outline-none focus:border-primary transition">
+                        placeholder="email@contoh.com"
+                        class="w-full border @error('email') border-red-400 bg-red-50 @else border-gray-300 @enderror px-4 py-3 text-sm font-body text-on-surface placeholder-gray-400 focus:outline-none focus:border-primary transition">
+                    @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
 
                 {{-- Alamat --}}
@@ -286,7 +287,7 @@
 
                 @php
                 $dokumen = [
-                    ['id' => 'kartu_keluarga',  'label' => 'Kartu Keluarga',                   'required' => true,  'accept' => '.pdf,.jpg,.jpeg,.png', 'image_only' => false],
+                    ['id' => 'kartu_keluarga',   'label' => 'Kartu Keluarga',                   'required' => true,  'accept' => '.pdf,.jpg,.jpeg,.png', 'image_only' => false],
                     ['id' => 'akte_kelahiran',   'label' => 'Akte Kelahiran',                   'required' => true,  'accept' => '.pdf,.jpg,.jpeg,.png', 'image_only' => false],
                     ['id' => 'ijazah',           'label' => 'Ijazah / Surat Keterangan Lulus',  'required' => true,  'accept' => '.pdf,.jpg,.jpeg,.png', 'image_only' => false],
                     ['id' => 'pas_foto',         'label' => 'Pas Foto 3×4',                     'required' => true,  'accept' => '.jpg,.jpeg,.png',      'image_only' => true],
@@ -328,7 +329,7 @@
             </a>
             <button type="submit"
                 class="inline-flex items-center justify-center bg-primary text-white px-12 py-4 font-subhead uppercase tracking-[0.2em] text-xs transition hover:bg-[#006b35] w-full sm:w-auto">
-                Kirim Pendaftaran
+                Lanjut Pembayaran
             </button>
         </div>
 
