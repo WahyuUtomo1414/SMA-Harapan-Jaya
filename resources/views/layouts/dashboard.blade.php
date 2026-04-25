@@ -151,6 +151,7 @@
                                 ['Jadwal Mengajar', 'guru.jadwal', '📅'],
                                 ['Data Pelajar', 'guru.data-siswa', '👨‍🎓']
                             ] : [
+                                ['Jadwal Pelajaran', 'murid.jadwal', '🗓️'],
                                 ['Nilai Saya', 'murid.nilai', '📈'],
                                 ['Cek Absensi', 'murid.absensi', '📅'],
                                 ['Tagihan SPP', 'murid.pembayaran', '💳']

@@ -21,6 +21,7 @@ use App\Http\Controllers\Guru\JadwalController as GuruJadwal;
 use App\Http\Controllers\Murid\DashboardController as MuridDashboard;
 use App\Http\Controllers\Murid\NilaiController as MuridNilai;
 use App\Http\Controllers\Murid\AbsensiController as MuridAbsensi;
+use App\Http\Controllers\Murid\JadwalController as MuridJadwal;
 use App\Http\Controllers\Murid\PembayaranController as MuridPembayaran;
 
 /*
@@ -89,6 +90,7 @@ Route::prefix('guru')->name('guru.')->middleware(['auth', 'role:guru'])->group(f
 Route::prefix('murid')->name('murid.')->middleware(['auth', 'role:murid'])->group(function () {
 
     Route::get('/dashboard', [MuridDashboard::class, 'index'])->name('dashboard');
+    Route::get('/jadwal', [MuridJadwal::class, 'index'])->name('jadwal');
     Route::get('/nilai', [MuridNilai::class, 'index'])->name('nilai');
     Route::get('/absensi', [MuridAbsensi::class, 'index'])->name('absensi');
     Route::get('/pembayaran', [MuridPembayaran::class, 'index'])->name('pembayaran');

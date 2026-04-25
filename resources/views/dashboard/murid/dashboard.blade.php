@@ -159,7 +159,6 @@
         </div>
 
     </div>
-
     {{-- SPP SECTION --}}
     <div class="bg-indigo-950 rounded-4xl p-6 md:p-8 text-white shadow-2xl relative overflow-hidden group">
         {{-- Background Decoration --}}
