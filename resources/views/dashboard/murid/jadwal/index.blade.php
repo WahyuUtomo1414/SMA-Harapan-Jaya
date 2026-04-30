@@ -4,6 +4,24 @@
 @section('page_title', 'Jadwal Pelajaran')
 
 @section('content')
+    @php
+        $namaHariIndonesia = [
+            'monday' => 'Senin',
+            'tuesday' => 'Selasa',
+            'wednesday' => 'Rabu',
+            'thursday' => 'Kamis',
+            'friday' => 'Jumat',
+            'saturday' => 'Sabtu',
+            'sunday' => 'Minggu',
+            'senin' => 'Senin',
+            'selasa' => 'Selasa',
+            'rabu' => 'Rabu',
+            'kamis' => 'Kamis',
+            'jumat' => 'Jumat',
+            'sabtu' => 'Sabtu',
+            'minggu' => 'Minggu',
+        ];
+    @endphp
 
     <div class="space-y-6 md:space-y-8 animate-fade-in pb-10 px-1 md:px-0">
 
@@ -51,7 +69,7 @@
                             class="px-6 md:px-8 py-5 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between gap-4">
                             <div>
                                 <p class="text-[10px] uppercase tracking-[0.2em] text-sky-600 font-black">Hari Belajar</p>
-                                <h2 class="text-xl md:text-2xl font-black text-slate-800 mt-1">{{ $hari }}</h2>
+                                <h2 class="text-xl md:text-2xl font-black text-slate-800 mt-1">{{ $namaHariIndonesia[strtolower($hari)] ?? $hari }}</h2>
                             </div>
                             <div
                                 class="px-4 py-2 rounded-2xl bg-sky-100 text-sky-700 text-xs font-black uppercase tracking-wider">
@@ -86,14 +104,6 @@
                                             class="shrink-0 px-4 py-2 rounded-2xl bg-emerald-50 text-emerald-700 text-xs font-black uppercase tracking-wider">
                                             {{ $item->kelas->nama ?? ($item->kelas->kode ?? '-') }}
                                         </div>
-                                    </div>
-
-                                    <div class="mt-4 pt-4 border-t border-slate-100">
-                                        <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400 font-bold mb-1">
-                                            Catatan</p>
-                                        <p class="text-sm text-slate-600 leading-relaxed">
-                                            {{ $item->deskripsi ?: 'Belum ada deskripsi tambahan untuk jadwal ini.' }}
-                                        </p>
                                     </div>
                                 </article>
                             @endforeach

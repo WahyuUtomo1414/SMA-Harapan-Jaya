@@ -60,7 +60,7 @@
 
         {{-- FIX: Menggunakan rounded-4xl sesuai saran linter --}}
         <div class="bg-white rounded-4xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Remedial</p>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Perbaikkan Nilai</p>
             <div>
                 <h4 class="text-4xl font-black text-rose-500">{{ $remedial }}</h4>
                 <p class="text-[10px] font-bold text-rose-300 uppercase">Di Bawah Standar KKM</p>
@@ -126,7 +126,7 @@
                             @else
                                 <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-rose-100 text-rose-700 text-[10px] font-black uppercase tracking-wider">
                                     <span class="w-1.5 h-1.5 bg-rose-500 rounded-full"></span>
-                                    Remedial
+                                    Perbaikkan Nilai
                                 </span>
                             @endif
                         </td>
