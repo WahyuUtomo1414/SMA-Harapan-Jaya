@@ -31,7 +31,7 @@
                 <a href="{{ route('login') }}"
                     class="inline-flex h-10 w-40 items-center justify-center gap-2 border border-primary px-4 font-subhead text-[11px] font-bold uppercase tracking-widest text-primary transition-all duration-300 hover:bg-primary hover:text-white">
                     <span class="material-symbols-outlined text-base">login</span>
-                    Login
+                    Masuk
                 </a>
             @endauth
         </div>
@@ -67,7 +67,7 @@
                 <a href="{{ route('login') }}"
                     class="flex h-11 w-full items-center justify-center gap-2 border border-primary px-6 font-subhead text-xs font-bold uppercase tracking-widest text-primary">
                     <span class="material-symbols-outlined text-base">login</span>
-                    Login
+                    Masuk
                 </a>
             @endauth
         </div>
