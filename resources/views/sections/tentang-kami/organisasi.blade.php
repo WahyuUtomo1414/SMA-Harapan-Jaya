@@ -1,5 +1,5 @@
 <!-- Struktur Organisasi Section -->
-<section class="py-32 bg-white border-b border-gray-100">
+<section id="struktur-organisasi" class="py-32 bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-8">
         <div class="text-center mb-24">
             <span
