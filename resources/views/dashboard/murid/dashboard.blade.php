@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title', 'Dashboard Murid')
-@section('page_title', 'Dashboard Overview')
+@section('page_title', 'Dashboard Murid')
 
 @section('content')
 
@@ -53,7 +53,7 @@
                 ['label' => 'Materi', 'value' => $nilai->count(), 'icon' => '📚', 'color' => 'text-blue-600'],
                 ['label' => 'Rata-rata', 'value' => number_format($rataRata,1), 'icon' => '📈', 'color' => 'text-emerald-600'],
                 ['label' => 'Hadir', 'value' => $hadir, 'icon' => '✅', 'color' => 'text-teal-600'],
-                ['label' => 'Alpha', 'value' => $alpha, 'icon' => '❌', 'color' => 'text-rose-600'],
+                ['label' => 'Alpa', 'value' => $alpha, 'icon' => '❌', 'color' => 'text-rose-600'],
             ];
         @endphp
 
@@ -121,7 +121,7 @@
             <div class="p-5 md:p-6 px-6 md:px-8 flex justify-between items-center bg-slate-50/50 border-b">
                 <h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm md:text-base">
                     <span class="text-teal-600">📅</span>
-                    Presensi Terakhir
+                    Riwayat Kehadiran
                 </h3>
             </div>
 
@@ -149,7 +149,7 @@
                         };
                     @endphp
                     <span class="{{ $statusColor }} px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider shrink-0 ml-2">
-                        {{ $a->status_absen }}
+                        {{ strtolower($a->status_absen) === 'alpha' ? 'Alpa' : $a->status_absen }}
                     </span>
                 </div>
                 @empty
@@ -206,7 +206,7 @@
                                         </span>
                                     @else
                                         <span class="bg-rose-500 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase">
-                                            Belum Bayar
+                                            Menunggu Pelunasan
                                         </span>
                                     @endif
                                 </td>

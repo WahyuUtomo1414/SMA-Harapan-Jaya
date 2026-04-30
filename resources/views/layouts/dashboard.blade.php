@@ -212,7 +212,7 @@
                 
                 <div>
                     <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">@yield('title', 'Dashboard')</h2>
-                    <p class="text-[11px] font-semibold text-emerald-600 uppercase tracking-widest mt-0.5">SMA Harapan Jaya • {{ $isGuru ? 'Teacher Portal' : 'Student Portal' }}</p>
+                    <p class="text-[11px] font-semibold text-emerald-600 uppercase tracking-widest mt-0.5">SMA Harapan Jaya • {{ $isGuru ? 'Portal Guru' : 'Akun Siswa' }}</p>
                 </div>
             </div>
 

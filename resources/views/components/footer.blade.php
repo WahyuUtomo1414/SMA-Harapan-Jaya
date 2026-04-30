@@ -31,11 +31,11 @@
                 class="text-white font-subhead font-bold text-xs uppercase tracking-widest mb-8 border-b border-white/20 pb-4">
                 Navigasi Cepat</h4>
             <ul class="space-y-4 font-subhead text-sm">
-                <li><a class="text-white hover:opacity-80 transition-opacity" href="{{ route('tentang-kami') }}">Visi
+                <li><a class="text-white hover:opacity-80 transition-opacity" href="{{ route('tentang-kami') }}#visi-misi">Visi
                         &amp; Misi</a></li>
-                <li><a class="text-white hover:opacity-80 transition-opacity" href="#">Kurikulum</a></li>
-                <li><a class="text-white hover:opacity-80 transition-opacity" href="#">Fasilitas</a></li>
-                <li><a class="text-white hover:opacity-80 transition-opacity" href="#">Kontak</a></li>
+                <li><a class="text-white hover:opacity-80 transition-opacity" href="{{ route('tentang-kami') }}#struktur-organisasi">Struktur Organisasi</a></li>
+                <li><a class="text-white hover:opacity-80 transition-opacity" href="{{ route('tentang-kami') }}#legalitas">Legalitas</a></li>
+                <li><a class="text-white hover:opacity-80 transition-opacity" href="{{ route('tentang-kami') }}#fasilitas">Fasilitas</a></li>
             </ul>
         </div>
         <div class="md:col-span-1">

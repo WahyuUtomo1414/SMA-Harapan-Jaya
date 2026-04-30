@@ -67,7 +67,7 @@
         <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
         
         <div class="relative z-10">
-            <p class="text-xs font-bold uppercase opacity-80 tracking-widest">Progres Kelunasan {{ $selectedYear }}</p>
+            <p class="text-xs font-bold uppercase opacity-80 tracking-widest">Status Pelunasan {{ $selectedYear }}</p>
             <div class="flex items-baseline gap-2 mt-1">
                 <h3 class="text-5xl font-black">{{ $paidCount }}</h3>
                 <span class="text-xl opacity-60">/ 12 Bulan</span>
@@ -95,13 +95,13 @@
             </svg>
         </div>
         <div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Update Terakhir</p>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Riwayat Terakhir</p>
             @if($latestSpp)
                 <p class="text-sm font-bold text-slate-700">
                     {{ $monthNames[$latestSpp->bulan] }} {{ $latestSpp->tahun }} 
                     <span class="mx-1 text-slate-300">•</span>
                     <span class="{{ $isPaidStatus($latestSpp->status_bayar) ? 'text-emerald-600' : 'text-rose-500' }}">
-                        {{ $isPaidStatus($latestSpp->status_bayar) ? 'LUNAS' : 'PENDING' }}
+                        {{ $isPaidStatus($latestSpp->status_bayar) ? 'LUNAS' : 'MENUNGGU PELUNASAN' }}
                     </span>
                 </p>
             @else
@@ -117,7 +117,7 @@
                 <thead class="bg-slate-50 border-b border-slate-100">
                     <tr>
                         <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center w-16">No</th>
-                        <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Periode Tagihan</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Waktu Tagihan</th>
                         <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Tgl Bayar</th>
                         <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Status</th>
                     </tr>
@@ -151,7 +151,7 @@
                                 </span>
                             @else
                                 <span class="inline-flex items-center px-3 py-1.5 rounded-full bg-slate-100 text-slate-400 text-[10px] font-black uppercase tracking-wider">
-                                    Belum Bayar
+                                    Menunggu Pelunasan
                                 </span>
                             @endif
                         </td>

@@ -1,5 +1,5 @@
 <!-- Visi & Misi Section -->
-<section class="py-32 px-8 bg-white border-b border-gray-100">
+<section id="visi-misi" class="py-32 px-8 bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
             <!-- Vision Side -->

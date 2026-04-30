@@ -1,5 +1,5 @@
 <!-- Institutional Details Section -->
-<section class="py-32 px-8 bg-white">
+<section id="legalitas" class="py-32 px-8 bg-white">
     <div class="max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
             <div class="lg:col-span-7">

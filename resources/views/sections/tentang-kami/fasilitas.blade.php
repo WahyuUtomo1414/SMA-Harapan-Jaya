@@ -1,5 +1,5 @@
 <!-- Fasilitas Sekolah Section -->
-<section class="py-32 px-8 bg-surface border-t border-gray-100">
+<section id="fasilitas" class="py-32 px-8 bg-surface border-t border-gray-100">
     <div class="max-w-7xl mx-auto">
         <div class="flex flex-col md:flex-row justify-between items-end mb-16">
             <div class="max-w-2xl">

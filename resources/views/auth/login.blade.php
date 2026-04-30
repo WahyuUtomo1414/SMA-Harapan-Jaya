@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Login | SMA Harapan Jaya')
+@section('title', 'Masuk | SMA Harapan Jaya')
 
 @section('content')
 <section class="relative border-b border-gray-200 bg-white">
@@ -13,7 +13,7 @@
             Masuk ke <span class="italic text-primary">Akun</span> Anda
         </h1>
         <p class="text-gray-500 font-body text-base leading-relaxed max-w-xl mx-auto">
-            Gunakan email dan password yang sudah terdaftar untuk mengakses dashboard sesuai role akun.
+            Gunakan email dan kata sandi yang sudah terdaftar untuk mengakses dashboard sesuai role akun.
         </p>
     </div>
 </section>
@@ -29,7 +29,7 @@
         @csrf
 
         <div class="bg-primary px-8 py-4">
-            <h2 class="text-white font-headline text-lg font-medium tracking-tight">Login Portal</h2>
+            <h2 class="text-white font-headline text-lg font-medium tracking-tight">Masuk Akun</h2>
         </div>
 
         <div class="p-8 space-y-6">
@@ -47,10 +47,10 @@
 
             <div>
                 <label for="password" class="block text-xs font-subhead font-bold uppercase tracking-widest text-gray-600 mb-2">
-                    Password <span class="text-red-500">*</span>
+                    Kata Sandi <span class="text-red-500">*</span>
                 </label>
                 <input id="password" name="password" type="password" required
-                    placeholder="Masukkan password"
+                    placeholder="Masukkan kata sandi"
                     class="w-full border @error('password') border-red-400 bg-red-50 @else border-gray-300 @enderror px-4 py-3 text-sm font-body text-on-surface placeholder-gray-400 focus:outline-none focus:border-primary transition">
                 @error('password')
                     <p class="mt-2 text-xs text-red-500">{{ $message }}</p>

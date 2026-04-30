@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Rekap Presensi Mapel')
-@section('page_title', 'Rekap Presensi')
+@section('title', 'Rekap Kehadiran Mapel')
+@section('page_title', 'Rekap Kehadiran')
 
 @section('content')
 <div class="animate-fade-in space-y-6 px-2 md:px-0">
@@ -32,7 +32,7 @@
         <div class="bg-white rounded-4xl p-8 border shadow-sm md:col-span-2">
 
             <h4 class="text-xl font-black text-slate-800 uppercase tracking-tighter italic">
-                Informasi Presensi
+                Informasi Kehadiran
             </h4>
 
             <div class="grid grid-cols-3 gap-4 mt-6">
