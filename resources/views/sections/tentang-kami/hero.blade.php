@@ -1,6 +1,6 @@
 <!-- Hero Section -->
 <section class="relative min-h-[60vh] flex flex-col lg:flex-row items-stretch border-b border-gray-200">
-    <div class="w-full lg:w-1/2 flex flex-col justify-center px-12 py-20 lg:py-0 bg-white z-10 relative">
+    <div class="w-full lg:w-1/2 flex flex-col justify-center px-12 py-20 lg:pt-32 lg:pb-20 bg-white z-10 relative">
         <div class="absolute top-0 left-0 w-full h-[6px] bg-primary"></div>
         <div class="max-w-xl mx-auto xl:ml-auto xl:mr-12">
             <span

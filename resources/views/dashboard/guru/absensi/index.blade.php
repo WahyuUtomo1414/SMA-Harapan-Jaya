@@ -59,10 +59,10 @@
 
         <div class="flex gap-2">
             <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-md">
-                Filter
+                Cari
             </button>
             <a href="{{ route('guru.absensi.index') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-6 py-2.5 rounded-xl font-bold transition-all">
-                Reset
+                Atur Ulang
             </a>
         </div>
     </form>
@@ -165,7 +165,7 @@
 
             <div class="p-5">
                 <div class="flex bg-slate-100 p-1 rounded-xl mb-5">
-                    @foreach(['all' => 'Semua', 'izin' => 'Izin', 'sakit' => 'Sakit', 'alpha' => 'Alpha'] as $key => $label)
+                    @foreach(['all' => 'Semua', 'izin' => 'Izin', 'sakit' => 'Sakit', 'alpha' => 'Alpa'] as $key => $label)
                         <button onclick="filterModalStatus('{{ $key }}')" 
                                 id="tab-{{ $key }}" 
                                 class="flex-1 py-1.5 text-[10px] font-black uppercase rounded-lg transition-all {{ $key == 'all' ? 'bg-white shadow-sm text-emerald-700' : 'text-slate-400' }}">

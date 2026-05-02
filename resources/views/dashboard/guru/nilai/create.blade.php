@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Input Nilai Baru')
-@section('page_title', 'Input Nilai')
+@section('title', 'Tambah Nilai Baru')
+@section('page_title', 'Tambah Nilai')
 
 @section('content')
 <div class="max-w-7xl mx-auto space-y-6 pb-10">
@@ -10,7 +10,7 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 px-2">
         <div>
             <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">
-                Input <span class="text-emerald-600">Nilai Siswa</span>
+                Tambah <span class="text-emerald-600">Nilai Siswa</span>
             </h1>
             <p class="text-slate-500 mt-1 text-sm font-medium">
                 Mata Pelajaran: <span class="text-slate-800 font-bold">{{ $info['mapel'] }}</span> • Semester {{ $info['semester'] }}
