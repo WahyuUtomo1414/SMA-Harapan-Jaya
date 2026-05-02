@@ -74,7 +74,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                     </div>
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50 px-3 py-1 rounded-full">Weekly</span>
+                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50 px-3 py-1 rounded-full">Mingguan</span>
                 </div>
                 <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Sesi Mengajar</p>
                 <h2 class="text-5xl font-black text-slate-800 tracking-tighter mt-1 group-hover:text-emerald-700 transition-colors">{{ $totalJadwal }}</h2>
@@ -92,7 +92,7 @@
                     </div>
                     <span class="text-[9px] font-black text-emerald-500 uppercase tracking-[0.2em] bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">Live</span>
                 </div>
-                <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Catatan Presensi</p>
+                <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Catatan Kehadiran</p>
                 <h2 class="text-5xl font-black text-slate-800 tracking-tighter mt-1 group-hover:text-emerald-700 transition-colors">{{ $totalAbsensi }}</h2>
             </div>
         </div>
@@ -106,9 +106,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>
                     </div>
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50 px-3 py-1 rounded-full">Academic</span>
+                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] bg-slate-50 px-3 py-1 rounded-full">Akademik</span>
                 </div>
-                <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Entri Nilai</p>
+                <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Tambah Nilai</p>
                 <h2 class="text-5xl font-black text-slate-800 tracking-tighter mt-1 group-hover:text-emerald-700 transition-colors">{{ $totalNilai }}</h2>
             </div>
         </div>
@@ -155,7 +155,7 @@
             </div>
             <div class="flex items-center gap-2">
                 <span class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></span>
-                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Live Updates</span>
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pembaruan Langsung</span>
             </div>
         </div>
 

@@ -21,7 +21,7 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/>
             </svg>
-            INPUT NILAI BARU
+            TAMBAH NILAI BARU
         </a>
     </div>
 
@@ -61,7 +61,7 @@
             <div class="md:col-span-2 flex items-end">
                 <button type="submit" class="w-full bg-slate-800 hover:bg-black text-white font-bold py-3.5 rounded-2xl transition-all shadow-lg flex justify-center items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    Filter Data
+                    Cari Data
                 </button>
             </div>
         </form>

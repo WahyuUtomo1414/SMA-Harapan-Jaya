@@ -36,7 +36,7 @@
             {{-- KELAS --}}
             <div class="md:col-span-3 relative group">
                 <label class="absolute -top-2 left-4 bg-white px-2 text-[9px] font-black text-emerald-600 uppercase tracking-widest z-10 transition-colors group-focus-within:text-emerald-500">
-                    Filter Kelas
+                    Cari Kelas
                 </label>
                 <select name="kelas_id" onchange="this.form.submit()"
                         class="w-full bg-slate-50 border-2 border-slate-50 focus:border-emerald-500 focus:bg-white rounded-2xl py-3.5 md:py-4 px-6 text-sm font-bold text-slate-700 transition-all appearance-none cursor-pointer">
