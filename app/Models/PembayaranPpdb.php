@@ -7,22 +7,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Ppdb extends Model
+class PembayaranPpdb extends Model
 {
     use HasFactory, AuditedBySoftDelete, SoftDeletes;
 
-    protected $table = 'ppdb';
+    protected $table = 'pembayaran_ppdb';
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     protected function casts(): array
     {
         return [
+            'nominal' => 'float',
             'status' => 'boolean',
-            'alur_ppdb' => 'array',
-            'persyaratan' => 'array',
-            'timeline' => 'array',
-            'kontak' => 'array',
         ];
     }
 }

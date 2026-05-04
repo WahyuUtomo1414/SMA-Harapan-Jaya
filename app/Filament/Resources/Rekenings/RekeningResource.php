@@ -23,7 +23,7 @@ class RekeningResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Data Sekolah';
+    protected static string|UnitEnum|null $navigationGroup = 'PPDB';
 
     protected static ?string $navigationLabel = 'Rekening';
 
