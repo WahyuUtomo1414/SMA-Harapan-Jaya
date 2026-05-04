@@ -27,7 +27,7 @@ class PpdbResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedListBullet;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Data Sekolah';
+    protected static string|UnitEnum|null $navigationGroup = 'PPDB';
 
     protected static ?string $navigationLabel = 'Alur PPDB';
 
