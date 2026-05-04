@@ -9,8 +9,6 @@ use App\Filament\Resources\Ppdbs\Schemas\PpdbForm;
 use App\Filament\Resources\Ppdbs\Tables\PpdbsTable;
 use App\Models\Ppdb;
 use BackedEnum;
-use Filament\Infolists\Components\ImageEntry;
-use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -19,6 +17,8 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\Storage;
 use UnitEnum;
 
 class PpdbResource extends Resource
@@ -55,9 +55,18 @@ class PpdbResource extends Resource
                     ->columns(2)
                     ->columnSpanFull()
                     ->schema([
-                        ImageEntry::make('brosur')
+                        TextEntry::make('brosur')
                             ->label('Brosur')
-                            ->disk('public'),
+                            ->formatStateUsing(function ($state): HtmlString {
+                                if (blank($state)) {
+                                    return new HtmlString('-');
+                                }
+
+                                $url = Storage::disk('public')->url($state);
+
+                                return new HtmlString('<a href="' . e($url) . '" target="_blank" class="text-primary underline">Lihat Brosur</a>');
+                            })
+                            ->html(),
                         TextEntry::make('status')
                             ->badge()
                             ->formatStateUsing(fn (string $state): string => $state === '1' ? 'Active' : 'Non Active'),
@@ -65,47 +74,106 @@ class PpdbResource extends Resource
                             ->columnSpanFull(),
                     ]),
                 Section::make('Alur PPDB')
+                    ->columns(2)
                     ->columnSpanFull()
                     ->schema([
-                        RepeatableEntry::make('alur_ppdb')
-                            ->schema([
-                                TextEntry::make('judul'),
-                                TextEntry::make('deskripsi'),
-                            ])
+                        TextEntry::make('alur_ppdb.offline')
+                            ->label('Jalur Offline')
+                            ->formatStateUsing(fn ($state): HtmlString => static::formatSimpleList($state))
+                            ->html(),
+                        TextEntry::make('alur_ppdb.online')
+                            ->label('Jalur Online')
+                            ->formatStateUsing(fn ($state): HtmlString => static::formatSimpleList($state))
+                            ->html()
                             ->columnSpanFull(),
                     ]),
                 Section::make('Persyaratan')
                     ->columnSpanFull()
                     ->schema([
-                        RepeatableEntry::make('persyaratan')
-                            ->schema([
-                                TextEntry::make('item')->label('Persyaratan'),
-                            ])
-                            ->columnSpanFull(),
+                        TextEntry::make('persyaratan')
+                            ->label('Daftar Persyaratan')
+                            ->formatStateUsing(fn ($state): HtmlString => static::formatSimpleList($state))
+                            ->html(),
                     ]),
                 Section::make('Timeline')
                     ->columnSpanFull()
                     ->schema([
-                        RepeatableEntry::make('timeline')
-                            ->schema([
-                                TextEntry::make('periode'),
-                                TextEntry::make('keterangan'),
-                            ])
-                            ->columns(2)
-                            ->columnSpanFull(),
+                        TextEntry::make('timeline')
+                            ->label('Timeline PPDB')
+                            ->formatStateUsing(fn ($state): HtmlString => static::formatTimeline($state))
+                            ->html(),
                     ]),
                 Section::make('Kontak')
                     ->columnSpanFull()
                     ->schema([
-                        RepeatableEntry::make('kontak')
-                            ->schema([
-                                TextEntry::make('label'),
-                                TextEntry::make('value'),
-                            ])
-                            ->columns(2)
-                            ->columnSpanFull(),
+                        TextEntry::make('kontak')
+                            ->label('Kontak PPDB')
+                            ->formatStateUsing(fn ($state): HtmlString => static::formatContactList($state))
+                            ->html(),
                     ]),
             ]);
+    }
+
+    protected static function formatSimpleList(mixed $state): HtmlString
+    {
+        if (! is_array($state) || $state === []) {
+            return new HtmlString('-');
+        }
+
+        $items = collect(array_values($state))
+            ->map(fn ($item, $index) => '<li>' . e(($index + 1) . '. ' . $item) . '</li>')
+            ->implode('');
+
+        return new HtmlString('<ol class="space-y-1">' . $items . '</ol>');
+    }
+
+    protected static function formatTimeline(mixed $state): HtmlString
+    {
+        if (! is_array($state) || $state === []) {
+            return new HtmlString('-');
+        }
+
+        $items = collect($state)
+            ->map(function ($item): string {
+                if (is_string($item)) {
+                    return '<li>' . e($item) . '</li>';
+                }
+
+                if (! is_array($item)) {
+                    return '<li>-</li>';
+                }
+
+                $lines = [
+                    '<strong>' . e($item['label'] ?? '-') . '</strong>',
+                    'Waktu: ' . e($item['waktu'] ?? '-'),
+                ];
+
+                if (filled($item['keterangan'] ?? null)) {
+                    $lines[] = 'Keterangan: ' . e($item['keterangan']);
+                }
+
+                if (filled($item['link'] ?? null)) {
+                    $lines[] = 'Link: <a href="' . e($item['link']) . '" target="_blank" class="text-primary underline">' . e($item['link']) . '</a>';
+                }
+
+                return '<li>' . implode('<br>', $lines) . '</li>';
+            })
+            ->implode('');
+
+        return new HtmlString('<ol class="list-decimal space-y-2 pl-5">' . $items . '</ol>');
+    }
+
+    protected static function formatContactList(mixed $state): HtmlString
+    {
+        if (! is_array($state) || $state === []) {
+            return new HtmlString('-');
+        }
+
+        $items = collect($state)
+            ->map(fn ($value, $label) => '<li><strong>' . e(ucfirst((string) $label)) . ':</strong> ' . e($value) . '</li>')
+            ->implode('');
+
+        return new HtmlString('<ul class="space-y-1">' . $items . '</ul>');
     }
 
     public static function getRelations(): array

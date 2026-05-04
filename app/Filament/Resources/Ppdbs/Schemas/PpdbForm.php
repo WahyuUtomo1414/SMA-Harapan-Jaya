@@ -7,6 +7,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class PpdbForm
@@ -19,23 +20,33 @@ class PpdbForm
                     ->label('Deskripsi')
                     ->rows(3)
                     ->columnSpanFull(),
-                Repeater::make('alur_ppdb')
-                    ->label('Alur PPDB')
+                Section::make('Alur PPDB')
                     ->schema([
-                        TextInput::make('judul')
-                            ->label('Judul')
-                            ->required()
-                            ->maxLength(255),
-                        Textarea::make('deskripsi')
-                            ->label('Deskripsi')
-                            ->required()
-                            ->rows(2)
-                            ->columnSpanFull(),
+                        Repeater::make('alur_offline')
+                            ->label('Jalur Offline')
+                            ->schema([
+                                TextInput::make('step')
+                                    ->label('Langkah')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->itemLabel(fn (array $state): ?string => $state['step'] ?? null)
+                            ->columnSpanFull()
+                            ->required(),
+                        Repeater::make('alur_online')
+                            ->label('Jalur Online')
+                            ->schema([
+                                TextInput::make('step')
+                                    ->label('Langkah')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->itemLabel(fn (array $state): ?string => $state['step'] ?? null)
+                            ->columnSpanFull()
+                            ->required(),
                     ])
-                    ->itemLabel(fn (array $state): ?string => $state['judul'] ?? null)
-                    ->columnSpanFull()
-                    ->required(),
-                Repeater::make('persyaratan')
+                    ->columnSpanFull(),
+                Repeater::make('persyaratan_items')
                     ->label('Persyaratan')
                     ->schema([
                         TextInput::make('item')
@@ -46,23 +57,30 @@ class PpdbForm
                     ->itemLabel(fn (array $state): ?string => $state['item'] ?? null)
                     ->columnSpanFull()
                     ->required(),
-                Repeater::make('timeline')
+                Repeater::make('timeline_items')
                     ->label('Timeline')
                     ->schema([
-                        TextInput::make('periode')
-                            ->label('Periode')
+                        TextInput::make('label')
+                            ->label('Judul')
                             ->required()
+                            ->maxLength(255),
+                        TextInput::make('waktu')
+                            ->label('Waktu')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('link')
+                            ->label('Link')
+                            ->url()
                             ->maxLength(255),
                         TextInput::make('keterangan')
                             ->label('Keterangan')
-                            ->required()
                             ->maxLength(255),
                     ])
-                    ->itemLabel(fn (array $state): ?string => $state['periode'] ?? null)
+                    ->itemLabel(fn (array $state): ?string => $state['label'] ?? null)
                     ->columns(2)
                     ->columnSpanFull()
                     ->required(),
-                Repeater::make('kontak')
+                Repeater::make('kontak_items')
                     ->label('Kontak')
                     ->schema([
                         TextInput::make('label')
@@ -80,9 +98,9 @@ class PpdbForm
                     ->required(),
                 FileUpload::make('brosur')
                     ->label('Brosur')
-                    ->image()
                     ->disk('public')
-                    ->directory('ppdb'),
+                    ->directory('ppdb')
+                    ->acceptedFileTypes(['application/pdf']),
                 Select::make('status')
                     ->options([
                         true => 'Active',
@@ -91,5 +109,93 @@ class PpdbForm
                     ->native(false)
                     ->required(),
             ]);
+    }
+
+    public static function mutateDataBeforeFill(array $data): array
+    {
+        $data['alur_offline'] = collect($data['alur_ppdb']['offline'] ?? [])
+            ->map(fn ($step) => ['step' => $step])
+            ->values()
+            ->all();
+
+        $data['alur_online'] = collect($data['alur_ppdb']['online'] ?? [])
+            ->map(fn ($step) => ['step' => $step])
+            ->values()
+            ->all();
+
+        $data['persyaratan_items'] = collect($data['persyaratan'] ?? [])
+            ->map(fn ($item) => ['item' => $item])
+            ->values()
+            ->all();
+
+        $data['timeline_items'] = collect($data['timeline'] ?? [])
+            ->map(fn ($item) => [
+                'label' => $item['label'] ?? '',
+                'waktu' => $item['waktu'] ?? '',
+                'link' => $item['link'] ?? '',
+                'keterangan' => $item['keterangan'] ?? '',
+            ])
+            ->values()
+            ->all();
+
+        $data['kontak_items'] = collect($data['kontak'] ?? [])
+            ->map(fn ($value, $label) => [
+                'label' => (string) $label,
+                'value' => $value,
+            ])
+            ->values()
+            ->all();
+
+        return $data;
+    }
+
+    public static function mutateDataBeforeSave(array $data): array
+    {
+        $data['alur_ppdb'] = [
+            'offline' => collect($data['alur_offline'] ?? [])
+                ->pluck('step')
+                ->filter()
+                ->values()
+                ->all(),
+            'online' => collect($data['alur_online'] ?? [])
+                ->pluck('step')
+                ->filter()
+                ->values()
+                ->all(),
+        ];
+
+        $data['persyaratan'] = collect($data['persyaratan_items'] ?? [])
+            ->pluck('item')
+            ->filter()
+            ->values()
+            ->all();
+
+        $data['timeline'] = collect($data['timeline_items'] ?? [])
+            ->map(function (array $item): array {
+                return array_filter([
+                    'label' => $item['label'] ?? null,
+                    'waktu' => $item['waktu'] ?? null,
+                    'link' => $item['link'] ?? null,
+                    'keterangan' => $item['keterangan'] ?? null,
+                ], fn ($value) => filled($value));
+            })
+            ->filter(fn (array $item) => ! empty($item['label']) && ! empty($item['waktu']))
+            ->values()
+            ->all();
+
+        $data['kontak'] = collect($data['kontak_items'] ?? [])
+            ->filter(fn (array $item) => filled($item['label'] ?? null) && filled($item['value'] ?? null))
+            ->mapWithKeys(fn (array $item) => [$item['label'] => $item['value']])
+            ->all();
+
+        unset(
+            $data['alur_offline'],
+            $data['alur_online'],
+            $data['persyaratan_items'],
+            $data['timeline_items'],
+            $data['kontak_items'],
+        );
+
+        return $data;
     }
 }
