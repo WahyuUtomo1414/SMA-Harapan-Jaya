@@ -11,7 +11,7 @@ class Ppdb extends Model
 {
     use HasFactory, AuditedBySoftDelete, SoftDeletes;
 
-    protected $table = 'form_ppdb';
+    protected $table = 'ppdb';
 
     protected $guarded = ['id'];
 
