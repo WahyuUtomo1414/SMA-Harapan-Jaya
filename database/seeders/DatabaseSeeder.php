@@ -30,6 +30,8 @@ class DatabaseSeeder extends Seeder
             DashboardUserSeeder::class,
             FasilitasSeeder::class,
             SppSeeder::class,
+            RekeningSeeder::class,
+            PembayaranPpdbSeeder::class,
         ]);
     }
 }

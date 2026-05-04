@@ -58,37 +58,38 @@
                 </div>
             </div>
             <div class="px-8 py-6">
-                @php
-                $rincian = [
-                    ['no' => 1, 'jenis' => 'Uang Pangkal',                    'nominal' => 3500000],
-                    ['no' => 2, 'jenis' => 'SPP Bulan Juli',                  'nominal' => 250000],
-                    ['no' => 3, 'jenis' => 'Seragam Sekolah',                 'nominal' => 700000],
-                    ['no' => 4, 'jenis' => 'Kartu Pelajar dan Administrasi',  'nominal' => 100000],
-                ];
-                $total = collect($rincian)->sum('nominal');
-                @endphp
-
                 <table class="w-full border-collapse text-sm font-body">
                     <thead>
                         <tr class="bg-gray-100">
                             <th class="border border-gray-300 px-4 py-3 text-center font-subhead font-bold uppercase tracking-wider text-xs text-gray-600 w-12">No</th>
                             <th class="border border-gray-300 px-4 py-3 text-left font-subhead font-bold uppercase tracking-wider text-xs text-gray-600">Jenis Pembayaran</th>
-                            <th class="border border-gray-300 px-4 py-3 text-right font-subhead font-bold uppercase tracking-wider text-xs text-gray-600">Nominal (Rp)</th>
+                            <th class="border border-gray-300 px-4 py-3 text-right font-subhead font-bold uppercase tracking-wider text-xs text-gray-600">Nominal</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($rincian as $item)
+                        @forelse($rincianPembayaran as $item)
                         <tr class="hover:bg-gray-50 transition">
-                            <td class="border border-gray-300 px-4 py-3 text-center text-gray-600">{{ $item['no'] }}</td>
-                            <td class="border border-gray-300 px-4 py-3 text-on-surface">{{ $item['jenis'] }}</td>
-                            <td class="border border-gray-300 px-4 py-3 text-right text-on-surface font-medium">{{ number_format($item['nominal'], 0, ',', '.') }}</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-gray-600">{{ $loop->iteration }}</td>
+                            <td class="border border-gray-300 px-4 py-3 text-on-surface">
+                                <div>{{ $item->jenis }}</div>
+                                @if($item->deskripsi)
+                                    <div class="mt-1 text-xs text-gray-500">{{ $item->deskripsi }}</div>
+                                @endif
+                            </td>
+                            <td class="border border-gray-300 px-4 py-3 text-right text-on-surface font-medium">Rp {{ number_format($item->nominal, 0, ',', '.') }}</td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="3" class="border border-gray-300 px-4 py-4 text-center text-gray-500">
+                                Rincian pembayaran belum tersedia.
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                     <tfoot>
                         <tr class="bg-gray-50">
                             <td colspan="2" class="border border-gray-300 px-4 py-3 text-right font-subhead font-bold uppercase tracking-wider text-xs text-gray-700">Total Pembayaran</td>
-                            <td class="border border-gray-300 px-4 py-3 text-right font-headline font-bold text-on-surface text-base">{{ number_format($total, 0, ',', '.') }}</td>
+                            <td class="border border-gray-300 px-4 py-3 text-right font-body font-bold text-on-surface text-base">Rp {{ number_format($totalPembayaran, 0, ',', '.') }}</td>
                         </tr>
                     </tfoot>
                 </table>

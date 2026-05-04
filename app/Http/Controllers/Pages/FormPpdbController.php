@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\FormPpdb;
+use App\Models\PembayaranPpdb;
 use App\Models\Rekening;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -97,8 +98,18 @@ class FormPpdbController extends Controller
 
         // Ambil data rekening yang aktif
         $rekenings = Rekening::where('status', true)->get();
+        $rincianPembayaran = PembayaranPpdb::query()
+            ->where('status', true)
+            ->orderBy('id')
+            ->get();
+        $totalPembayaran = $rincianPembayaran->sum('nominal');
 
-        return view('pages.ppdb-payment', compact('formPpdb', 'rekenings'));
+        return view('pages.ppdb-payment', compact(
+            'formPpdb',
+            'rekenings',
+            'rincianPembayaran',
+            'totalPembayaran',
+        ));
     }
 
     public function processPayment(Request $request)
